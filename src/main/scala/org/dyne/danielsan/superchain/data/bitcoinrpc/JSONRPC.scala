@@ -1,7 +1,7 @@
 package org.dyne.danielsan.superchain.data.bitcoinrpc
 
 import argonaut._, argonaut.Argonaut._
-import dispatch._, Defaults._
+import dispatch._
 
 /**
   * Created by dan_mi_sun on 23/02/2016.
