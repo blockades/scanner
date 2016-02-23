@@ -1,3 +1,5 @@
+import scala.collection.JavaConverters._
+
 name := "SuperChain"
 
 organization := "org.dyne.danielsan"
@@ -23,7 +25,9 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "com.websudos" %% "phantom-dsl" % "1.12.2",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.11.5" % "test"
+  "org.scalacheck" %% "scalacheck" % "1.11.5" % "test",
+  "io.argonaut" %% "argonaut" % "6.1",
+  "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
 )
 
 initialCommands := "import org.dyne.danielsan.superchain._"
