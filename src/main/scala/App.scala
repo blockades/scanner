@@ -1,6 +1,7 @@
 package org.dyne.danielsan.superchain
 
 
+import org.dyne.danielsan.superchain.data.bitcoinrpc.{BitcoinRPC, JSONRPC}
 import org.dyne.danielsan.superchain.data.cassandra.repositories.ChainRepository
 import org.dyne.danielsan.superchain.data.models.ChainEntry
 
@@ -21,14 +22,17 @@ object App {
 
     val chainEntry = ChainEntry(
       "id",
-      100,
-    "Hello"
+      101,
+    "Hello-btc-server"
     )
 
+    val btcurl="http://127.0.0.1:8332"
 
+    implicit val jsonrpc = new JSONRPC(btcurl, "dave", "suckme")
+    val resp = BitcoinRPC.getrawtransaction("0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098", true)
 
-    println("Inserting a chainEntry...")
-    ChainRepository.insertNewRecord(chainEntry)
+    println(resp)
+    //ChainRepository.insertNewRecord(resp.)
 
     /**
       * This is a mostly unsuccessful attempt to regain control in the sbt shell

@@ -81,7 +81,7 @@ object BitcoinRPC {
   }
 }
 
-
+/*
 object JSONRPCMain extends App{
   val btcurl="http://127.0.0.1:8332"
 
@@ -100,3 +100,4 @@ object JSONRPCMain extends App{
 
 
 }
+*/
