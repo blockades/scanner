@@ -26,12 +26,7 @@ object App {
     "Hello-btc-server"
     )
 
-    val btcurl="http://127.0.0.1:8332"
 
-    implicit val jsonrpc = new JSONRPC(btcurl, "dave", "suckme")
-    val resp = BitcoinRPC.getrawtransaction("0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098", true)
-
-    println(resp)
     //ChainRepository.insertNewRecord(resp.)
 
     /**
