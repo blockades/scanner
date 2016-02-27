@@ -27,7 +27,9 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "org.scalacheck" %% "scalacheck" % "1.11.5" % "test",
   "io.argonaut" %% "argonaut" % "6.1",
-  "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
+  "net.databinder.dispatch" %% "dispatch-core" % "0.11.2",
+  "org.json4s" %% "json4s-native" % "3.3.0",
+  "org.json4s" %% "json4s-jackson" % "3.3.0"
 )
 
 initialCommands := "import org.dyne.danielsan.superchain._"
