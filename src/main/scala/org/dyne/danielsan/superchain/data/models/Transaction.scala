@@ -1,10 +1,13 @@
 package org.dyne.danielsan.superchain.data.models
 
+import org.json4s._
+import org.json4s.native.JsonMethods._
+
 /**
   * Created by dan_mi_sun on 27/02/2016.
   */
 
-case class Transaction(foo: String){
+case class Transaction(id: String){
 
 /*
 val btcurl="http://127.0.0.1:8332"

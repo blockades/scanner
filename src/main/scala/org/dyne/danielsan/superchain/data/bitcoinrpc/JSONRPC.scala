@@ -2,6 +2,9 @@ package org.dyne.danielsan.superchain.data.bitcoinrpc
 
 import argonaut._, argonaut.Argonaut._
 import dispatch._
+import org.json4s._
+import org.json4s.native.JsonMethods._
+import org.json4s.jackson.JsonMethods._
 
 /**
   * Created by dan_mi_sun on 23/02/2016.
@@ -101,3 +104,13 @@ object JSONRPCMain extends App{
 
 }
 */
+
+object JSONRPCMain extends App{
+  val btcurl="http://127.0.0.1:8332"
+
+  implicit val jsonrpc = new JSONRPC(btcurl, "dave", "suckme")
+
+  val resp = BitcoinRPC.getrawtransaction("0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098", true)
+
+  println(resp)
+}
