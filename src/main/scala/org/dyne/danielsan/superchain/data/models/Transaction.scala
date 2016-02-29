@@ -7,6 +7,9 @@ import argonaut._, Argonaut._
   */
 
   /*
+  // The following just me trying to figure out what fields constitute a Transaction
+  // This is just a 'spreadout' version of the output gathered from bitcoin-cli getrawtransaction
+
   {"blockhash":"00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048",
     "blocktime":1231469665,
     "hex":"01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d0104ffffffff0100f
@@ -31,6 +34,9 @@ import argonaut._, Argonaut._
     "locktime":0
     }
     */
+
+ // The following here is using this is as a template: http://lollyrock.com/articles/scala-implicit-conversion/
+ // First attempt is to get something down to try and figure out if this is the correct direction
 
   object ImplicitConversion {
 
