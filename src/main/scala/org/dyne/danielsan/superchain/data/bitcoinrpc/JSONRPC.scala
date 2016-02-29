@@ -3,8 +3,8 @@ package org.dyne.danielsan.superchain.data.bitcoinrpc
 import argonaut._, argonaut.Argonaut._
 import dispatch._
 import org.json4s._
-//import org.json4s.native.JsonMethods._
-//import org.json4s.jackson.JsonMethods._
+import org.json4s.native.JsonMethods._
+import org.json4s.jackson.JsonMethods._
 
 /**
   * Created by dan_mi_sun on 23/02/2016.
@@ -114,6 +114,18 @@ object JSONRPCMain extends App{
 
   resp match {
     case Left(error) => println(s"there was an error: $error")
-    case Right(json) => println(s"Got the json: $json")
+    case Right(json) => compact(render(json))
   }
+
+  /*
+  Got the json: {"blockhash":"00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048","blocktime":1231469665,
+  "hex":"01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d0104ffffffff0100f
+  2052a0100000043410496b538e853519c726a2c91e61ec11600ae1390813a627c66fb8be7947be63c52da7589379515d4e0a604f8141781e622947
+  21166bf621e73a82cbf2342c858eeac00000000","confirmations":269439,"txid":"0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68be
+  bb44a74b1efd512098","vout":[{"value":50.00000000,"n":0,"scriptPubKey":{"hex":"410496b538e853519c726a2c91e61ec11600ae13
+  90813a627c66fb8be7947be63c52da7589379515d4e0a604f8141781e62294721166bf621e73a82cbf2342c858eeac","asm":"0496b538e853519
+  c726a2c91e61ec11600ae1390813a627c66fb8be7947be63c52da7589379515d4e0a604f8141781e62294721166bf621e73a82cbf2342c858ee
+  OP_CHECKSIG","type":"pubkey","reqSigs":1,"addresses":["12c6DSiU4Rq3P4ZxziKxzrL5LmMBrzjrJX"]}}],"version":1,"vin":
+  [{"coinbase":"04ffff001d0104","sequence":4294967295}],"time":1231469665,"locktime":0}
+   */
 }
