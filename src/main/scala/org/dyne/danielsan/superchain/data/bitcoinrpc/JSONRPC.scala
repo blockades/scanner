@@ -3,8 +3,8 @@ package org.dyne.danielsan.superchain.data.bitcoinrpc
 import argonaut._, argonaut.Argonaut._
 import dispatch._
 import org.json4s._
-import org.json4s.native.JsonMethods._
-import org.json4s.jackson.JsonMethods._
+//import org.json4s.native.JsonMethods._
+//import org.json4s.jackson.JsonMethods._
 
 /**
   * Created by dan_mi_sun on 23/02/2016.
@@ -112,5 +112,8 @@ object JSONRPCMain extends App{
 
   val resp = BitcoinRPC.getrawtransaction("0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098", true)
 
-  println(resp.getClass)
+  resp match {
+    case Left(error) => println(s"there was an error: $error")
+    case Right(json) => println(s"Got the json: $json")
+  }
 }
