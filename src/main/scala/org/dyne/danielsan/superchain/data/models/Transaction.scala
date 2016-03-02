@@ -40,8 +40,9 @@ import argonaut._, Argonaut._
 
   object ImplicitConversion {
 
+    case class Address(address: String)
     case class Vout (value: Float,n: Int,scriptpubkey: ScriptPubKey)
-    case class ScriptPubKey (hex: String,asm: String,typetx: String,reqsigs: Int,addresses: Any)
+    case class ScriptPubKey (hex: String,asm: String,typetx: String,reqsigs: Int,addresses: List[Address])
     case class Vin (coinbase: String,sequence: Int)
     case class Transaction (blockhash: String,blocktime: Long,hex: String,confirmations:Int,txid: String,vout: Vout,
                             version: Int,vin: Vin, time: Int, locktime: Int)
@@ -56,6 +57,7 @@ import argonaut._, Argonaut._
      ("txid" := t.txid) ->:
      ("vout" := Json (
        ("value" := t.vout.value),
+       ("n" := t.vout.n),
        ("scriptpubkey" := Json (
          ("hex" := t.vout.scriptpubkey.hex),
          ("asm" := t.vout.scriptpubkey.asm),
@@ -63,17 +65,17 @@ import argonaut._, Argonaut._
          ("reqsigs" := t.vout.scriptpubkey.reqsigs),
          ("addresses" := t.vout.scriptpubkey.addresses)
        )
-       ) ->: jEmptyObject)
-       )
-       ) ->: jEmptyObject)
+         )  ->: jEmptyObject
+     )
+       ) ->: jEmptyObject
      ("version" := t.version) ->:
      ("vin" := Json (
        ("coinbase" := t.vin.coinbase)
        ("sequence" := t.vin.sequence)
-
-     ) ->: jEmptyObject)
-       ("time" := t.time)
-     ("locktime" := t.locktime)
+     )
+     ) ->: jEmptyObject
+       ("time" := t.time) ->:
+     ("locktime" := t.locktime) ->:
    )
 
    implicit def TransactionDecodeJson: DecodeJson[Transaction] =
@@ -92,6 +94,7 @@ import argonaut._, Argonaut._
 
      // extract data from vout
      value <- (vout.acursor --\ "value").as[Float]
+     n <- (vout.acursor --\ "n").as[Int]
      scriptpubkey <- (vout.acursor --\ "scriptpubkey").as[Json]
 
      // extract data from scriptpubkey
@@ -99,15 +102,13 @@ import argonaut._, Argonaut._
      asm <- (scriptpubkey.acursor --\ "asm").as[String]
      typetx <- (scriptpubkey.acursor --\ "typetx").as[String]
      reqsigs <- (scriptpubkey.acursor --\ "reqsigs").as[Int]
-     addresses <- (scriptpubkey.acursor --\ "addresses").as[Any]
+     addresses <- (scriptpubkey.acursor --\ "addresses").as[List[Address]]
 
      // extract data from vin
      coinbase <- (vin.acursor --\ "coinbase").as[String]
      sequence <- (vin.acursor --\ "sequence").as[Int]
 
-   } yield Transaction(blockhash, blocktime, hex, confirmations, txid, Vout(value, ScriptPubKey(hex, asm, typetx, reqsigs,
+   } yield Transaction(blockhash, blocktime, hex, confirmations, txid, Vout(value, n, ScriptPubKey(hex, asm, typetx, reqsigs,
      addresses)), version, Vin(coinbase, sequence), time, locktime)
 
   }
-
-}
