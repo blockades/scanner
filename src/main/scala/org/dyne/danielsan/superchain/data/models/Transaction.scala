@@ -1,6 +1,7 @@
 package org.dyne.danielsan.superchain.data.models
 
 import argonaut._, Argonaut._
+import scalaz._, Scalaz._
 
 /**
   * Created by dan_mi_sun on 27/02/2016.
@@ -35,80 +36,52 @@ import argonaut._, Argonaut._
     }
     */
 
- // The following here is using this is as a template: http://lollyrock.com/articles/scala-implicit-conversion/
- // First attempt is to get something down to try and figure out if this is the correct direction
+ // Put up a question here: http://stackoverflow.com/questions/35747753/complex-encoding-of-multiple-nested-classes-using-scala-argonaut
+ // Easier to read code here: https://gist.github.com/mbbx6spp/df771b3aaaea90d20dd0
 
   object ImplicitConversion {
 
-    case class Address(address: String)
-    case class Vout (value: Float,n: Int,scriptpubkey: ScriptPubKey)
-    case class ScriptPubKey (hex: String,asm: String,typetx: String,reqsigs: Int,addresses: List[Address])
-    case class Vin (coinbase: String,sequence: Int)
-    case class Transaction (blockhash: String,blocktime: Long,hex: String,confirmations:Int,txid: String,vout: Vout,
-                            version: Int,vin: Vin, time: Int, locktime: Int)
+  case class Transaction(   blockhash: String
+                          , blocktime: Long
+                          , hex: String
+                          , confirmations:Int
+                          , txid: String
+                          , vout: Vout
+                          , version: Int
+                          , vin: Vin
+                          , time: Int
+                          , locktime: Int)
 
-   // implicit conversion with argonaut
-   implicit def TransactionEncodeJson: EncodeJson[Transaction] =
-   EncodeJson((t: Transaction) =>
-     ("blockhash" := t.blockhash) ->:
-     ("blocktime" := t.blocktime) ->:
-     ("hex" := t.hex) ->:
-     ("confirmations" := t.confirmations) ->:
-     ("txid" := t.txid) ->:
-     ("vout" := Json (
-       ("value" := t.vout.value),
-       ("n" := t.vout.n),
-       ("scriptpubkey" := Json (
-         ("hex" := t.vout.scriptpubkey.hex),
-         ("asm" := t.vout.scriptpubkey.asm),
-         ("typetx" := t.vout.scriptpubkey.typetx),
-         ("reqsigs" := t.vout.scriptpubkey.reqsigs),
-         ("addresses" := t.vout.scriptpubkey.addresses)
-       )
-         )  ->: jEmptyObject
-     )
-       ) ->: jEmptyObject
-     ("version" := t.version) ->:
-     ("vin" := Json (
-       ("coinbase" := t.vin.coinbase)
-       ("sequence" := t.vin.sequence)
-     )
-     ) ->: jEmptyObject
-       ("time" := t.time) ->:
-     ("locktime" := t.locktime) ->:
-   )
+  case class Vout(   value: Float
+                   , n: Int
+                   , scriptpubkey: ScriptPubKey)
 
-   implicit def TransactionDecodeJson: DecodeJson[Transaction] =
-   DecodeJson(c => for {
+  case class ScriptPubKey(  hex: String
+                          , asm: String
+                          , typetx: String
+                          , reqsigs: Int
+                          , addresses: List[Address])
 
-     blockhash <- (c --\ "blockhash").as[String]
-     blocktime <- (c --\ "time").as[Long]
-     hex <- (c --\ "hex").as[String]
-     confirmations <- (c --\ "confirmations").as[Int]
-     txid <- (c --\ "txid").as[String]
-     vout <- (c --\ "vout").as[Json]
-     version <- (c --\ "version").as[Int]
-     vin <- (c --\ "vin").as[Json]
-     time <- (c --\ "time").as[Int]
-     locktime <- (c --\ "locktime").as[Int]
+  case class Address( address: String)
 
-     // extract data from vout
-     value <- (vout.acursor --\ "value").as[Float]
-     n <- (vout.acursor --\ "n").as[Int]
-     scriptpubkey <- (vout.acursor --\ "scriptpubkey").as[Json]
+  case class Vin( coinbase: String
+                 ,sequence: Int)
 
-     // extract data from scriptpubkey
-     hex <- (scriptpubkey.acursor --\ "hex").as[String]
-     asm <- (scriptpubkey.acursor --\ "asm").as[String]
-     typetx <- (scriptpubkey.acursor --\ "typetx").as[String]
-     reqsigs <- (scriptpubkey.acursor --\ "reqsigs").as[Int]
-     addresses <- (scriptpubkey.acursor --\ "addresses").as[List[Address]]
+  implicit val vinCodec: CodecJson[Vin] =
+    casecodec2(Vin.apply, Vin.unapply)("coinbase", "sequence")
 
-     // extract data from vin
-     coinbase <- (vin.acursor --\ "coinbase").as[String]
-     sequence <- (vin.acursor --\ "sequence").as[Int]
+  implicit val addressCodec: CodecJson[Address] =
+    casecodec1(Address.apply, Address.unapply)("address")
 
-   } yield Transaction(blockhash, blocktime, hex, confirmations, txid, Vout(value, n, ScriptPubKey(hex, asm, typetx, reqsigs,
-     addresses)), version, Vin(coinbase, sequence), time, locktime)
+  implicit val scriptPubKeyCodec: CodecJson[ScriptPubKey] =
+    casecodec5(ScriptPubKey.apply, ScriptPubKey.unapply)("hex", "asm", "typetx", "reqsigs", "addresses")
+
+  implicit val voutCodec: CodecJson[Vout] =
+    casecodec3(Vout.apply, Vout.unapply)("value", "n", "scriptpubkey")
+
+  implicit val transactionCodec: CodecJson[Transaction] =
+    casecodec10(Transaction.apply, Transaction.unapply)("blockhash", "blocktime", "hex", "confirmations", "txid", "vout",
+                                                        "version", "vin", "time", "locktime")
+
 
   }
