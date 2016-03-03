@@ -6,9 +6,11 @@ organization := "org.dyne.danielsan"
 
 version := "0.1.0-SNAPSHOT"
 
-scalaVersion := "2.11.7"
+val scalazVersion = "7.1.0"
 
 crossScalaVersions := Seq("2.10.4", "2.11.2")
+
+scalaVersion := "2.11.7"
 
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
@@ -29,7 +31,8 @@ libraryDependencies ++= Seq(
   "io.argonaut" %% "argonaut" % "6.1",
   "net.databinder.dispatch" %% "dispatch-core" % "0.11.2",
   "org.json4s" %% "json4s-native" % "3.3.0",
-  "org.json4s" %% "json4s-jackson" % "3.3.0"
+  "org.json4s" %% "json4s-jackson" % "3.3.0",
+  "org.scalaz" %% "scalaz-core" % scalazVersion
 )
 
 initialCommands := "import org.dyne.danielsan.superchain._"
