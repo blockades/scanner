@@ -114,7 +114,7 @@ object JSONRPCMain extends App{
 
   resp match {
     case Left(error) => println(s"there was an error: $error")
-    case Right(json) => compact(render(json))
+    case Right(json) => println(s"$json")
   }
 
   /*
