@@ -131,8 +131,8 @@ object JSONRPCMain extends App{
 
         println (getrawEncoded)
       }
-      val classofjson = json.getClass
-      println(s"$classofjson")
+      val jsonString = json.toString()
+      example(jsonString)
   }
 
   /*
