@@ -41,31 +41,31 @@ import scalaz._, Scalaz._
 
   object ImplicitConversion {
 
-  case class Transaction(   blockhash: String
-                          , blocktime: Long
-                          , hex: String
-                          , confirmations:Int
-                          , txid: String
-                          , vout: Vout
-                          , version: Int
-                          , vin: Vin
-                          , time: Int
-                          , locktime: Int)
+  case class Transaction( blockhash: String,
+                          blocktime: Long,
+                          hex: String,
+                          confirmations:Int,
+                          txid: String,
+                          vout: Vout,
+                          version: Int,
+                          vin: Vin,
+                          time: Int,
+                          locktime: Int)
 
-  case class Vout(   value: Float
-                   , n: Int
-                   , scriptpubkey: ScriptPubKey)
+  case class Vout( value: Float,
+                   n: Int,
+                   scriptpubkey: ScriptPubKey)
 
-  case class ScriptPubKey(  hex: String
-                          , asm: String
-                          , typetx: String
-                          , reqsigs: Int
-                          , addresses: List[Address])
+  case class ScriptPubKey( hex: String,
+                           asm: String,
+                           typetx: String,
+                           reqsigs: Int,
+                           addresses: List[Address])
 
   case class Address( address: String)
 
-  case class Vin( coinbase: String
-                 ,sequence: Int)
+  case class Vin( coinbase: String,
+                  sequence: Int)
 
   implicit val vinCodec: CodecJson[Vin] =
     casecodec2(Vin.apply, Vin.unapply)("coinbase", "sequence")
