@@ -82,6 +82,4 @@ import scalaz._, Scalaz._
   implicit val transactionCodec: CodecJson[Transaction] =
     casecodec10(Transaction.apply, Transaction.unapply)("blockhash", "blocktime", "hex", "confirmations", "txid", "vout",
                                                         "version", "vin", "time", "locktime")
-
-
   }
