@@ -126,10 +126,13 @@ object JSONRPCMain extends App{
         // the compiler runs with sbt;run as the method is not being called
         // how can I call this method to check it.
         // What is the method doing?
+        // Need to follow this more: http://argonaut.io/doc/parsing/
 
-        var getrawEncoded : Transaction = getraw.decodeOption[Transaction].get
-
-        println (getrawEncoded)
+        //var getrawEncoded : Transaction = getraw.decodeOption[Transaction].get
+        //println (getrawEncoded)
+        val option: Option[Transaction] =
+          Parse.decodeOption[Transaction](getraw)
+        println (option)
       }
       val jsonString = json.toString()
       example(jsonString)
