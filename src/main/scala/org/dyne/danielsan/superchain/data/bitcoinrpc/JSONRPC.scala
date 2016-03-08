@@ -1,10 +1,8 @@
 package org.dyne.danielsan.superchain.data.bitcoinrpc
 
 import argonaut._, argonaut.Argonaut._
-import dispatch._
 import org.dyne.danielsan.superchain.data.models.ImplicitConversion.Transaction
 import org.json4s._
-import org.json4s.native.JsonMethods._
 import org.json4s.jackson.JsonMethods._
 
 /**
@@ -12,18 +10,21 @@ import org.json4s.jackson.JsonMethods._
   */
 
 case class JSONRPCRequest(id: String, method: String, params: Json)
+
 object JSONRPCRequest {
   implicit def JSONRPCRequestJson =
     casecodec3(JSONRPCRequest.apply, JSONRPCRequest.unapply)("id", "method", "params")
 }
 
 case class JSONRPCResponse(result: Json, error: Option[String], id: String)
+
 object JSONRPCResponse {
   implicit def JSONRPCResponseJson =
     casecodec3(JSONRPCResponse.apply, JSONRPCResponse.unapply)("result", "error", "id")
 }
 
 class JSONRPC(rpcURL: String, username: String, password: String) {
+
   import dispatch._, Defaults._
 
   def doRequest[A](req: JSONRPCRequest, responseTransformer: (Json => A)) = {
@@ -41,21 +42,22 @@ class JSONRPC(rpcURL: String, username: String, password: String) {
 }
 
 object BitcoinRPC {
-  val jsonToString:(Json => String) = (a => a.string.get.toString)
+  val jsonToString: (Json => String) = a => a.string.get.toString
 
   val emptyjArray = jArray(List())
 
-  def jStringInjArray(s: String) =  jArray(List(jString(s)))
+  def jStringInjArray(s: String) = jArray(List(jString(s)))
 
   def getinfo(implicit jsonrpc: JSONRPC) = {
     jsonrpc.doRequest(JSONRPCRequest("t0", "getinfo", emptyjArray), identity[Json])
   }
+
   def getnewaddress(implicit jsonrpc: JSONRPC) = {
     jsonrpc.doRequest(JSONRPCRequest("t0", "getnewaddress", emptyjArray), jsonToString)
   }
 
   def validateaddress(address: String)(implicit jsonrpc: JSONRPC) = {
-    jsonrpc.doRequest(JSONRPCRequest("t0", "validateaddress",jStringInjArray(address)), identity[Json])
+    jsonrpc.doRequest(JSONRPCRequest("t0", "validateaddress", jStringInjArray(address)), identity[Json])
   }
 
   def addmultisigaddress(addresses: List[String])(implicit jsonrpc: JSONRPC) = {
@@ -106,55 +108,43 @@ object JSONRPCMain extends App{
 }
 */
 
-object JSONRPCMain extends App{
-  val btcurl="http://127.0.0.1:8332"
+object JSONRPCMain extends App {
+  implicit val formats = DefaultFormats
+
+  val btcurl = "http://127.0.0.1:8332"
 
   implicit val jsonrpc = new JSONRPC(btcurl, "dave", "suckme")
 
-  val resp = BitcoinRPC.getrawtransaction("0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098", true)
+  val resp = BitcoinRPC.getrawtransaction("0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098", verbose = true)
 
+  println("Resp: " + resp)
   resp match {
     case Left(error) => println(s"there was an error: $error")
     case Right(json) => val getraw = s""" $json """
-      def example(args: String): Unit = {
+      println("getraw: " + getraw)
 
-        // How to test if the following method is working or not
-        // What do I think is happening here?
-        // I think json is being caught by match .
-        // I'm then assigning to the string to a val (this has previously been tested as ok with println)
-        // I am then defining a method.
-        // the compiler runs with sbt;run as the method is not being called
-        // how can I call this method to check it.
-        // What is the method doing?
-        // Need to follow this more: http://argonaut.io/doc/parsing/
+      // How to test if the following method is working or not
+      // What do I think is happening here?
+      // I think json is being caught by match .
+      // I'm then assigning to the string to a val (this has previously been tested as ok with println)
+      // I am then defining a method.
+      // the compiler runs with sbt;run as the method is not being called
+      // how can I call this method to check it.
+      // What is the method doing?
+      // Need to follow this more: http://argonaut.io/doc/parsing/
 
-        //var getrawEncoded : Transaction = getraw.decodeOption[Transaction].get
-        //println (getrawEncoded)
-        val option: Option[Transaction] =
-          Parse.decodeOption[Transaction](getraw)
-        println (option)
-      }
-      val jsonString = json.toString()
-      example(jsonString)
-  }
+      //var getrawEncoded : Transaction = getraw.decodeOption[Transaction].get
+      //println (getrawEncoded)
 
-  /*
-  def main(args: Array[String]) {
-    // running a sample
-    val person = Person(0, "John Rambo" , 67, 0)
-    val address = Address(0, "101 W Main St", "Madison, Kentucky")
-    val pa = PersonWithAddress(person, address)
 
-    // convert the person to json
-    val json = pa.asJson
-    var content = json.toString()
+      val t = parse(getraw).extract[Transaction]
+      println("T is:" + t)
 
-    println (content)
-
-    // we should get a person instance here
-    var padecoded : PersonWithAddress = content.decodeOption[PersonWithAddress].get
-
-    println (padecoded)
-  }
+    /*val option: Option[Transaction] =
+      Parse.decodeOption[Transaction](getraw)
+    println(option)
 */
+    // val jsonString = json.toString()
+    // example(jsonString)
+  }
 }
