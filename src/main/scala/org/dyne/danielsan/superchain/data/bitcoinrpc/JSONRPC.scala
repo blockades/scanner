@@ -123,28 +123,8 @@ object JSONRPCMain extends App {
     case Right(json) => val getraw = s""" $json """
       println("getraw: " + getraw)
 
-      // How to test if the following method is working or not
-      // What do I think is happening here?
-      // I think json is being caught by match .
-      // I'm then assigning to the string to a val (this has previously been tested as ok with println)
-      // I am then defining a method.
-      // the compiler runs with sbt;run as the method is not being called
-      // how can I call this method to check it.
-      // What is the method doing?
-      // Need to follow this more: http://argonaut.io/doc/parsing/
-
-      //var getrawEncoded : Transaction = getraw.decodeOption[Transaction].get
-      //println (getrawEncoded)
-
-
       val t = parse(getraw).extract[Transaction]
       println("T is:" + t)
 
-    /*val option: Option[Transaction] =
-      Parse.decodeOption[Transaction](getraw)
-    println(option)
-*/
-    // val jsonString = json.toString()
-    // example(jsonString)
   }
 }
