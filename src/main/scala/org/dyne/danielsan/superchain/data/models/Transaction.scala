@@ -39,7 +39,7 @@ import scalaz._, Scalaz._
 // Put up a question here: http://stackoverflow.com/questions/35747753/complex-encoding-of-multiple-nested-classes-using-scala-argonaut
 // Easier to read code here: https://gist.github.com/mbbx6spp/df771b3aaaea90d20dd0
 
-object ImplicitConversion {
+object TransactionImplicitConversion {
 
   case class Transaction(blockhash: String,
                          blocktime: Long,

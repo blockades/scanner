@@ -30,7 +30,6 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.11.5" % "test",
   "io.argonaut" %% "argonaut" % "6.1",
   "net.databinder.dispatch" %% "dispatch-core" % "0.11.2",
-  "org.json4s" %% "json4s-native" % "3.3.0",
   "org.json4s" %% "json4s-jackson" % "3.3.0",
   "org.scalaz" %% "scalaz-core" % scalazVersion
 )

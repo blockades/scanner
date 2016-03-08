@@ -1,7 +1,9 @@
 package org.dyne.danielsan.superchain.data.bitcoinrpc
 
 import argonaut._, argonaut.Argonaut._
-import org.dyne.danielsan.superchain.data.models.ImplicitConversion.Transaction
+import org.dyne.danielsan.superchain.data.models.BlockHashImplicitConversion.BlockHash
+import org.dyne.danielsan.superchain.data.models.BlockImplicitConversion.Block
+import org.dyne.danielsan.superchain.data.models.TransactionImplicitConversion.Transaction
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
@@ -75,6 +77,16 @@ object BitcoinRPC {
     jsonrpc.doRequest(JSONRPCRequest("t0", "getrawtransaction", json), identity[Json])
   }
 
+  def getblockhash(tid: Int)(implicit jsonrpc: JSONRPC) = {
+    val json = jArray(List(jNumber(tid)))
+    jsonrpc.doRequest(JSONRPCRequest("t0", "getblockhash", json), identity[Json])
+  }
+
+  def getblock(hash: String)(implicit jsonrpc: JSONRPC) = {
+    val json = jArray(List(jString(hash)))
+    jsonrpc.doRequest(JSONRPCRequest("t0", "getblock", json), identity[Json])
+  }
+
   def createrawtransaction(txid: String, vout: Int, toAddr: String, amount: Double)(implicit jsonrpc: JSONRPC) = {
     val p1 = jArray(List(Json.obj("txid" -> jString(txid), "vout" -> jNumber(vout))))
     val json = jArray(List(p1, Json.obj(toAddr -> jNumber(amount))))
@@ -115,16 +127,45 @@ object JSONRPCMain extends App {
 
   implicit val jsonrpc = new JSONRPC(btcurl, "dave", "suckme")
 
-  val resp = BitcoinRPC.getrawtransaction("0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098", verbose = true)
+  val resp = BitcoinRPC.getblockhash(1)
 
   println("Resp: " + resp)
   resp match {
     case Left(error) => println(s"there was an error: $error")
-    case Right(json) => val getraw = s""" $json """
+    case Right(json) => val getraw = json.toString()
       println("getraw: " + getraw)
 
-      val t = parse(getraw).extract[Transaction]
+      //val t = parse(getraw).extract[Transaction]
+      val t = getraw
       println("T is:" + t)
+
+      val blockResp = BitcoinRPC.getblock("00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048")
+
+      println("blockResp: " + blockResp)
+
+      blockResp match {
+        case Left(error) => println(s"there was an error: $error")
+        case Right(blockJson) => val blockRaw = s""" $blockJson """
+
+          val b = parse(blockRaw).extract[Block]
+          println("B is: " + b)
+
+          // Here I am trying to figure out how to get the get the tx (Transaction) data from the Block
+          // Is this simply a case of calling the JSON or does there need to be a transformation?
+          // Work in progress from this point
+
+          println("B(tx) is:" + b.getClass())
+
+          /*
+        val transResp = BitcoinRPC.getrawtransaction("0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098",
+          verbose = true)
+
+          println("transResp: " + transResp)
+
+          */
+
+
+      }
 
   }
 }

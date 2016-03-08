@@ -20,10 +20,14 @@ object App {
       ChainRepository.create.ifNotExists()
         .future(), 3.seconds)
 
+    // The aim of the game now is to parse the Transaction and put it in to ChainEntry
+    // and then subsequently into Cassanadra
+
     val chainEntry = ChainEntry(
       "id",
       101,
     "Hello-btc-server"
+      //"address"
     )
 
 
