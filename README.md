@@ -127,3 +127,33 @@ $ bitcoin-cli getrawtransaction 0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb
 "time" : 1231469665,
 "blocktime" : 1231469665
 }
+
+### TODO
+
+- none of this has been TDD, so a big area I need to work on is how to write tests and move forward that way... will do
+this once I get my head around one CORE route to make sure there are no super bad pitfalls.
+- ideally it would be nice to set up some automated tests such as with Jenkins - but this is pie in the sky thinking
+ - Have also not considered how to use Spark
+ - Have also not considered how to use Kafka (if at all)
+ - Have also not considered how to use Angular
+ - Have also not considered how to use Scalatra
+ - Have also not considered how to use https://gephi.org/ (if at all)
+
+ - Must set up server and run blockchain so there is a full transaction history available on the server
+
+PAST TODO:
+
+Do this for getrawtransaction at first, with hardcoded values to begin with.
+
+figure out how to get the BITCOIN-RPC to work within the existing code (at the moment there are two competing uses of
+App)
+
+— does it currently have the correct fields for what is a chainEntry? (look at ChainRepository.scala and look over actual
+output from bitcoin server to see which info would be best to be recorded)
+— What constitutes a complete query able blockchain in cassandra
+— try to get an insertion into Cassandra through the ‘correct route’ (i.e. through the existing code which is similar to
+WhiskeySteak)
+
+NOT YET
+— this might include getting INPUT from OUTPUT of previous methods (such as the chain of commands needed to get to the
+correct level to find OP_RETURN
