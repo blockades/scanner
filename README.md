@@ -2,13 +2,12 @@
 
 For accessing the bitcoin server ensure that bitcoin.conf has the following options enabled.
 
-#### Listen for RPC connections on this TCP port:
+> Listen for RPC connections on this TCP port:
+> rpcport=8332
 
-rpcport=8332
+You can use Bitcoin or bitcoind to send commands to Bitcoin/bitcoind running on another host using this option:
 
-####You can use Bitcoin or bitcoind to send commands to Bitcoin/bitcoind running on another host using this option:
-
-rpcconnect=127.0.0.1
+> rpcconnect=127.0.0.1
 
 To have this running you need to ensure there is both a running version of cassandra and also a running version of the
 bitcoin daemon. Bitcoin sever does not automatically create the full transaction index, so you will need to ensure that
@@ -16,30 +15,35 @@ you have the flags enabled.
 
 > bitcoind -daemon -reindex -txindex
 
-Which has an index of the transactions which you are querying.
+By doing so you ensure you have a local index of the transactions which you are querying.
 
 
 ---
 
 ### High Level Steps:
+
     $ bitcoin-cli getblockhash <INTEGER>
+
 - get blockhash (how to figure out which is the latest?)
 - insert the blockhash into the DB
 - Loop through all INTEGERS till all blockhashes have been inserted into the DB
 (another way to do this is from the JSON from the block itself as it has 'next' and 'previous')
 
     $ bitcoin-cli getblock <BLOCKHASH>
+
 - Loop through all blockhashes in the DB and get the block JSON and insert into the DB
 
     NEED TO WRITE LOOP for each block JSON
+
 - Loop through each block and extract into the DB a list of all tx from within the block (these are the rawTransactions)
 - This means looping through each tx array to extract each tx code within the array for each block
 
     $ bitcoin-cli getrawtransaction <RAW-TX-ID>
+
 - Loop through all RawTransactions
 - Insert JSON response into Transaction within DB
 
-    ---
+---
 
 ### NEXT STEPS:
 
@@ -63,7 +67,7 @@ Which has an index of the transactions which you are querying.
     - **Question: Does ^ step require a new Model?
     - **It might be enough to use Angular to pull that right out of the DB and stick it up on a chart
 
-    ---
+---
 
 ### Example Bitcoin Server Commands
 
@@ -136,7 +140,7 @@ The route of commands that we go through is:
     "blocktime" : 1231469665
     }
 
-    ---
+---
 
 ### TODO
 
