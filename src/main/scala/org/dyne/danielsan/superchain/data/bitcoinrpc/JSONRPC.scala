@@ -7,6 +7,8 @@ import org.dyne.danielsan.superchain.data.models.TransactionImplicitConversion.T
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
+
+/**
 /**
   * Created by dan_mi_sun on 23/02/2016.
   */
@@ -128,3 +130,5 @@ object JSONRPCMain extends App {
 
   }
 }
+
+  */
