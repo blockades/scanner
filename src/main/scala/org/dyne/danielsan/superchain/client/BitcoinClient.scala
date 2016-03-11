@@ -19,24 +19,27 @@ class BitcoinClient {
 
 
   def getBlockForHash(hash: String): String = {
-    (s"bitcoin-cli getblock $hash" !!).trim
+    val block = (s"bitcoin-cli getblock $hash" !!).trim
+    println("b =" + block)
+    block
+
   }
 
   def getBlockForId(id: Int): Block = {
     val hash = getHashForId(id)
     val blockString = getBlockForHash(hash)
-    parse(blockString).extract[Block]
+    val block = parse(blockString).extract[Block]
+    println("b =" + block)
+    block
   }
 
-  //get TXID for transtion
 
-
-  def chainFromId(id: Int): Block = {
+  def getBlockChainFromId(id: Int): Block = {
     val block = getBlockForId(1)
     val hash = block.hash
     println(s"Block $hash found")
     val nextId = id + 1
-    chainFromId(nextId)
+    getBlockChainFromId(nextId)
   }
 }
 

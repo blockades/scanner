@@ -28,12 +28,16 @@ class BitcoinClientTest extends TestStack {
       }
     }
 
+    /*
+    Have commented out this test as it should be correct, but the confirmations are always dynamic and changing depending
+    on the latest head - so need to figure out how to mock this as the value will always change
+
     describe("grabbing a block") {
       val jsonString =
         """
           |{
           |    "hash" : "00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048",
-          |    "confirmations" : 328753,
+          |    "confirmations" : 334142,
           |    "size" : 215,
           |    "height" : 1,
           |    "version" : 1,
@@ -50,11 +54,18 @@ class BitcoinClientTest extends TestStack {
           |    "nextblockhash" : "000000006a625f06636b8bb6ac7b960a8d03705d1ace08b1a19da3fdcc99ddbd"
           |}
         """.stripMargin
-      val block = parse(jsonString).extract[Block]
+
+      //val block = parse(jsonString).extract[Block]
 
       it("should give back the block") {
-        client.getBlockForHash("00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048") shouldEqual block
+        client.getBlockForHash("00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048") shouldEqual jsonString
       }
+    }
+    */
+
+    describe("creating a chain of blocks") {
+      //the difficulty here is that we don't want to set the whole thing in motion
+      // how best to mock out the response to one we expect?
     }
 
   }
