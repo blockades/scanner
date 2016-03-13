@@ -1,13 +1,12 @@
 package org.dyne.danielsan.superchain.client
 
 import org.dyne.danielsan.superchain.data.models.Block
-import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
+import org.json4s.{DefaultFormats, _}
 
 import scala.language.postfixOps
 import scalaj.http.{Base64, Http}
-import sys.process._
 
 /**
   * Created by dan_mi_sun on 10/03/2016.
@@ -21,11 +20,12 @@ class BitcoinClient {
   def getHashForId(id: Int): String = {
     val request = BtcRequest("getblockhash", List(id))
     val json = write(request)
-    Http(baseUrl).postData(json)
+    val resp = Http(baseUrl).postData(json)
       .header("content-type", "application/json")
       .header("Authorization", auth)
       .asString
       .body
+    (parse(resp) \ "result").extract[String]
   }
 
 
@@ -40,11 +40,11 @@ class BitcoinClient {
   }
 
   def getBlockForId(id: Int): Block = {
-    val hash = getHashForId(id)
+    val hash: String = getHashForId(id)
     val blockString = getBlockForHash(hash)
-    val block = parse(blockString).extract[Block]
-    println("b =" + block)
-    block
+    val json = parse(blockString) \ "result"
+    val jsonWithId = json merge parse("""{"id" : "foo"}""")
+    jsonWithId.extract[Block]
   }
 
 
@@ -52,7 +52,6 @@ class BitcoinClient {
     val block = getBlockForId(1)
     val hash = block.hash
     val nextId = id + 1
-    println("Found: " + block)
     getBlockChainFromId(nextId)
   }
 

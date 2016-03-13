@@ -6,13 +6,12 @@ organization := "org.dyne.danielsan"
 
 version := "0.1.0-SNAPSHOT"
 
-val scalazVersion = "7.1.0"
-
 crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 scalaVersion := "2.11.7"
 
 resolvers ++= Seq(
+  "Roundeights" at "http://maven.spikemark.net/roundeights",
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
   "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
   "Sonatype repo"                    at "https://oss.sonatype.org/content/groups/scala-tools/",
@@ -25,6 +24,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
+  "com.roundeights" %% "hasher" % "1.2.0",
   "com.websudos" %% "phantom-dsl" % "1.12.2",
   "org.mockito" % "mockito-core" % "1.10.19",
   "org.scalaj" %% "scalaj-http" % "2.2.1",
