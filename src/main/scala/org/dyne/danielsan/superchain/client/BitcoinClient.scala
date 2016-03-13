@@ -4,6 +4,7 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 
+import scala.language.postfixOps
 import sys.process._
 
 /**
@@ -14,7 +15,9 @@ class BitcoinClient {
   implicit val formats = DefaultFormats
 
   def getHashForId(id: Int): String = {
-    (s"bitcoin-cli getblockhash $id" !!).trim
+    val hash = (s"bitcoin-cli getblockhash $id" !!).trim
+    println(hash)
+    hash
   }
 
 
