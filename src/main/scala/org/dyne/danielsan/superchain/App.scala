@@ -1,13 +1,10 @@
 package org.dyne.danielsan.superchain
 
-
 import org.dyne.danielsan.superchain.client.BitcoinClient
-import org.dyne.danielsan.superchain.data.cassandra.repositories.ChainRepository
-import org.dyne.danielsan.superchain.data.models.ChainEntry
 
-import scala.concurrent.Await
-import scala.concurrent.duration._
-
+/**
+  * Created by dan_mi_sun on 13/03/2016.
+  */
 object App {
   def main(args: Array[String]) {
 
@@ -15,7 +12,13 @@ object App {
     //    implicit val session = ChainRepository.session
 
     val client = new BitcoinClient
-    client.getBlockChainFromId(1)
+    var a = 1
+    for (a <- 1 to 10000) {
+      val resp = client.getHashForId(a)
+      println("JAAAAAA" + resp)
+    }
+
+//    client.getBlockChainFromId(1)
 
     //    // Create the table if it doesn't already exist. We use Await because
     //    // we need to block here, or the future won't have time to execute.

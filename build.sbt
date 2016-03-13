@@ -27,6 +27,7 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "com.websudos" %% "phantom-dsl" % "1.12.2",
   "org.mockito" % "mockito-core" % "1.10.19",
+  "org.scalaj" %% "scalaj-http" % "2.2.1",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "org.scalacheck" %% "scalacheck" % "1.11.5" % "test",
   "io.argonaut" %% "argonaut" % "6.1",
