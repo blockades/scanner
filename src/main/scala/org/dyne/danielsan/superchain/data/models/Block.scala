@@ -1,7 +1,5 @@
 package org.dyne.danielsan.superchain.data.models
 
-import argonaut._, Argonaut._
-
 /**
   * Created by dan_mi_sun on 27/02/2016.
   */
@@ -30,27 +28,17 @@ $ bitcoin-cli getblock 00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf1
 }
 */
 
-object BlockImplicitConversion {
-
-  case class Block(hash: String,
-                   confirmations: Int,
-                   size: Int,
-                   height: Int,
-                   version: Int,
-                   merkleroot: String,
-                   tx: List[String],
-                   time: Long,
-                   nonce: Long,
-                   bits: String,
-                   difficulty: Float,
-                   chainwork: String,
-                   previousblockhash: String,
-                   nextblockhash: String)
-
-  implicit val blockCodec: CodecJson[Block] =
-    casecodec14(Block.apply, Block.unapply)("hash", "confirmations", "size", "height", "version", "merkleroot", "tx",
-      "time", "nonce", "bits", "difficulty", "chainwork", "previousblockhash",
-      "nextblockhash")
-
-
-}
+case class Block(hash: String,
+                 confirmations: Int,
+                 size: Int,
+                 height: Int,
+                 version: Int,
+                 merkleroot: String,
+                 tx: List[String],
+                 time: Long,
+                 nonce: Long,
+                 bits: String,
+                 difficulty: Float,
+                 chainwork: String,
+                 previousblockhash: String,
+                 nextblockhash: String)

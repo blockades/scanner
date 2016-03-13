@@ -1,8 +1,5 @@
 package org.dyne.danielsan.superchain.data.models
 
-import argonaut._, Argonaut._
-import scalaz._, Scalaz._
-
 /**
   * Created by dan_mi_sun on 27/02/2016.
   */
@@ -39,43 +36,28 @@ import scalaz._, Scalaz._
 // Put up a question here: http://stackoverflow.com/questions/35747753/complex-encoding-of-multiple-nested-classes-using-scala-argonaut
 // Easier to read code here: https://gist.github.com/mbbx6spp/df771b3aaaea90d20dd0
 
-object TransactionImplicitConversion {
 
-  case class Transaction(blockhash: String,
-                         blocktime: Long,
-                         hex: String,
-                         confirmations: Int,
-                         txid: String,
-                         vout: List[Vout],
-                         version: Int,
-                         vin: List[Vin],
-                         time: Int,
-                         locktime: Int)
+case class Transaction(blockhash: String,
+                       blocktime: Long,
+                       hex: String,
+                       confirmations: Int,
+                       txid: String,
+                       vout: List[Vout],
+                       version: Int,
+                       vin: List[Vin],
+                       time: Int,
+                       locktime: Int)
 
-  case class Vout(value: Float,
-                  n: Int,
-                  scriptPubKey: ScriptPubKey)
+case class Vout(value: Float,
+                n: Int,
+                scriptPubKey: ScriptPubKey)
 
-  case class ScriptPubKey(hex: String,
-                          asm: String,
-                          `type`: String,
-                          reqSigs: Int,
-                          addresses: List[String])
+case class ScriptPubKey(hex: String,
+                        asm: String,
+                        `type`: String,
+                        reqSigs: Int,
+                        addresses: List[String])
 
-  case class Vin(coinbase: String,
-                 sequence: Int)
+case class Vin(coinbase: String,
+               sequence: Int)
 
-  implicit val vinCodec: CodecJson[Vin] =
-    casecodec2(Vin.apply, Vin.unapply)("coinbase", "sequence")
-
-
-  implicit val scriptPubKeyCodec: CodecJson[ScriptPubKey] =
-    casecodec5(ScriptPubKey.apply, ScriptPubKey.unapply)("hex", "asm", "typetx", "reqsigs", "addresses")
-
-  implicit val voutCodec: CodecJson[Vout] =
-    casecodec3(Vout.apply, Vout.unapply)("value", "n", "scriptpubkey")
-
-  implicit val transactionCodec: CodecJson[Transaction] =
-    casecodec10(Transaction.apply, Transaction.unapply)("blockhash", "blocktime", "hex", "confirmations", "txid", "vout",
-      "version", "vin", "time", "locktime")
-}

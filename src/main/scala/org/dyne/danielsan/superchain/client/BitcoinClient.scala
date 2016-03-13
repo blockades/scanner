@@ -1,5 +1,6 @@
 package org.dyne.danielsan.superchain.client
 
+import org.dyne.danielsan.superchain.data.models.Block
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
@@ -73,17 +74,3 @@ class BitcoinClient {
 
 case class BtcRequest(method: String, params: List[Int])
 
-case class Block(hash: String,
-                 confirmations: Int,
-                 size: Int,
-                 height: Int,
-                 version: Int,
-                 merkleroot: String,
-                 tx: List[String],
-                 time: Long,
-                 nonce: Long,
-                 bits: String,
-                 difficulty: Float,
-                 chainwork: String,
-                 previousblockhash: String,
-                 nextblockhash: String)
