@@ -34,9 +34,6 @@ object App {
       //ChainRepository.insertNewRecord(resp.)
     }
 
-
-
-
     /**
       * This is a mostly unsuccessful attempt to regain control in the sbt shell
       * by releasing the session. As soon as we use the session in this class,
