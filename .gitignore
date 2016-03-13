@@ -58,6 +58,7 @@ jrebel.lic
 .cache
 
 # intellij
+.idea
 *.eml
 *.iml
 *.ipr
