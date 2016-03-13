@@ -10,34 +10,32 @@ object App {
 
     //    implicit val keySpace = ChainRepository.keySpace
     //    implicit val session = ChainRepository.session
+    //    // Create the table if it doesn't already exist. We use Await because
+    //    // we need to block here, or the future won't have time to execute.
+    //    Await.ready(
+    //      ChainRepository.create.ifNotExists()
+    //        .future(), 3.seconds)
 
     val client = new BitcoinClient
     var a = 1
     for (a <- 1 to 10000) {
       val resp = client.getHashForId(a)
       println("JAAAAAA" + resp)
+
+      // The aim of the game now is to parse the Transaction and put it in to ChainEntry
+      //    // and then subsequently into Cassanadra
+      //
+      //    val chainEntry = ChainEntry(
+      //      "id",
+      //      101,
+      //    "Hello-btc-server"
+      //      //"address"
+      //    )
+      //ChainRepository.insertNewRecord(resp.)
     }
 
-    //    client.getBlockChainFromId(1)
-
-    //    // Create the table if it doesn't already exist. We use Await because
-    //    // we need to block here, or the future won't have time to execute.
-    //    Await.ready(
-    //      ChainRepository.create.ifNotExists()
-    //        .future(), 3.seconds)
-    //
-    //    // The aim of the game now is to parse the Transaction and put it in to ChainEntry
-    //    // and then subsequently into Cassanadra
-    //
-    //    val chainEntry = ChainEntry(
-    //      "id",
-    //      101,
-    //    "Hello-btc-server"
-    //      //"address"
-    //    )
 
 
-    //ChainRepository.insertNewRecord(resp.)
 
     /**
       * This is a mostly unsuccessful attempt to regain control in the sbt shell
