@@ -25,7 +25,7 @@ object App {
 
     val client = new BitcoinClient
     var a = 1
-    for (a <- 1 to 10) {
+    for (a <- 1001 to 2000) {
       //      val resp = client.getHashForId(a)
       //    val block = client.getBlockForHash("00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048")
       val block = client.getBlockForId(a)
@@ -59,7 +59,7 @@ object App {
         * some kind of reaping function somewhere), but it takes about 60 seconds
         * to happen.
         */
-      //    session.getCluster.closeAsync()
+          session.getCluster.closeAsync()
 
       //      println("And now we take a million years to close...")
     }
