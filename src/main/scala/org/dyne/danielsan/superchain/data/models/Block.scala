@@ -28,8 +28,7 @@ $ bitcoin-cli getblock 00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf1
 }
 */
 
-case class Block(id: String,
-                 hash: String,
+case class Block(hash: String,
                  confirmations: Int,
                  size: Int,
                  height: Int,

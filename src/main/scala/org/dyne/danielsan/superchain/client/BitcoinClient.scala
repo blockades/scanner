@@ -43,16 +43,7 @@ class BitcoinClient {
     val hash: String = getHashForId(id)
     val blockString = getBlockForHash(hash)
     val json = parse(blockString) \ "result"
-    val jsonWithId = json merge parse("""{"id" : "foo"}""")
-    jsonWithId.extract[Block]
-  }
-
-
-  def getBlockChainFromId(id: Int): Block = {
-    val block = getBlockForId(1)
-    val hash = block.hash
-    val nextId = id + 1
-    getBlockChainFromId(nextId)
+    json.extract[Block]
   }
 
   private

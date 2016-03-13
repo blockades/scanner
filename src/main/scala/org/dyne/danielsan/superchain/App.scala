@@ -25,7 +25,7 @@ object App {
 
     val client = new BitcoinClient
     var a = 1
-    for (a <- 1 to 1000) {
+    for (a <- 1 to 10) {
       //      val resp = client.getHashForId(a)
       //    val block = client.getBlockForHash("00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048")
       val block = client.getBlockForId(a)
