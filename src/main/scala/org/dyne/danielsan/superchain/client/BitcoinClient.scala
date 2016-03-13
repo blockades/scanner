@@ -17,23 +17,26 @@ class BitcoinClient {
   implicit val formats = DefaultFormats
 
   val baseUrl = "http://127.0.0.1:8332"
-  val hashQuery = "/getblockhash/"
-  val blockQuery = "/getblock/"
-  //  val rawTransactionQuery = "//"
 
   def getHashForId(id: Int): String = {
-    //    val hash = (s"bitcoin-cli getblockhash $id" !!).trim
-    val hash = hashForIdRequest(id)
-    println(hash)
-    hash
+    val request = BtcRequest("getblockhash", List(id))
+    val json = write(request)
+    Http(baseUrl).postData(json)
+      .header("content-type", "application/json")
+      .header("Authorization", auth)
+      .asString
+      .body
   }
 
 
   def getBlockForHash(hash: String): String = {
-    val block = (s"bitcoin-cli getblock $hash" !!).trim
-    println("b =" + block)
-    block
-
+    val request = BtcRequest("getblock", List(hash))
+    val json = write(request)
+    Http(baseUrl).postData(json)
+      .header("content-type", "application/json")
+      .header("Authorization", auth)
+      .asString
+      .body
   }
 
   def getBlockForId(id: Int): Block = {
@@ -48,29 +51,17 @@ class BitcoinClient {
   def getBlockChainFromId(id: Int): Block = {
     val block = getBlockForId(1)
     val hash = block.hash
-    println(s"Block $hash found")
     val nextId = id + 1
+    println("Found: " + block)
     getBlockChainFromId(nextId)
   }
 
   private
-
-  def hashForIdRequest(id: Int): String = {
-    val request = BtcRequest("getblockhash", List(id))
-    val json = write(request)
-    val response = Http(baseUrl).postData(json)
-      .header("content-type", "application/json")
-      .header("Authorization", auth)
-      .asString
-      .body
-    println("RESPONSE: " + response)
-    response
-  }
 
   def auth = {
     "Basic " + Base64.encodeString("dave:suckme")
   }
 }
 
-case class BtcRequest(method: String, params: List[Int])
+case class BtcRequest(method: String, params: List[Any])
 
