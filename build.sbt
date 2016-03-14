@@ -11,7 +11,6 @@ crossScalaVersions := Seq("2.10.4", "2.11.2")
 scalaVersion := "2.11.7"
 
 resolvers ++= Seq(
-  "Roundeights" at "http://maven.spikemark.net/roundeights",
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
   "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
   "Sonatype repo" at "https://oss.sonatype.org/content/groups/scala-tools/",
