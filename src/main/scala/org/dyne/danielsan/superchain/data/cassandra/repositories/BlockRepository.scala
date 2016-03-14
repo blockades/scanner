@@ -93,49 +93,32 @@ sealed class BlockRepository extends CassandraTable[BlockRepository, Block] {
 
   object hash extends StringColumn(this) with PartitionKey[String]
 
-  object confirmations extends IntColumn(this)
-
-  object size extends IntColumn(this)
-
-  object height extends IntColumn(this)
-
-  object version extends IntColumn(this)
-
-  object merkleroot extends StringColumn(this)
-
-  object tx extends ListColumn[BlockRepository, Block, String](this)
-
-  object time extends LongColumn(this)
-
-  object nonce extends LongColumn(this)
-
   object bits extends StringColumn(this)
-
-  object difficulty extends FloatColumn(this)
 
   object chainwork extends StringColumn(this)
 
+  object confirmations extends IntColumn(this)
+
+
+  object difficulty extends FloatColumn(this)
+
+  object height extends IntColumn(this)
+
   object previousblockhash extends StringColumn(this)
 
-
-  /*object hash extend StringColumn
-
-  hash: String,
-  confirmations: Int,
-  size: Int,
-  height: Int,
-  version: Int,
-  merkleroot: String,
-  tx: List[String],
-  time: Long,
-  nonce: Long,
-  bits: String,
-  difficulty: Float,
-  chainwork: String,
-  previousblockhash: String,
-  nextblockhash: String
-*/
+  object merkleroot extends StringColumn(this)
 
   object nextblockhash extends StringColumn(this)
+
+  object nonce extends LongColumn(this)
+
+  object size extends IntColumn(this)
+
+  object time extends LongColumn(this)
+
+  object tx extends ListColumn[BlockRepository, Block, String](this)
+
+  object version extends IntColumn(this)
+
 
 }
