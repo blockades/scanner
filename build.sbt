@@ -1,6 +1,4 @@
-
-
-name := "SuperChain"
+name := """SuperChain"""
 
 organization := "org.dyne.danielsan"
 
@@ -10,7 +8,9 @@ crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 scalaVersion := "2.11.7"
 
-val PhantomVersion = "1.22.0"
+lazy val phantomVersion = "1.22.0"
+lazy val cassandraVersion = "2.1.4"
+lazy val driverCore = "3.0.0-rc1"
 
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
@@ -30,6 +30,8 @@ libraryDependencies ++= Seq(
   "org.scalaj" %% "scalaj-http" % "2.2.1",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "org.scalacheck" %% "scalacheck" % "1.11.5" % "test",
-  "com.websudos" %% "phantom-dsl" % PhantomVersion)
+  "com.websudos" %% "phantom-dsl" % phantomVersion,
+  "com.datastax.cassandra" % "cassandra-driver-core" % driverCore,
+  "org.apache.cassandra" % "cassandra-all" % cassandraVersion)
 
 initialCommands := "import org.dyne.danielsan.superchain._"
