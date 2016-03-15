@@ -10,6 +10,8 @@ crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 scalaVersion := "2.11.7"
 
+val PhantomVersion = "1.22.0"
+
 resolvers ++= Seq(
   "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
   "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
@@ -28,6 +30,6 @@ libraryDependencies ++= Seq(
   "org.scalaj" %% "scalaj-http" % "2.2.1",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "org.scalacheck" %% "scalacheck" % "1.11.5" % "test",
-  "com.websudos" %% "phantom-dsl" % "1.22.0")
+  "com.websudos" %% "phantom-dsl" % PhantomVersion)
 
 initialCommands := "import org.dyne.danielsan.superchain._"

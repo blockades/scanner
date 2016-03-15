@@ -6,6 +6,9 @@ import com.websudos.phantom.dsl._
 import com.websudos.phantom.iteratee.Iteratee
 import org.dyne.danielsan.superchain.data.cassandra.init.CassandraConnector
 import org.dyne.danielsan.superchain.data.models.Block
+import com.datastax.driver.core.Session
+import com.websudos.phantom.connectors._
+import com.websudos.phantom.zookeeper.ZkContactPointLookup
 
 import scala.concurrent.Future
 
@@ -13,9 +16,13 @@ import scala.concurrent.Future
   * Created by dan_mi_sun on 05/02/2016.
   */
 
+trait KeyspaceDefinition {
+  implicit val space = KeySpace("superchain")
+}
+
 object BlockRepository extends BlockRepository with CassandraConnector {
 
-  def insertNewRecord(block: Block) = {
+  def insertNewRecord(block: Block): Future[ResultSet] = {
     insert.value(_.hash, block.hash)
       .value(_.confirmations, block.confirmations)
       .value(_.size, block.size)
@@ -30,6 +37,7 @@ object BlockRepository extends BlockRepository with CassandraConnector {
       .value(_.chainwork, block.chainwork)
       .value(_.previousblockhash, block.previousblockhash)
       .value(_.nextblockhash, block.nextblockhash)
+      .consistencyLevel_=(ConsistencyLevel.ALL)
       .future()
     getByHash(block.hash)
   }
@@ -57,6 +65,7 @@ object BlockRepository extends BlockRepository with CassandraConnector {
       .and(_.chainwork setTo block.chainwork)
       .and(_.previousblockhash setTo block.previousblockhash)
       .and(_.nextblockhash setTo block.nextblockhash)
+      .consistencyLevel_=(ConsistencyLevel.ALL)
       .future()
     getByHash(block.hash)
   }
@@ -67,8 +76,6 @@ object BlockRepository extends BlockRepository with CassandraConnector {
 }
 
 sealed class BlockRepository extends CassandraTable[BlockRepository, Block] {
-
-  //  object id extends StringColumn(this) with PartitionKey[String]
 
   // Now the mapping function, transforming a row into a custom type.
   // This is a bit of boilerplate, but it's one time only and very short.
@@ -98,7 +105,6 @@ sealed class BlockRepository extends CassandraTable[BlockRepository, Block] {
   object chainwork extends StringColumn(this)
 
   object confirmations extends IntColumn(this)
-
 
   object difficulty extends FloatColumn(this)
 
