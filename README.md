@@ -171,3 +171,26 @@ WhiskeySteak)
 ### NOT YET
 — this might include getting INPUT from OUTPUT of previous methods (such as the chain of commands needed to get to the
 correct level to find OP_RETURN
+
+/**
+  * TODO FOR CODING
+  * What needs to happen now is to upgrade to the latest phantom DSL
+  * This will require looking through: http://outworkers.com/blog/post/a-series-on-phantom-part-1-getting-started-with-phantom
+  * Once I have updated this I then need to make sure that I can still insert
+  * Once I have done this I then need to get working with the Transaction class
+  * Once I have done this I then need to reassess approach for MVP
+  * Also need to consider more thorough testing - what is the minimum amount
+  * Pie in the sky is to also use spark - but this should come after the MVP (data + visualisation + sonification?)
+  *
+  * SUPERVISOR QUESTIONS
+  * Speak with David about this.
+  * Plan atm is to pull all of the blockchain data out and then display as a graph, polling for new blockchain data.
+  * Is this ok?
+  *
+  * Questions about submission format - how to provide it in such a way that it works?
+  * - how detailed do I need to go in terms of mocking etc
+  * - what happens if I submit early?
+  * - what is the submission due date?
+  * - how much feedback can I get?
+  *
+  */
