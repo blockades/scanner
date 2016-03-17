@@ -1,6 +1,5 @@
 package org.dyne.danielsan.superchain
 
-import com.datastax.driver.core.Session
 import org.dyne.danielsan.superchain.client.BitcoinClient
 import org.dyne.danielsan.superchain.data.cassandra.repositories.ChainDatabase
 import org.json4s.DefaultFormats
@@ -8,14 +7,14 @@ import org.json4s.DefaultFormats
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
-import scala.util.{Failure, Success, Try}
+
 
 /**
   * Created by dan_mi_sun on 13/03/2016.
   *
   */
 //object Driver extends App {
-  object App {
+object Driver {
 
   //def main(implicit session: Session): Unit = {
   def main(args: Array[String]) {
@@ -25,11 +24,11 @@ import scala.util.{Failure, Success, Try}
     implicit val space = ChainDatabase.space
     implicit val session = ChainDatabase.session
 
-    Await.ready(ChainDatabase.autocreate().future, 10 seconds)
+    Await.result(ChainDatabase.autocreate().future, 10 seconds)
 
     val client = new BitcoinClient
     var a = 1
-    //for (a <- 1 to 10)
+    for (a <- 1 to 10) {
 
       //      val resp = client.getHashForId(a)
       //    val block = client.getBlockForHash("00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048")
@@ -40,17 +39,19 @@ import scala.util.{Failure, Success, Try}
       val operation = ChainDatabase.insertBlock(block)
       Await.result(operation, 10.seconds)
 
-      println("Sample ended")
-      System.exit(0)
+    }
 
+    println("Sample ended")
+    System.exit(0)
 
+    // Currently this is an unsuccessful attmept to capture some of what is going on.
 
-//    val connect: Try[Session] = Try(ChainDatabase.session)
-//
-//    connect match {
-//      case Success(session) => main(session)
-//      case Failure(error) => println(s"KO: ${error}")
-//    }
+    //        val connect: Try[Session] = Try(ChainDatabase.session)
+    //
+    //        connect match {
+    //          case Success(session) => main(session)
+    //          case Failure(error) => println(s"KO: ${error}")
+    //        }
 
 
     //
