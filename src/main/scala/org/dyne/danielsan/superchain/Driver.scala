@@ -14,15 +14,18 @@ import scala.util.{Failure, Success, Try}
   * Created by dan_mi_sun on 13/03/2016.
   *
   */
-object Driver extends App {
+//object Driver extends App {
+  object App {
 
-  def main(implicit session: Session): Unit = {
+  //def main(implicit session: Session): Unit = {
+  def main(args: Array[String]) {
 
     implicit val formats = DefaultFormats
 
     implicit val space = ChainDatabase.space
+    implicit val session = ChainDatabase.session
 
-    Await.result(ChainDatabase.autocreate().future, 10 seconds)
+    Await.ready(ChainDatabase.autocreate().future, 10 seconds)
 
     val client = new BitcoinClient
     var a = 1
@@ -42,12 +45,12 @@ object Driver extends App {
 
 
 
-    val connect: Try[Session] = Try(ChainDatabase.session)
-
-    connect match {
-      case Success(session) => main(session)
-      case Failure(error) => println(s"KO: ${error}")
-    }
+//    val connect: Try[Session] = Try(ChainDatabase.session)
+//
+//    connect match {
+//      case Success(session) => main(session)
+//      case Failure(error) => println(s"KO: ${error}")
+//    }
 
 
     //
