@@ -1,4 +1,35 @@
+### Intro
+
+openblockchain is a Bitcoin blockchain explorer focusing on 'more-than-economic' uses of the distributed decentralised database. An example of such uses can be found here: [https://twitter.com/dan_mi_sun/status/710278666354368513](https://twitter.com/dan_mi_sun/status/710278666354368513)
+
+The first implementation of this seeks to identify transactions which contain the OP_RETURN flag. More background on the introduction of OP_RETURN can be found [here](http://www.slideshare.net/coinspark/bitcoin-2-and-opreturns-the-blockchain-as-tcpip).
+
+In a nutshell the plan is to run a bitcoin server. Scala will be used to build a scanner which crawls through the entire Bitcoin blockchain to extract all block and transaction information. It's planned to then extract the entire bitcoin blockchain into cassandra to create a more easily queryable format of the blockchain and all Bitcoin transactions.
+
+Once this has been done the plan is to make an interactive web interface (similar to [blockchain.info](https://blockchain.info/charts)) which displays the number of insertions of 'more-than-economic' uses of the blockchain. 
+
+### Project Aims
+
+#### Technologies
+
+One of the main purposes of this project is to learn a new stack of technologies. The intention at this stage is to use as many of the following as possible.
+
+- scala
+- scalatra
+- json4s
+- phantom-dsl
+- cassandra
+- spark
+- reactjs or angularjs
+- bitcoin server
+
+#### Big Data Analysis
+
+At the time of writing the Bitcoin blockchain is 80GB of transaction data. One of the key areas of focus for this project is to learn some techniques and tools to make some useful learnings from a sizeable data-set. Once the foundations of the blockchain scanner have been built, the focus will turn to data visualisation/sonification and BDA tools and techniques.
+
 ### Setup
+
+Need to install bitcoin-qt client & also cassandra
 
 For accessing the bitcoin server ensure that bitcoin.conf has the following options enabled.
 
@@ -17,19 +48,18 @@ you have the flags enabled.
 
 By doing so you ensure you have a local index of the transactions which you are querying.
 
-
 ---
 
 ### High Level Steps:
 
-    $ bitcoin-cli getblockhash <INTEGER>
+> $ bitcoin-cli getblockhash <INTEGER>
 
 - get blockhash (how to figure out which is the latest?)
 - insert the blockhash into the DB
 - Loop through all INTEGERS till all blockhashes have been inserted into the DB
 (another way to do this is from the JSON from the block itself as it has 'next' and 'previous')
 
-    $ bitcoin-cli getblock <BLOCKHASH>
+> $ bitcoin-cli getblock <BLOCKHASH>
 
 - Loop through all blockhashes in the DB and get the block JSON and insert into the DB
 
@@ -38,34 +68,10 @@ By doing so you ensure you have a local index of the transactions which you are 
 - Loop through each block and extract into the DB a list of all tx from within the block (these are the rawTransactions)
 - This means looping through each tx array to extract each tx code within the array for each block
 
-    $ bitcoin-cli getrawtransaction <RAW-TX-ID>
+> $ bitcoin-cli getrawtransaction <RAW-TX-ID>
 
 - Loop through all RawTransactions
 - Insert JSON response into Transaction within DB
-
----
-
-### NEXT STEPS:
-
-    - Write model for blockhash
-    - Insert the blockhash into the DB (using fixed value)
-    - Write a loop to go through all integers to get all blockhashes and insert each into DB
-
-    - Write model for block
-    - Insert a block JSON into the DB using a hardcoded value
-    - Write loop to go through all blockhashes to extract all block JSON and insert into DB
-
-    - Write model for RAW-TX-ID
-    - Write a function which can extract the RAW-TX-ID from the block JSON (using fixed block JSON to begin with)
-    - Write a function which can insert RAW-TX-IDs into DB
-    - Write a loop which can go through all blocks, extract RAW-TX-ID and insert into DB
-
-    - Write a function which can insert Transaction into DB (using fixed value)
-    - Write a function which loops through all the RAW-TX-ID and then inserts the Transaction JSON into DB
-
-    - Write a function which can go through all the Transactions and note if they have OP_RETURN or not
-    - **Question: Does ^ step require a new Model?
-    - **It might be enough to use Angular to pull that right out of the DB and stick it up on a chart
 
 ---
 
@@ -142,6 +148,32 @@ The route of commands that we go through is:
 
 ---
 
+### All of the below are working notes and TODO items
+
+### NEXT STEPS:
+
+    - Write model for blockhash
+    - Insert the blockhash into the DB (using fixed value)
+    - Write a loop to go through all integers to get all blockhashes and insert each into DB
+
+    - Write model for block
+    - Insert a block JSON into the DB using a hardcoded value
+    - Write loop to go through all blockhashes to extract all block JSON and insert into DB
+
+    - Write model for RAW-TX-ID
+    - Write a function which can extract the RAW-TX-ID from the block JSON (using fixed block JSON to begin with)
+    - Write a function which can insert RAW-TX-IDs into DB
+    - Write a loop which can go through all blocks, extract RAW-TX-ID and insert into DB
+
+    - Write a function which can insert Transaction into DB (using fixed value)
+    - Write a function which loops through all the RAW-TX-ID and then inserts the Transaction JSON into DB
+
+    - Write a function which can go through all the Transactions and note if they have OP_RETURN or not
+    - **Question: Does ^ step require a new Model?
+    - **It might be enough to use Angular to pull that right out of the DB and stick it up on a chart
+
+---
+
 ### TODO
 
 - none of this has been TDD, so a big area I need to work on is how to write tests and move forward that way... will do
@@ -181,16 +213,5 @@ correct level to find OP_RETURN
   * Once I have done this I then need to reassess approach for MVP
   * Also need to consider more thorough testing - what is the minimum amount
   * Pie in the sky is to also use spark - but this should come after the MVP (data + visualisation + sonification?)
-  *
-  * SUPERVISOR QUESTIONS
-  * Speak with David about this.
-  * Plan atm is to pull all of the blockchain data out and then display as a graph, polling for new blockchain data.
-  * Is this ok?
-  *
-  * Questions about submission format - how to provide it in such a way that it works?
-  * - how detailed do I need to go in terms of mocking etc
-  * - what happens if I submit early?
-  * - what is the submission due date?
-  * - how much feedback can I get?
   *
   */
