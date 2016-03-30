@@ -12,16 +12,19 @@ import scala.concurrent.Future
   * Created by dan_mi_sun on 27/02/2016.
   */
 
-case class Transaction(blockhash: String,
+case class Transaction(txid: String,
+                       version: Int,
+                       locktime: Int,
+                       vin: List[Vin],
+                       vout: List[Vout]
+                      /*
+                       blockhash: String,
                        blocktime: Long,
                        hex: String,
                        confirmations: Int,
-                       txid: String,
-                       vout: List[Vout],
-                       version: Int,
-                       vin: List[Vin],
-                       time: Int,
-                       locktime: Int)
+                       time: Int
+                       */
+                      )
 
 case class Vout(value: Float,
                 n: Int,
