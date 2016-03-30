@@ -37,11 +37,19 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
 
   def insertVin(v: Vin) = {
     Batch.logged
-      .add(ChainDatabase.v.insertNewVin(v))
+      .add(ChainDatabase.vin.insertNewVin(v))
       .future()
   }
 
-  object v extends VinTable with keyspace.Connector
+  object vin extends VinTable with keyspace.Connector
+
+  def insertVout(v: Vout) = {
+    Batch.logged
+      .add(ChainDatabase.vout.insertNewVout(v))
+      .future()
+  }
+
+  object vout extends VoutTable with keyspace.Connector
 
 
 }
