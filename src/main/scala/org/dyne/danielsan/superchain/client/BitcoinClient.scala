@@ -57,6 +57,30 @@ class BitcoinClient {
     transactionList.head
   }
 
+  def getRawTransaction(id: Int): String = {
+    val txId = extractTransactionIds(id)
+    val request = BtcRequest("getrawtransaction", List(txId))
+    val json = write(request)
+    val resp = Http(baseUrl).postData(json)
+      .header("content-type", "application/json")
+      .header("Authorization", auth)
+      .asString
+      .body
+    (parse(resp) \ "result").extract[String]
+  }
+
+  def decodeRawTransaction(id: Int): Transaction = {
+    val rawTx = getRawTransaction(id)
+    val request = BtcRequest("decoderawtransaction", List(rawTx))
+    val json = write(request)
+    val resp = Http(baseUrl).postData(json)
+      .header("content-type", "application/json")
+      .header("Authorization", auth)
+      .asString
+      .body
+    (parse(resp) \ "result").extract[Transaction]
+  }
+
   private
 
   def auth = {

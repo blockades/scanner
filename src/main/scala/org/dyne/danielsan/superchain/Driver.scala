@@ -28,7 +28,7 @@ object Driver {
     var a = 10
 //    for (a <- 1 to 10000) {
 
-      val t = client.extractTransactionIds(a)
+      val t = client.decodeRawTransaction(a)
 
 
       println(t)
