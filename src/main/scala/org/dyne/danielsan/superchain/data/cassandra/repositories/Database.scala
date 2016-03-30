@@ -3,7 +3,7 @@ package org.dyne.danielsan.superchain.data.cassandra.repositories
 import com.websudos.phantom.db.DatabaseImpl
 import com.websudos.phantom.dsl._
 import org.dyne.danielsan.superchain.data.cassandra.init.Config
-import org.dyne.danielsan.superchain.data.models.{TransactionTable, Transaction, Block, BlockTable}
+import org.dyne.danielsan.superchain.data.models._
 
 /**
   * Created by dan_mi_sun on 05/02/2016.
@@ -26,6 +26,14 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
   }
 
   object tx extends TransactionTable with keyspace.Connector
+
+  def insertScriptPubKey(spk: ScriptPubKey) = {
+    Batch.logged
+      .add(ChainDatabase.spk.insertNewScriptPubKey(spk))
+      .future()
+  }
+
+  object spk extends ScriptPubKeyTable with keyspace.Connector
 
 
 }
