@@ -4,6 +4,9 @@ import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
+import org.json4s.jackson.Serialization
+import org.json4s.jackson.Serialization.{read, write}
+
 
 import scala.concurrent.Future
 
@@ -42,7 +45,9 @@ https://github.com/outworkers/phantom/wiki/Collection-columns
 
 sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFamily, Transaction] {
 
-  implicit val formats = DefaultFormats
+//  implicit val formats = DefaultFormats
+  implicit val formats = Serialization.formats(NoTypeHints)
+
 
   override def fromRow(row: Row): Transaction = {
     Transaction(
@@ -65,10 +70,8 @@ sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFam
       parse(obj).extract[Vout]
     }
 
-    //this is where we have gotten to again
-    // need to figure out the serializer
     override def toJson(obj: Vout): String = {
-      compact(render(obj))
+      write(obj)
     }
   }
 
@@ -78,7 +81,7 @@ sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFam
     }
 
     override def toJson(obj: Vin): String = {
-      compact(render(obj))
+      write(obj)
     }
   }
 
@@ -93,17 +96,11 @@ abstract class TransactionTable extends TransactionColumnFamily with RootConnect
   def insertNewTransaction(tx: Transaction) = {
     insert
       .value(_.txid, tx.txid)
-      .value(_.vout, tx.vout)
       .value(_.version, tx.version)
-      .value(_.vin, tx.vin)
       .value(_.locktime, tx.locktime)
+      .value(_.vout, tx.vout)
+      .value(_.vin, tx.vin)
   }
-
-}
-
-object TransactionColumnFamily extends TransactionColumnFamily with RootConnector {
-//  figure out how to list -> this can come from other example working from
-//    figure out how to insert https :// github.com / outworkers / phantom / wiki / Collection - columns
 
 }
 

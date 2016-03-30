@@ -19,10 +19,10 @@ object Driver {
 
     implicit val formats = DefaultFormats
 
-//    implicit val space = ChainDatabase.space
-//    implicit val session = ChainDatabase.session
-//
-//    Await.result(ChainDatabase.autocreate().future, 10 seconds)
+    implicit val space = ChainDatabase.space
+    implicit val session = ChainDatabase.session
+
+    Await.result(ChainDatabase.autocreate().future, 10 seconds)
 
     val client = new BitcoinClient
     var a = 10
@@ -32,13 +32,12 @@ object Driver {
 
 
       println(t)
-//      val operation = ChainDatabase.insertBlock(block)
-//      Await.result(operation, 10.seconds)
+      val operation = ChainDatabase.insertTransaction(t)
+      Await.result(operation, 10.seconds)
 
-//    }
+    }
 
-//    println("Sample ended")
-//    System.exit(0)
+    println("Sample ended")
+    System.exit(0)
 
   }
-}
