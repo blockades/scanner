@@ -46,6 +46,20 @@ class BitcoinClient {
     json.extract[Block]
   }
 
+  def getTransactionIdsFromWithinBlock(id: Int): List[String] = {
+    val block = getBlockForId(id)
+    block.tx
+  }
+
+  //I am trying to extract the Transaction Ids to create a list of all Transactions
+  //not sure yet if we need to insert these into Cassandra as we actually only need
+  //them to access the transaction JSON object
+
+  def extractTransactionIds(id: Int): String = {
+    val transactionList = getTransactionIdsFromWithinBlock(id)
+    transactionList.map(t => t.head)
+  }
+
   private
 
   def auth = {

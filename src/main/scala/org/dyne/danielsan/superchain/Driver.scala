@@ -25,13 +25,13 @@ object Driver {
 //    Await.result(ChainDatabase.autocreate().future, 10 seconds)
 
     val client = new BitcoinClient
-    var a = 1
+    var a = 10
 //    for (a <- 1 to 10000) {
 
-      val block = client.getBlockForId(a)
+      val t = client.extractTransactionIds(a)
 
 
-      println(block.tx.head)
+      println(t)
 //      val operation = ChainDatabase.insertBlock(block)
 //      Await.result(operation, 10.seconds)
 
