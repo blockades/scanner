@@ -1,6 +1,6 @@
 package org.dyne.danielsan.superchain.client
 
-import org.dyne.danielsan.superchain.data.models.{Transaction, Block}
+import org.dyne.danielsan.superchain.data.models.{Block, Transaction}
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
 import org.json4s.{DefaultFormats, _}
@@ -17,44 +17,16 @@ class BitcoinClient {
 
   val baseUrl = "http://127.0.0.1:8332"
 
-  def getHashForId(id: Int): String = {
-    val request = BtcRequest("getblockhash", List(id))
+  def decodeRawTransaction(id: Int): Transaction = {
+    val rawTx = getRawTransaction(id)
+    val request = BtcRequest("decoderawtransaction", List(rawTx))
     val json = write(request)
     val resp = Http(baseUrl).postData(json)
       .header("content-type", "application/json")
       .header("Authorization", auth)
       .asString
       .body
-    (parse(resp) \ "result").extract[String]
-  }
-
-
-  def getBlockForHash(hash: String): String = {
-    val request = BtcRequest("getblock", List(hash))
-    val json = write(request)
-    Http(baseUrl).postData(json)
-      .header("content-type", "application/json")
-      .header("Authorization", auth)
-      .asString
-      .body
-  }
-
-  def getBlockForId(id: Int): Block = {
-    val hash: String = getHashForId(id)
-    val blockString = getBlockForHash(hash)
-    val json = parse(blockString) \ "result"
-    json.extract[Block]
-  }
-
-  def getTransactionIdsFromWithinBlock(id: Int): List[String] = {
-    val block = getBlockForId(id)
-    block.tx
-  }
-
-  // PROBLEM: this is only going to take the head of the list
-  def extractTransactionIds(id: Int): String = {
-    val transactionList = getTransactionIdsFromWithinBlock(id)
-    transactionList.head
+    (parse(resp) \ "result").extract[Transaction]
   }
 
   def getRawTransaction(id: Int): String = {
@@ -69,16 +41,43 @@ class BitcoinClient {
     (parse(resp) \ "result").extract[String]
   }
 
-  def decodeRawTransaction(id: Int): Transaction = {
-    val rawTx = getRawTransaction(id)
-    val request = BtcRequest("decoderawtransaction", List(rawTx))
+  // PROBLEM: this is only going to take the head of the list
+  def extractTransactionIds(id: Int): String = {
+    val transactionList = getTransactionIdsFromWithinBlock(id)
+    transactionList.head
+  }
+
+  def getTransactionIdsFromWithinBlock(id: Int): List[String] = {
+    val block = getBlockForId(id)
+    block.tx
+  }
+
+  def getBlockForId(id: Int): Block = {
+    val hash: String = getHashForId(id)
+    val blockString = getBlockForHash(hash)
+    val json = parse(blockString) \ "result"
+    json.extract[Block]
+  }
+
+  def getHashForId(id: Int): String = {
+    val request = BtcRequest("getblockhash", List(id))
     val json = write(request)
     val resp = Http(baseUrl).postData(json)
       .header("content-type", "application/json")
       .header("Authorization", auth)
       .asString
       .body
-    (parse(resp) \ "result").extract[Transaction]
+    (parse(resp) \ "result").extract[String]
+  }
+
+  def getBlockForHash(hash: String): String = {
+    val request = BtcRequest("getblock", List(hash))
+    val json = write(request)
+    Http(baseUrl).postData(json)
+      .header("content-type", "application/json")
+      .header("Authorization", auth)
+      .asString
+      .body
   }
 
   private
