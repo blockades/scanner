@@ -22,6 +22,8 @@ case class Transaction(txid: String,
                        vout: List[Vout]
                       )
 
+//Next step is to pull out Vin, Vout, ScriptPubKey into their own files and to create connectors and other such and to make it for phantom-dsl
+
 case class Vin(coinbase: String,
                sequence: Int)
 
