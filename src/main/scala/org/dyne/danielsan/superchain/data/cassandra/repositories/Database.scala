@@ -35,6 +35,14 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
 
   object spk extends ScriptPubKeyTable with keyspace.Connector
 
+  def insertVin(v: Vin) = {
+    Batch.logged
+      .add(ChainDatabase.v.insertNewVin(v))
+      .future()
+  }
+
+  object v extends VinTable with keyspace.Connector
+
 
 }
 
