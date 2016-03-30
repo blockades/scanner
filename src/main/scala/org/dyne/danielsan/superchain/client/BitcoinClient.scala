@@ -1,6 +1,6 @@
 package org.dyne.danielsan.superchain.client
 
-import org.dyne.danielsan.superchain.data.models.Block
+import org.dyne.danielsan.superchain.data.models.{Transaction, Block}
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
 import org.json4s.{DefaultFormats, _}
@@ -51,13 +51,10 @@ class BitcoinClient {
     block.tx
   }
 
-  //I am trying to extract the Transaction Ids to create a list of all Transactions
-  //not sure yet if we need to insert these into Cassandra as we actually only need
-  //them to access the transaction JSON object
-
+  // PROBLEM: this is only going to take the head of the list
   def extractTransactionIds(id: Int): String = {
     val transactionList = getTransactionIdsFromWithinBlock(id)
-    transactionList.map(t => t.head)
+    transactionList.head
   }
 
   private
