@@ -25,7 +25,7 @@ object Driver {
     Await.result(ChainDatabase.autocreate().future, 10 seconds)
 
     val client = new BitcoinClient
-    var a = 10
+    val a = 10
 //    for (a <- 1 to 10000) {
 
       val t = client.decodeRawTransaction(a)

@@ -5,7 +5,7 @@ import com.websudos.phantom.dsl._
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
-import org.json4s.jackson.Serialization.{read, write}
+import org.json4s.jackson.Serialization.write
 
 
 import scala.concurrent.Future
@@ -21,29 +21,6 @@ case class Transaction(txid: String,
                        vin: List[Vin],
                        vout: List[Vout]
                       )
-
-//Next step is to pull out Vin, Vout, ScriptPubKey into their own files and to create connectors and other such and to make it for phantom-dsl
-
-case class Vin(coinbase: String,
-               sequence: Int)
-
-case class Vout(value: Float,
-                n: Int,
-                scriptPubKey: ScriptPubKey)
-
-case class ScriptPubKey(hex: String,
-                        asm: String,
-                        `type`: String,
-                        reqSigs: Int,
-                        addresses: List[String])
-
-
-/*
-One of the issues that I am running into below is that:
-"Cassandra collections do not allow custom data types. Storing JSON as a string is possible, but it's still a text column as far as Cassandra is concerned. The type in the below example is always a default C* type."
-
-https://github.com/outworkers/phantom/wiki/Collection-columns
-*/
 
 sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFamily, Transaction] {
 
