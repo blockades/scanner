@@ -15,7 +15,8 @@ import org.json4s.jackson.Serialization.write
 
 case class Vout(value: Float,
                 n: Int,
-                scriptPubKey: List[ScriptPubKey])
+                scriptPubKey: ScriptPubKey
+               )
 
 sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
 
@@ -33,7 +34,7 @@ sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
 
   object n extends IntColumn(this) with ClusteringOrder[Int] with Descending
 
-  object scriptPubKey extends JsonListColumn[VoutColumnFamily, Vout, ScriptPubKey](this){
+  object scriptPubKey extends JsonColumn[VoutColumnFamily, Vout, ScriptPubKey](this){
     override def fromJson(obj: String): ScriptPubKey = {
       parse(obj).extract[ScriptPubKey]
     }
