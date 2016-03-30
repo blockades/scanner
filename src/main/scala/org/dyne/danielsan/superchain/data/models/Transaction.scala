@@ -44,85 +44,85 @@ https://github.com/outworkers/phantom/wiki/Collection-columns
 
  */
 
-sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFamily, Transaction] {
-
-  implicit val formats = DefaultFormats
-
-  override def fromRow(row: Row): Transaction = {
-    Transaction(
-      blockhash(row),
-      blocktime(row),
-      hex(row),
-      confirmations(row),
-      txid(row),
-      vout(row),
-      version(row),
-      vin(row),
-      time(row),
-      locktime(row)
-    )
-  }
-
-  object blockhash extends StringColumn(this) with PartitionKey[String]
-
-  object blocktime extends LongColumn(this) with ClusteringOrder[Long] with Descending
-
-  object hex extends StringColumn(this) with ClusteringOrder[String] with Descending
-
-  object confirmations extends IntColumn(this) with ClusteringOrder[Int] with Descending
-
-  object txid extends StringColumn(this) with ClusteringOrder[String] with Descending
-
-  object vout extends JsonListColumn[TransactionColumnFamily, Transaction, JValue](this) {
-    override def fromJson(obj: String): JValue = {
-      parse(obj).extract[JValue]
-    }
-
-    override def toJson(obj: JValue): String = {
-      compact(render(obj))
-    }
-  }
-
-  object version extends IntColumn(this) with ClusteringOrder[Int] with Descending
-
-  object vin extends JsonListColumn[TransactionColumnFamily, Transaction, JValue](this) {
-    override def fromJson(obj: String): JValue = {
-      parse(obj).extract[JValue]
-    }
-
-    override def toJson(obj: JValue): String = {
-      compact(render(obj))
-    }
-  }
-
-  object time extends IntColumn(this) with ClusteringOrder[Int] with Descending
-
-  object locktime extends IntColumn(this) with ClusteringOrder[Int] with Descending
-
-}
-
-abstract class TransactionTable extends TransactionColumnFamily with RootConnector {
-
-  override val tableName = "transactions"
-
-  def insertNew(tx: Transaction): Future[ResultSet] = insertNewTransaction(tx).future()
-
-  def insertNewTransaction(tx: Transaction) = {
-    insert
-      .value(_.blockhash, tx.blockhash)
-      .value(_.blocktime, tx.blocktime)
-      .value(_.hex, tx.hex)
-      .value(_.confirmations, tx.confirmations)
-      .value(_.txid, tx.txid)
-      .value(_.vout, tx.vout)
-      .value(_.version, tx.version)
-      .value(_.vin, tx.vin)
-      .value(_.time, tx.time)
-      .value(_.locktime, tx.locktime)
-  }
-
-
-}
+//sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFamily, Transaction] {
+//
+//  implicit val formats = DefaultFormats
+//
+//  override def fromRow(row: Row): Transaction = {
+//    Transaction(
+//      blockhash(row),
+//      blocktime(row),
+//      hex(row),
+//      confirmations(row),
+//      txid(row),
+//      vout(row),
+//      version(row),
+//      vin(row),
+//      time(row),
+//      locktime(row)
+//    )
+//  }
+//
+//  object blockhash extends StringColumn(this) with PartitionKey[String]
+//
+//  object blocktime extends LongColumn(this) with ClusteringOrder[Long] with Descending
+//
+//  object hex extends StringColumn(this) with ClusteringOrder[String] with Descending
+//
+//  object confirmations extends IntColumn(this) with ClusteringOrder[Int] with Descending
+//
+//  object txid extends StringColumn(this) with ClusteringOrder[String] with Descending
+//
+//  object vout extends JsonListColumn[TransactionColumnFamily, Transaction, JValue](this) {
+//    override def fromJson(obj: String): JValue = {
+//      parse(obj).extract[JValue]
+//    }
+//
+//    override def toJson(obj: JValue): String = {
+//      compact(render(obj))
+//    }
+//  }
+//
+//  object version extends IntColumn(this) with ClusteringOrder[Int] with Descending
+//
+//  object vin extends JsonListColumn[TransactionColumnFamily, Transaction, JValue](this) {
+//    override def fromJson(obj: String): JValue = {
+//      parse(obj).extract[JValue]
+//    }
+//
+//    override def toJson(obj: JValue): String = {
+//      compact(render(obj))
+//    }
+//  }
+//
+//  object time extends IntColumn(this) with ClusteringOrder[Int] with Descending
+//
+//  object locktime extends IntColumn(this) with ClusteringOrder[Int] with Descending
+//
+//}
+//
+//abstract class TransactionTable extends TransactionColumnFamily with RootConnector {
+//
+//  override val tableName = "transactions"
+//
+//  def insertNew(tx: Transaction): Future[ResultSet] = insertNewTransaction(tx).future()
+//
+//  def insertNewTransaction(tx: Transaction) = {
+//    insert
+//      .value(_.blockhash, tx.blockhash)
+//      .value(_.blocktime, tx.blocktime)
+//      .value(_.hex, tx.hex)
+//      .value(_.confirmations, tx.confirmations)
+//      .value(_.txid, tx.txid)
+//      .value(_.vout, tx.vout)
+//      .value(_.version, tx.version)
+//      .value(_.vin, tx.vin)
+//      .value(_.time, tx.time)
+//      .value(_.locktime, tx.locktime)
+//  }
+//
+//
+//}
 
 //object TransactionColumnFamily extends TransactionColumnFamily with RootConnector {
 ////  figure out how to list -> this can come from other example working from
