@@ -7,7 +7,6 @@ import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
 import org.json4s.jackson.Serialization.write
 
-
 import scala.concurrent.Future
 
 
@@ -24,7 +23,6 @@ case class Transaction(txid: String,
 
 sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFamily, Transaction] {
 
-//  implicit val formats = DefaultFormats
   implicit val formats = Serialization.formats(NoTypeHints)
 
 
