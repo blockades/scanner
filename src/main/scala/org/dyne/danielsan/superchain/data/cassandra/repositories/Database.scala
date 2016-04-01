@@ -19,15 +19,11 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
       .future()
   }
 
-  object block extends BlockTable with keyspace.Connector
-
   def insertTransaction(tx: Transaction) = {
     Batch.logged
       .add(ChainDatabase.tx.insertNewTransaction(tx))
       .future()
   }
-
-  object tx extends TransactionTable with keyspace.Connector
 
   def insertScriptPubKey(spk: ScriptPubKey) = {
     Batch.logged
@@ -35,21 +31,25 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
       .future()
   }
 
-  object spk extends ScriptPubKeyTable with keyspace.Connector
-
   def insertVin(v: Vin) = {
     Batch.logged
       .add(ChainDatabase.vin.insertNewVin(v))
       .future()
   }
 
-  object vin extends VinTable with keyspace.Connector
-
   def insertVout(v: Vout) = {
     Batch.logged
       .add(ChainDatabase.vout.insertNewVout(v))
       .future()
   }
+
+  object block extends BlockTable with keyspace.Connector
+
+  object tx extends TransactionTable with keyspace.Connector
+
+  object spk extends ScriptPubKeyTable with keyspace.Connector
+
+  object vin extends VinTable with keyspace.Connector
 
   object vout extends VoutTable with keyspace.Connector
 

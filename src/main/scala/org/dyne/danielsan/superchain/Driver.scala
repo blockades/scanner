@@ -26,15 +26,15 @@ object Driver {
 
     val client = new BitcoinClient
     val a = 1
-       for (a <- 1 to 100) {
+    for (a <- 1 to 100) {
 
-         val t = client.decodeRawTransaction(a)
+      val t = client.decodeRawTransaction(a)
 
 
-         println(t)
-         val operation = ChainDatabase.insertTransaction(t)
-         Await.result(operation, 10.seconds)
-       }
+      println(t)
+      val operation = ChainDatabase.insertTransaction(t)
+      Await.result(operation, 10.seconds)
+    }
 
 
     println("Sample ended")
