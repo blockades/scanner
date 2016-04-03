@@ -152,21 +152,21 @@ The route of commands that we go through is:
 
 ### NEXT STEPS:
 
-    - Write model for blockhash
-    - Insert the blockhash into the DB (using fixed value)
-    - Write a loop to go through all integers to get all blockhashes and insert each into DB
+    - [DONE] Write model for blockhash 
+    - [DONE] Insert the blockhash into the DB (using fixed value)
+    - [DONE] Write a loop to go through all integers to get all blockhashes and insert each into DB
 
-    - Write model for block
-    - Insert a block JSON into the DB using a hardcoded value
-    - Write loop to go through all blockhashes to extract all block JSON and insert into DB
+    - [DONE] Write model for block
+    - [DONE] Insert a block JSON into the DB using a hardcoded value
+    - [DONE] Write loop to go through all blockhashes to extract all block JSON and insert into DB
 
-    - Write model for RAW-TX-ID
-    - Write a function which can extract the RAW-TX-ID from the block JSON (using fixed block JSON to begin with)
-    - Write a function which can insert RAW-TX-IDs into DB
-    - Write a loop which can go through all blocks, extract RAW-TX-ID and insert into DB
+    - [DONE] Write model for RAW-TX-ID
+    - [DONE] Write a function which can extract the RAW-TX-ID from the block JSON (using fixed block JSON to begin with)
+    - [DONE] Write a function which can insert RAW-TX-IDs into DB
+    - [DONE] Write a loop which can go through all blocks, extract RAW-TX-ID and insert into DB
 
-    - Write a function which can insert Transaction into DB (using fixed value)
-    - Write a function which loops through all the RAW-TX-ID and then inserts the Transaction JSON into DB
+    - [DONE] Write a function which can insert Transaction into DB (using fixed value)
+    - [DONE] Write a function which loops through all the RAW-TX-ID and then inserts the Transaction JSON into DB
 
     - Write a function which can go through all the Transactions and note if they have OP_RETURN or not
     - **Question: Does ^ step require a new Model?
@@ -182,6 +182,7 @@ this once I get my head around one CORE route to make sure there are no super ba
  - Have also not considered how to use Spark
  - Have also not considered how to use Kafka (if at all)
  - Have also not considered how to use Angular
+ - Have also not considered how to use ReactJS
  - Have also not considered how to use Scalatra
  - Have also not considered how to use https://gephi.org/ (if at all)
 
