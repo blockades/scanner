@@ -8,6 +8,12 @@ import org.json4s.{DefaultFormats, _}
 import scala.language.postfixOps
 import scalaj.http.{Base64, Http}
 
+/*
+Known limitation is that there is alot of repition (i.e. not DRY) - within the methods
+themselves - is it possibleto abstract these out into another method so that we can DRY
+it up
+ */
+
 /**
   * Created by dan_mi_sun on 10/03/2016.
   */
@@ -41,7 +47,8 @@ class BitcoinClient {
     (parse(resp) \ "result").extract[String]
   }
 
-  // PROBLEM: this is only going to take the head of the list
+  // Known limitation is that this is only going to take the head of the list
+  // Many blocks have many TransactionsIds within a block
   def extractTransactionIds(id: Int): String = {
     val transactionList = getTransactionIdsFromWithinBlock(id)
     transactionList.head

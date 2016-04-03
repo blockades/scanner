@@ -24,6 +24,8 @@ object Driver {
 
     Await.result(ChainDatabase.autocreate().future, 10 seconds)
 
+    //Known limitation here is that the scanner is not dynamic or automatic
+    //It is also not fault tolerant with regards to getting to the end of blocks
     val client = new BitcoinClient
     for (a <- 1 to 100) {
 
