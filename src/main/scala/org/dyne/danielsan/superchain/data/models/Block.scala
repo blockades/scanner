@@ -50,27 +50,27 @@ sealed class BlockColumnFamily extends CassandraTable[BlockColumnFamily, Block] 
 
   object hash extends StringColumn(this) with PartitionKey[String]
 
-  object confirmations extends IntColumn(this) with ClusteringOrder[Int] with Descending
+  object confirmations extends IntColumn(this)
 
-  object size extends IntColumn(this) with ClusteringOrder[Int] with Descending
+  object size extends IntColumn(this)
 
   object height extends IntColumn(this) with ClusteringOrder[Int] with Descending
 
-  object version extends IntColumn(this) with ClusteringOrder[Int] with Descending
+  object version extends IntColumn(this)
 
-  object merkleroot extends StringColumn(this) with ClusteringOrder[String] with Descending
+  object merkleroot extends StringColumn(this)
 
   object tx extends ListColumn[BlockColumnFamily, Block, String](this)
 
   object time extends LongColumn(this) with ClusteringOrder[Long] with Descending
 
-  object nonce extends LongColumn(this) with ClusteringOrder[Long] with Descending
+  object nonce extends LongColumn(this)
 
-  object bits extends StringColumn(this) with ClusteringOrder[String] with Descending
+  object bits extends StringColumn(this)
 
-  object difficulty extends FloatColumn(this) with ClusteringOrder[Float] with Descending
+  object difficulty extends FloatColumn(this)
 
-  object chainwork extends StringColumn(this) with ClusteringOrder[String] with Descending
+  object chainwork extends StringColumn(this)
 
   object previousblockhash extends StringColumn(this)
 

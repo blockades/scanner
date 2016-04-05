@@ -38,9 +38,9 @@ sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFam
 
   object txid extends StringColumn(this) with PartitionKey[String]
 
-  object version extends IntColumn(this) with ClusteringOrder[Int] with Descending
+  object version extends IntColumn(this)
 
-  object locktime extends IntColumn(this) with ClusteringOrder[Int] with Descending
+  object locktime extends IntColumn(this)
 
   object vout extends JsonListColumn[TransactionColumnFamily, Transaction, Vout](this) {
     override def fromJson(obj: String): Vout = {
