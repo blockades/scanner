@@ -26,8 +26,10 @@ object Driver {
 
     //Known limitation here is that the scanner is not dynamic or automatic
     //It is also not fault tolerant with regards to getting to the end of blocks
+    //echo `bitcoin-cli getblockcount 2>&1`/`wget -O - http://blockchain.info/q/getblockcount 2>/dev/null`
+
     val client = new BitcoinClient
-    for (a <- 1 to 100) {
+    for (a <- 1 to 136701) {
 
       val t = client.decodeRawTransaction(a)
       println("Transaction: " + t)
