@@ -61,6 +61,22 @@ If everything is setup correctly, then you should be able to issue the commands 
 
 ---
 
+# superchain #
+
+## Build & Run ##
+
+```sh
+$ cd superchain
+$ ./sbt
+> jetty:start
+> browse
+```
+
+If `browse` doesn't launch your browser, manually open [http://localhost:8080/](http://localhost:8080/) in your browser.
+
+
+---
+
 ### High Level Steps:
 
 > $ bitcoin-cli getblockhash <INTEGER>
