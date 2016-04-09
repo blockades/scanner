@@ -42,7 +42,7 @@ You can use Bitcoin or bitcoind to send commands to Bitcoin/bitcoind running on 
 
 > rpcconnect=127.0.0.1
 
-> # You must set rpcuser and rpcpassword to secure the JSON-RPC api
+> You must set rpcuser and rpcpassword to secure the JSON-RPC api
 > rpcuser=test
 > rpcpassword=test
 
