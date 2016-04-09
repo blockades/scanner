@@ -36,6 +36,7 @@ Follow the official documentation to install [bitcoin daemon](https://bitcoin.or
 For accessing the bitcoin server ensure that bitcoin.conf has the following options enabled.
 
 > Listen for RPC connections on this TCP port:
+
 > rpcport=8332
 
 You can use Bitcoin or bitcoind to send commands to Bitcoin/bitcoind running on another host using this option:
@@ -43,7 +44,9 @@ You can use Bitcoin or bitcoind to send commands to Bitcoin/bitcoind running on 
 > rpcconnect=127.0.0.1
 
 > You must set rpcuser and rpcpassword to secure the JSON-RPC api
+
 > rpcuser=test
+
 > rpcpassword=test
 
 Bitcoin sever does not automatically create the full transaction index, so you will need to ensure that you have the flags enabled.
@@ -54,9 +57,11 @@ By doing so you ensure you have a local index of the transactions which you are 
 
 Within this codebase you need to ensure that BitcoinClient.scala 
 
->   def auth = {
+```scala
+   def auth = {
       "Basic " + Base64.encodeString("test:test")
     }
+    ```
     
 Ensure that your username and password matches that which you set up in the bitcoin.conf (which you downloaded as part of the bitcoin daemon).
 
