@@ -75,10 +75,34 @@ If everything is setup correctly, then you should be able to issue the commands 
 
 Follow the official documentation to download and install [cassandra](http://cassandra.apache.org/download/)
 
+
+#### Build & Run Scalatra App
+
+```sh
+$ cd superchain
+$ ./sbt
+> jetty:start
+> browse
+```
+
+If `browse` doesn't launch your browser, manually open [http://localhost:8080/](http://localhost:8080/) in your browser.
+
 #### Last notes
 
-To have this running you need to ensure there is both a running version of cassandra and also a running version of the
-bitcoin daemon. 
+To have this running you need to ensure there is both a running version of cassandra and also a running version of the bitcoin daemon. It is not required that you run the Scalatra App
+
+### Testing your setup (Bitcoin and Cassandra)
+
+```sh
+// This turns on the indexed version of the bitcoin server, making all transaction and block data available
+$ bitcoind -daemon -reindex -txindex
+$ cd path/to/cassandra
+// This turns on your cassandra DB
+$ ./bin/cassandra
+$ cd superchain
+$ sbt
+$ run
+```
 
 ---
 
