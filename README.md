@@ -4,7 +4,7 @@ openblockchain is a Bitcoin blockchain explorer focusing on 'more-than-economic'
 
 The first implementation of this seeks to identify transactions which contain the OP_RETURN flag. More background on the introduction of OP_RETURN can be found [here](http://www.slideshare.net/coinspark/bitcoin-2-and-opreturns-the-blockchain-as-tcpip).
 
-In a nutshell the plan is to run a bitcoin server. Scala will be used to build a scanner which crawls through the entire Bitcoin blockchain to extract all block and transaction information. It's planned to then extract the entire bitcoin blockchain into cassandra to create a more easily queryable format of the blockchain and all Bitcoin transactions.
+In a nutshell the plan is to run a bitcoin server. Scala will be used to build a scanner which crawls through the entire Bitcoin blockchain to extract all block and transaction information into cassandra to create a more easily queryable format of the blockchain and all Bitcoin transactions.
 
 Once this has been done the plan is to make an interactive web interface (similar to [blockchain.info](https://blockchain.info/charts)) which displays the number of insertions of 'more-than-economic' uses of the blockchain. 
 
@@ -29,8 +29,9 @@ At the time of writing the Bitcoin blockchain is 80GB of transaction data. One o
 
 ### Setup
 
-Need to install [bitcoin daemon](https://bitcoin.org/en/full-node#what-is-a-full-node) & also [cassandra](http://cassandra.apache.org/download/)
+#### Bitcoin Daemon
 
+Follow the official documentation to install [bitcoin daemon](https://bitcoin.org/en/full-node#what-is-a-full-node).
 
 For accessing the bitcoin server ensure that bitcoin.conf has the following options enabled.
 
@@ -41,55 +42,42 @@ You can use Bitcoin or bitcoind to send commands to Bitcoin/bitcoind running on 
 
 > rpcconnect=127.0.0.1
 
-To have this running you need to ensure there is both a running version of cassandra and also a running version of the
-bitcoin daemon. Bitcoin sever does not automatically create the full transaction index, so you will need to ensure that
-you have the flags enabled.
+> # You must set rpcuser and rpcpassword to secure the JSON-RPC api
+> rpcuser=test
+> rpcpassword=test
+
+Bitcoin sever does not automatically create the full transaction index, so you will need to ensure that you have the flags enabled.
 
 > bitcoind -daemon -reindex -txindex
 
 By doing so you ensure you have a local index of the transactions which you are querying.
 
-Within this code base you need to ensure that BitcoinClient.scala 
+Within this codebase you need to ensure that BitcoinClient.scala 
 
 >   def auth = {
-      "Basic " + Base64.encodeString("username:password")
+      "Basic " + Base64.encodeString("test:test")
     }
     
 Ensure that your username and password matches that which you set up in the bitcoin.conf (which you downloaded as part of the bitcoin daemon).
 
 If everything is setup correctly, then you should be able to issue the commands in the High Level Steps.
 
----
+#### Cassandra
 
-### High Level Steps:
+Follow the official documentation to download and install [cassandra](http://cassandra.apache.org/download/)
 
-> $ bitcoin-cli getblockhash <INTEGER>
+#### Last notes
 
-- get blockhash (how to figure out which is the latest?)
-- insert the blockhash into the DB
-- Loop through all INTEGERS till all blockhashes have been inserted into the DB
-(another way to do this is from the JSON from the block itself as it has 'next' and 'previous')
-
-> $ bitcoin-cli getblock <BLOCKHASH>
-
-- Loop through all blockhashes in the DB and get the block JSON and insert into the DB
-
-    NEED TO WRITE LOOP for each block JSON
-
-- Loop through each block and extract into the DB a list of all tx from within the block (these are the rawTransactions)
-- This means looping through each tx array to extract each tx code within the array for each block
-
-> $ bitcoin-cli getrawtransaction <RAW-TX-ID>
-
-- Loop through all RawTransactions
-- Insert JSON response into Transaction within DB
+To have this running you need to ensure there is both a running version of cassandra and also a running version of the
+bitcoin daemon. 
 
 ---
 
-### Example Bitcoin Server Commands
+### Example Bitcoin Server Commands (i.e. sanity check that the bitcoin client is working):
 
-The following are the primary commands of the bitcoin server which we need to issue to be able to build up a 'full'
-version of the bitcoin blockchain.
+Providing the bitcoin daemon has been correctly installed you should be able to issue the following commands at the commandline interface
+
+The following are the primary commands of the bitcoin server which we need to issue to be able to build up a 'full' version of the bitcoin blockchain.
 
 The route of commands that we go through is:
 
@@ -159,32 +147,6 @@ The route of commands that we go through is:
 
 ---
 
-### All of the below are working notes and TODO items
-
-### NEXT STEPS:
-
-    - [DONE] Write model for blockhash 
-    - [DONE] Insert the blockhash into the DB (using fixed value)
-    - [DONE] Write a loop to go through all integers to get all blockhashes and insert each into DB
-
-    - [DONE] Write model for block
-    - [DONE] Insert a block JSON into the DB using a hardcoded value
-    - [DONE] Write loop to go through all blockhashes to extract all block JSON and insert into DB
-
-    - [DONE] Write model for RAW-TX-ID
-    - [DONE] Write a function which can extract the RAW-TX-ID from the block JSON (using fixed block JSON to begin with)
-    - [DONE] Write a function which can insert RAW-TX-IDs into DB
-    - [DONE] Write a loop which can go through all blocks, extract RAW-TX-ID and insert into DB
-
-    - [DONE] Write a function which can insert Transaction into DB (using fixed value)
-    - [DONE] Write a function which loops through all the RAW-TX-ID and then inserts the Transaction JSON into DB
-
-    - Write a function which can go through all the Transactions and note if they have OP_RETURN or not
-    - **Question: Does ^ step require a new Model?
-    - **It might be enough to use Angular to pull that right out of the DB and stick it up on a chart
-
----
-
 ### TODO
 
 - none of this has been TDD, so a big area I need to work on is how to write tests and move forward that way... will do
@@ -198,32 +160,3 @@ this once I get my head around one CORE route to make sure there are no super ba
  - Have also not considered how to use https://gephi.org/ (if at all)
 
  - Must set up server and run blockchain so there is a full transaction history available on the server
-
-### PAST TODO:
-
-Do this for getrawtransaction at first, with hardcoded values to begin with.
-
-figure out how to get the BITCOIN-RPC to work within the existing code (at the moment there are two competing uses of
-App)
-
-— does it currently have the correct fields for what is a chainEntry? (look at ChainRepository.scala and look over actual
-output from bitcoin server to see which info would be best to be recorded)
-— What constitutes a complete query able blockchain in cassandra
-— try to get an insertion into Cassandra through the ‘correct route’ (i.e. through the existing code which is similar to
-WhiskeySteak)
-
-### NOT YET
-— this might include getting INPUT from OUTPUT of previous methods (such as the chain of commands needed to get to the
-correct level to find OP_RETURN
-
-/**
-  * TODO FOR CODING
-  * What needs to happen now is to upgrade to the latest phantom DSL
-  * This will require looking through: http://outworkers.com/blog/post/a-series-on-phantom-part-1-getting-started-with-phantom
-  * Once I have updated this I then need to make sure that I can still insert
-  * Once I have done this I then need to get working with the Transaction class
-  * Once I have done this I then need to reassess approach for MVP
-  * Also need to consider more thorough testing - what is the minimum amount
-  * Pie in the sky is to also use spark - but this should come after the MVP (data + visualisation + sonification?)
-  *
-  */
