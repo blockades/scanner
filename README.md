@@ -63,7 +63,7 @@ Within this codebase you need to ensure that BitcoinClient.scala
 
 ```scala
    def auth = {
-      "Basic " + Base64.encodeString("test:test")
+      "Basic " + Base64.encodeString("test:test1")
     }
 ```
     
