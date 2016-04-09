@@ -90,7 +90,7 @@ class BitcoinClient {
   private
 
   def auth = {
-    "Basic " + Base64.encodeString("test:test")
+    "Basic " + Base64.encodeString("test:test1")
   }
 }
 
