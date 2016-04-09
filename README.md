@@ -61,7 +61,7 @@ Within this codebase you need to ensure that BitcoinClient.scala
    def auth = {
       "Basic " + Base64.encodeString("test:test")
     }
-    ```
+```
     
 Ensure that your username and password matches that which you set up in the bitcoin.conf (which you downloaded as part of the bitcoin daemon).
 
