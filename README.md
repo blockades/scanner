@@ -8,6 +8,8 @@ In a nutshell the plan is to run a bitcoin server. Scala will be used to build a
 
 Once this has been done the plan is to make an interactive web interface (similar to [blockchain.info](https://blockchain.info/charts)) which displays the number of insertions of 'more-than-economic' uses of the blockchain. 
 
+---
+
 ### Project Aims
 
 #### Technologies
@@ -26,6 +28,8 @@ One of the main purposes of this project is to learn a new stack of technologies
 #### Big Data Analysis
 
 At the time of writing the Bitcoin blockchain is 80GB of transaction data. One of the key areas of focus for this project is to learn some techniques and tools to make some useful learnings from a sizeable data-set. Once the foundations of the blockchain scanner have been built, the focus will turn to data visualisation/sonification and BDA tools and techniques.
+
+---
 
 ### Setup
 
