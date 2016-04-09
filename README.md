@@ -65,7 +65,7 @@ Within this codebase you need to ensure that BitcoinClient.scala
     
 Ensure that your username and password matches that which you set up in the bitcoin.conf (which you downloaded as part of the bitcoin daemon).
 
-If everything is setup correctly, then you should be able to issue the commands in the High Level Steps.
+If everything is setup correctly, then you should be able to issue the commands in the following section: Example Bitcoin Server Commands.
 
 #### Cassandra
 
