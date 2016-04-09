@@ -49,7 +49,7 @@ You can use Bitcoin or bitcoind to send commands to Bitcoin/bitcoind running on 
 
 > rpcpassword=test
 
-Bitcoin sever does not automatically create the full transaction index, so you will need to ensure that you have the flags enabled.
+Bitcoin sever does not automatically create the full transaction index, so you will need to ensure that you have the flags enabled. You do this by issuing the following command on the command line when you are initiating the bitcoin server.
 
 > bitcoind -daemon -reindex -txindex
 
