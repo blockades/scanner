@@ -37,6 +37,8 @@ At the time of writing the Bitcoin blockchain is 80GB of transaction data. One o
 
 Follow the official documentation to install [bitcoin daemon](https://bitcoin.org/en/full-node#what-is-a-full-node). Ensure you follow the directions to install the **daemon**. The main bitcoin-qt client does not ship with the developer tools and bitcoin command line interface (bitcoin-cli) for the bitcoin server, which we need.
 
+There is a boilerplate bitcoin.conf (bitcoin-example.conf) attached to this project. Rename the file to `bitcoin.conf` and then move the file to the root of the `Bitcoin` folder which was downloaded with the Bitcoin Daemon link. It contains the username and password which will work as the deafault for this project.
+
 For accessing the bitcoin server ensure that bitcoin.conf has the following options enabled.
 
 > Listen for RPC connections on this TCP port:
