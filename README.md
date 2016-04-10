@@ -41,23 +41,31 @@ There is a boilerplate bitcoin.conf (bitcoin-example.conf) attached to this proj
 
 For accessing the bitcoin server ensure that bitcoin.conf has the following options enabled.
 
-> Listen for RPC connections on this TCP port:
+```sh
+# Listen for RPC connections on this TCP port:
 
-> rpcport=8332
+rpcport=8332
+```
 
 You can use Bitcoin or bitcoind to send commands to Bitcoin/bitcoind running on another host using this option:
 
-> rpcconnect=127.0.0.1
+```sh
+rpcconnect=127.0.0.1
+```
 
-> You must set rpcuser and rpcpassword to secure the JSON-RPC api
+```sh
+# You must set rpcuser and rpcpassword to secure the JSON-RPC api
 
-> rpcuser=test
+rpcuser=test
 
-> rpcpassword=test1
+rpcpassword=test1
+```
 
 Bitcoin sever does not automatically create the full transaction index, so you will need to ensure that you have the flags enabled. You do this by issuing the following command on the command line when you are initiating the bitcoin server.
 
-> bitcoind -daemon -reindex -txindex
+```sh
+$ bitcoind -daemon -reindex -txindex
+```
 
 By doing so you ensure you have a local index of the transactions which you are querying.
 
@@ -78,7 +86,7 @@ If everything is setup correctly, then you should be able to issue the commands 
 Follow the official documentation to download and install [cassandra](http://cassandra.apache.org/download/)
 
 
-#### Build & Run Scalatra App
+#### Build & Run Scalatra App (at the moment this is optional, as the Bitcoin and Cassandra sections are testable without needing to run the Webapp)
 
 ```sh
 $ cd superchain
