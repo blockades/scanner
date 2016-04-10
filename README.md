@@ -35,7 +35,7 @@ At the time of writing the Bitcoin blockchain is 80GB of transaction data. One o
 
 #### Bitcoin Daemon
 
-Follow the official documentation to install [bitcoin daemon](https://bitcoin.org/en/full-node#what-is-a-full-node).
+Follow the official documentation to install [bitcoin daemon](https://bitcoin.org/en/full-node#what-is-a-full-node). Ensure you follow the directions to install the **daemon**. The main bitcoin-qt client does not ship with the developer tools and bitcoin command line interface (bitcoin-cli) for the bitcoin server, which we need.
 
 For accessing the bitcoin server ensure that bitcoin.conf has the following options enabled.
 
@@ -51,7 +51,7 @@ You can use Bitcoin or bitcoind to send commands to Bitcoin/bitcoind running on 
 
 > rpcuser=test
 
-> rpcpassword=test
+> rpcpassword=test1
 
 Bitcoin sever does not automatically create the full transaction index, so you will need to ensure that you have the flags enabled. You do this by issuing the following command on the command line when you are initiating the bitcoin server.
 
