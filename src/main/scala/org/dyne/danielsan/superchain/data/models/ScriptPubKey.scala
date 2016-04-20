@@ -31,13 +31,13 @@ sealed class ScriptPubKeyColumnFamily extends CassandraTable[ScriptPubKeyColumnF
     )
   }
 
-  object hex extends StringColumn(this) with PartitionKey[String]
+  object hex extends StringColumn(this)
 
-  object asm extends StringColumn(this) with ClusteringOrder[String] with Descending
+  object asm extends StringColumn(this)
 
-  object `type` extends StringColumn(this) with ClusteringOrder[String] with Descending
+  object `type` extends StringColumn(this)
 
-  object reqSigs extends IntColumn(this) with ClusteringOrder[Int] with Descending
+  object reqSigs extends IntColumn(this)
 
   object addresses extends ListColumn[ScriptPubKeyColumnFamily, ScriptPubKey, String](this) with Index[List[String]]
 

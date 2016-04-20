@@ -30,9 +30,9 @@ sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
     )
   }
 
-  object value extends FloatColumn(this) with PartitionKey[Float]
+  object value extends FloatColumn(this)
 
-  object n extends IntColumn(this) with ClusteringOrder[Int] with Descending
+  object n extends IntColumn(this)
 
   object scriptPubKey extends JsonColumn[VoutColumnFamily, Vout, ScriptPubKey](this){
     override def fromJson(obj: String): ScriptPubKey = {

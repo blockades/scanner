@@ -26,9 +26,9 @@ sealed class VinColumnFamily extends CassandraTable[VinColumnFamily, Vin] {
     )
   }
 
-  object coinbase extends StringColumn(this) with PartitionKey[String]
+  object coinbase extends StringColumn(this)
 
-  object sequence extends IntColumn(this) with PartitionKey[Int]
+  object sequence extends IntColumn(this)
 }
 
 abstract class VinTable extends VinColumnFamily with RootConnector {
