@@ -34,7 +34,7 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
 
   object block extends BlockTable with keyspace.Connector
 
-  object tx extends TransactionTable with keyspace.Connector
+  object tx extends ConcreteTransactionsModel with keyspace.Connector
 
 }
 

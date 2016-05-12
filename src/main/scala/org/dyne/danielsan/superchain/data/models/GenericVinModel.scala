@@ -13,11 +13,9 @@ import scala.concurrent.Future
   * Created by dan_mi_sun on 30/03/2016.
   */
 
-sealed class VinColumnFamily extends CassandraTable[VinColumnFamily, Vin] {
+sealed class VinsModel extends CassandraTable[ConcreteVinsModel, Vin] {
 
   implicit val formats = DefaultFormats
-
-  override def tableName: String = "vins"
 
   override def fromRow(row: Row): Vin = {
     Vin(
@@ -31,7 +29,7 @@ sealed class VinColumnFamily extends CassandraTable[VinColumnFamily, Vin] {
   object sequence extends IntColumn(this)
 }
 
-abstract class VinTable extends VinColumnFamily with RootConnector {
+abstract class ConcreteVinsModel  extends VinsModel  with RootConnector {
 
   override val tableName = "vins"
 

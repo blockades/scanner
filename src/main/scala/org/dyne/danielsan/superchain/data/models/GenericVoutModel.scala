@@ -16,11 +16,9 @@ import org.json4s.jackson.Serialization.write
 
 
 
-sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
+sealed class VoutsModel extends CassandraTable[VoutsModel, Vout] {
 
   implicit val formats = Serialization.formats(NoTypeHints)
-
-  override def tableName: String = "vouts"
 
   override def fromRow(row: Row): Vout = {
     Vout(
@@ -34,7 +32,7 @@ sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
 
   object n extends IntColumn(this)
 
-  object scriptPubKey extends JsonColumn[VoutColumnFamily, Vout, ScriptPubKey](this){
+  object scriptPubKey extends JsonColumn[VoutsModel, Vout, ScriptPubKey](this){
     override def fromJson(obj: String): ScriptPubKey = {
       parse(obj).extract[ScriptPubKey]
     }
@@ -45,11 +43,11 @@ sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
   }
 }
 
-abstract class VoutTable extends VoutColumnFamily with RootConnector {
+abstract class ConcreteVoutsModel extends VoutsModel with RootConnector {
 
   override val tableName = "vouts"
 
-  def insertNewVout(v: Vout) = {
+  def store(v: Vout) = {
     insert
       .value(_.value, v.value)
       .value(_.n, v.n)

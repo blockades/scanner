@@ -15,11 +15,9 @@ import scala.concurrent.Future
   * Created by dan_mi_sun on 27/02/2016.
   */
 
-sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFamily, Transaction] {
+sealed class TransactionsModel extends CassandraTable[TransactionsModel, Transaction] {
 
   implicit val formats = Serialization.formats(NoTypeHints)
-
-  override def tableName: String = "transactions"
 
   override def fromRow(row: Row): Transaction = {
     Transaction(
@@ -37,7 +35,7 @@ sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFam
 
   object locktime extends IntColumn(this)
 
-  object vout extends JsonListColumn[TransactionColumnFamily, Transaction, Vout](this) {
+  object vout extends JsonListColumn[TransactionsModel, Transaction, Vout](this) {
     override def fromJson(obj: String): Vout = {
       parse(obj).extract[Vout]
     }
@@ -47,7 +45,7 @@ sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFam
     }
   }
 
-  object vin extends JsonListColumn[TransactionColumnFamily, Transaction, Vin](this) {
+  object vin extends JsonListColumn[TransactionsModel, Transaction, Vin](this) {
     override def fromJson(obj: String): Vin = {
       parse(obj).extract[Vin]
     }
@@ -59,7 +57,7 @@ sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFam
 
 }
 
-abstract class TransactionTable extends TransactionColumnFamily with RootConnector {
+abstract class ConcreteTransactionsModel extends TransactionsModel with RootConnector {
 
   override val tableName = "transactions"
 

@@ -12,11 +12,9 @@ import scala.concurrent.Future
   * Created by dan_mi_sun on 30/03/2016.
   */
 
-sealed class ScriptPubKeyColumnFamily extends CassandraTable[ScriptPubKeyColumnFamily, ScriptPubKey] {
+sealed class ScriptPubKeysModel extends CassandraTable[ScriptPubKeysModel, ScriptPubKey] {
 
   implicit val formats = DefaultFormats
-
-  override def tableName: String = "scriptpubkeys"
 
   override def fromRow(row: Row): ScriptPubKey = {
     ScriptPubKey(
@@ -36,11 +34,11 @@ sealed class ScriptPubKeyColumnFamily extends CassandraTable[ScriptPubKeyColumnF
 
   object reqSigs extends IntColumn(this)
 
-  object addresses extends ListColumn[ScriptPubKeyColumnFamily, ScriptPubKey, String](this) with Index[List[String]]
+  object addresses extends ListColumn[ScriptPubKeysModel, ScriptPubKey, String](this) with Index[List[String]]
 
 }
 
-abstract class ScriptPubKeyTable extends ScriptPubKeyColumnFamily with RootConnector {
+abstract class ConcreteScriptPubKeysModel extends ScriptPubKeysModel with RootConnector {
 
   override val tableName = "scriptpubkeys"
 

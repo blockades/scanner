@@ -1,7 +1,5 @@
 package org.dyne.danielsan.superchain.data.entity
 
-import org.dyne.danielsan.superchain.data.entity.{Vin,Vout}
-
 /**
   * Created by dan_mi_sun on 12/05/2016.
   */
