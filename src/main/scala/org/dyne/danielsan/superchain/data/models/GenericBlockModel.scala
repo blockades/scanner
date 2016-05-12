@@ -12,7 +12,7 @@ import scala.concurrent.Future
   * Created by dan_mi_sun on 27/02/2016.
   */
 
-sealed class BlockColumnFamily extends CassandraTable[BlockColumnFamily, Block] {
+sealed class BlocksModel extends CassandraTable[BlocksModel, Block] {
 
   override def fromRow(row: Row): Block = {
     Block(
@@ -45,7 +45,7 @@ sealed class BlockColumnFamily extends CassandraTable[BlockColumnFamily, Block] 
 
   object merkleroot extends StringColumn(this)
 
-  object tx extends ListColumn[BlockColumnFamily, Block, String](this)
+  object tx extends ListColumn[BlocksModel, Block, String](this)
 
   object time extends LongColumn(this)
 
@@ -63,7 +63,7 @@ sealed class BlockColumnFamily extends CassandraTable[BlockColumnFamily, Block] 
 
 }
 
-abstract class BlockTable extends BlockColumnFamily with RootConnector {
+abstract class ConcreteBlocksModel extends BlocksModel with RootConnector {
 
   override val tableName = "blocks"
 
