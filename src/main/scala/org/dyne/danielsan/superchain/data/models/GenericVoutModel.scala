@@ -2,7 +2,7 @@ package org.dyne.danielsan.superchain.data.models
 
 import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._
-import org.dyne.danielsan.superchain.data.entity.ScriptPubKey
+import org.dyne.danielsan.superchain.data.entity.{Vout, ScriptPubKey}
 import org.json4s._
 import org.json4s.jackson.Serialization
 import org.json4s.jackson.JsonMethods._
@@ -19,6 +19,8 @@ import org.json4s.jackson.Serialization.write
 sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
 
   implicit val formats = Serialization.formats(NoTypeHints)
+
+  override def tableName: String = "vouts"
 
   override def fromRow(row: Row): Vout = {
     Vout(

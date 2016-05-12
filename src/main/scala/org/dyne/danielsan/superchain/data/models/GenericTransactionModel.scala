@@ -19,6 +19,7 @@ sealed class TransactionColumnFamily extends CassandraTable[TransactionColumnFam
 
   implicit val formats = Serialization.formats(NoTypeHints)
 
+  override def tableName: String = "transactions"
 
   override def fromRow(row: Row): Transaction = {
     Transaction(

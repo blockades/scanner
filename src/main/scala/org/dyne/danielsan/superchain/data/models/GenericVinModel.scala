@@ -17,6 +17,8 @@ sealed class VinColumnFamily extends CassandraTable[VinColumnFamily, Vin] {
 
   implicit val formats = DefaultFormats
 
+  override def tableName: String = "vins"
+
   override def fromRow(row: Row): Vin = {
     Vin(
       coinbase(row),

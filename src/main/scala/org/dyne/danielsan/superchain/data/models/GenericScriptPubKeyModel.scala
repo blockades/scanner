@@ -16,6 +16,8 @@ sealed class ScriptPubKeyColumnFamily extends CassandraTable[ScriptPubKeyColumnF
 
   implicit val formats = DefaultFormats
 
+  override def tableName: String = "scriptpubkeys"
+
   override def fromRow(row: Row): ScriptPubKey = {
     ScriptPubKey(
       hex(row),
