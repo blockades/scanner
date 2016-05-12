@@ -1,10 +1,10 @@
-package org.dyne.danielsan.superchain.data.cassandra.repositories
+package org.dyne.danielsan.superchain.data.database
 
 import com.websudos.phantom.db.DatabaseImpl
 import com.websudos.phantom.dsl._
-import org.dyne.danielsan.superchain.data.cassandra.init.Config
-import org.dyne.danielsan.superchain.data.models._
+import org.dyne.danielsan.superchain.data.connector.Config
 import org.dyne.danielsan.superchain.data.entity._
+import org.dyne.danielsan.superchain.data.model._
 
 
 

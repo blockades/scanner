@@ -1,4 +1,4 @@
-package org.dyne.danielsan.superchain.data.models
+package org.dyne.danielsan.superchain.data.model
 
 import com.datastax.driver.core.{ResultSet, Row}
 import com.websudos.phantom.CassandraTable

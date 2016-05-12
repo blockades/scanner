@@ -1,7 +1,7 @@
 package org.dyne.danielsan.superchain
 
 import org.dyne.danielsan.superchain.client.BitcoinClient
-import org.dyne.danielsan.superchain.data.cassandra.repositories.ChainDatabase
+import org.dyne.danielsan.superchain.data.database.ChainDatabase
 import org.json4s.DefaultFormats
 
 import scala.concurrent.Await

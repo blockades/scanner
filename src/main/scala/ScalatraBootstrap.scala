@@ -1,6 +1,5 @@
 import javax.servlet.ServletContext
-
-import org.dyne.danielsan.superchain.data.cassandra.repositories.ChainDatabase
+import org.dyne.danielsan.superchain.data.database.ChainDatabase
 import org.dyne.danielsan.superchain.http.controllers.api.ChartsController
 import org.scalatra._
 

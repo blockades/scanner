@@ -1,4 +1,4 @@
-package org.dyne.danielsan.superchain.data.models
+package org.dyne.danielsan.superchain.data.model
 
 import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._

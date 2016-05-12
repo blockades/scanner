@@ -1,4 +1,4 @@
-package org.dyne.danielsan.superchain.data.cassandra.init
+package org.dyne.danielsan.superchain.data.connector
 
 import com.websudos.phantom.connectors.{ContactPoint, KeySpace, KeySpaceBuilder, KeySpaceDef}
 
