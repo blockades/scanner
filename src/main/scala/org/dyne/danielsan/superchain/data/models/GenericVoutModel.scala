@@ -2,6 +2,7 @@ package org.dyne.danielsan.superchain.data.models
 
 import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._
+import org.dyne.danielsan.superchain.data.entity.{Vout, ScriptPubKey}
 import org.json4s._
 import org.json4s.jackson.Serialization
 import org.json4s.jackson.JsonMethods._
@@ -13,12 +14,9 @@ import org.json4s.jackson.Serialization.write
   * Created by dan_mi_sun on 30/03/2016.
   */
 
-case class Vout(value: Float,
-                n: Int,
-                scriptPubKey: ScriptPubKey
-               )
 
-sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
+
+sealed class VoutsModel extends CassandraTable[VoutsModel, Vout] {
 
   implicit val formats = Serialization.formats(NoTypeHints)
 
@@ -30,11 +28,11 @@ sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
     )
   }
 
-  object value extends FloatColumn(this) with PartitionKey[Float]
+  object value extends FloatColumn(this)
 
-  object n extends IntColumn(this) with ClusteringOrder[Int] with Descending
+  object n extends IntColumn(this)
 
-  object scriptPubKey extends JsonColumn[VoutColumnFamily, Vout, ScriptPubKey](this){
+  object scriptPubKey extends JsonColumn[VoutsModel, Vout, ScriptPubKey](this){
     override def fromJson(obj: String): ScriptPubKey = {
       parse(obj).extract[ScriptPubKey]
     }
@@ -45,11 +43,11 @@ sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
   }
 }
 
-abstract class VoutTable extends VoutColumnFamily with RootConnector {
+abstract class ConcreteVoutsModel extends VoutsModel with RootConnector {
 
   override val tableName = "vouts"
 
-  def insertNewVout(v: Vout) = {
+  def store(v: Vout) = {
     insert
       .value(_.value, v.value)
       .value(_.n, v.n)

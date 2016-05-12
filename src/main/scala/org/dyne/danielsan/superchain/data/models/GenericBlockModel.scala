@@ -4,28 +4,13 @@ import com.datastax.driver.core.{ResultSet, Row}
 import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._
 import com.websudos.phantom.iteratee.Iteratee
+import org.dyne.danielsan.superchain.data.entity.Block
 
 import scala.concurrent.Future
 
 /**
   * Created by dan_mi_sun on 27/02/2016.
   */
-
-case class Block(hash: String,
-                 confirmations: Int,
-                 size: Int,
-                 height: Int,
-                 version: Int,
-                 merkleroot: String,
-                 tx: List[String],
-                 time: Long,
-                 nonce: Long,
-                 bits: String,
-                 difficulty: Float,
-                 chainwork: String,
-                 previousblockhash: String,
-                 nextblockhash: String)
-
 
 sealed class BlockColumnFamily extends CassandraTable[BlockColumnFamily, Block] {
 
@@ -54,7 +39,7 @@ sealed class BlockColumnFamily extends CassandraTable[BlockColumnFamily, Block] 
 
   object size extends IntColumn(this)
 
-  object height extends IntColumn(this) with ClusteringOrder[Int] with Descending
+  object height extends IntColumn(this)
 
   object version extends IntColumn(this)
 
@@ -62,7 +47,7 @@ sealed class BlockColumnFamily extends CassandraTable[BlockColumnFamily, Block] 
 
   object tx extends ListColumn[BlockColumnFamily, Block, String](this)
 
-  object time extends LongColumn(this) with ClusteringOrder[Long] with Descending
+  object time extends LongColumn(this)
 
   object nonce extends LongColumn(this)
 

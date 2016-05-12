@@ -171,7 +171,7 @@ The route of commands that we go through is:
       "n" : 0,
       "scriptPubKey" : {
         "asm" : "0496b538e853519c726a2c91e61ec11600ae1390813a627c66fb8be7947be63c52da7589379515d4e0a604f8141781e6229472
-        1166bf621e73a82cbf2342c858ee OP_CHECKSIG",
+            1166bf621e73a82cbf2342c858ee OP_CHECKSIG",
         "hex" : "410496b538e853519c726a2c91e61ec11600ae1390813a627c66fb8be7947be63c52da7589379515d4e0a604f8141781e62294
         721166bf621e73a82cbf2342c858eeac",
         "reqSigs" : 1,
@@ -197,9 +197,17 @@ this once I get my head around one CORE route to make sure there are no super ba
 - ideally it would be nice to set up some automated tests such as with Jenkins - but this is pie in the sky thinking
  - Have also not considered how to use Spark
  - Have also not considered how to use Kafka (if at all)
- - Have also not considered how to use Angular
  - Have also not considered how to use ReactJS
  - Have also not considered how to use Scalatra
  - Have also not considered how to use https://gephi.org/ (if at all)
 
  - Must set up server and run blockchain so there is a full transaction history available on the server
+ 
+ ---
+ 
+ Cassandra Modelling
+ 
+ - Query1 should find a block by it's hash
+ - Query2 should find a transaction by it's hash
+ - Query3 should find all transactions with OP_RETURN
+    - need to figure out the specifics of this query

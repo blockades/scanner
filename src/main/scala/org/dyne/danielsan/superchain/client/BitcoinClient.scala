@@ -1,6 +1,6 @@
 package org.dyne.danielsan.superchain.client
 
-import org.dyne.danielsan.superchain.data.models.{Block, Transaction}
+import org.dyne.danielsan.superchain.data.entity.{Block, Transaction}
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
 import org.json4s.{DefaultFormats, _}
