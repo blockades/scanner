@@ -2,7 +2,7 @@ package org.dyne.danielsan.superchain.data.models
 
 import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._
-import org.dyne.danielsan.superchain.data.entity.Transaction
+import org.dyne.danielsan.superchain.data.entity.{Vin, Vout, Transaction}
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
