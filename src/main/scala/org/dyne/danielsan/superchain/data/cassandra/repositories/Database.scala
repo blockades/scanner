@@ -30,7 +30,7 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
     Batch.logged
   }
 
-  object block extends BlockTable with keyspace.Connector
+  object block extends ConcreteBlocksModel with keyspace.Connector
 
   object tx extends ConcreteTransactionsModel with keyspace.Connector
 
