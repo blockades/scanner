@@ -2,6 +2,7 @@ package org.dyne.danielsan.superchain.data.models
 
 import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._
+import org.dyne.danielsan.superchain.data.entity.ScriptPubKey
 import org.json4s._
 
 import scala.concurrent.Future
@@ -10,12 +11,6 @@ import scala.concurrent.Future
 /**
   * Created by dan_mi_sun on 30/03/2016.
   */
-
-case class ScriptPubKey(hex: String,
-                        asm: String,
-                        `type`: String,
-                        reqSigs: Int,
-                        addresses: List[String])
 
 sealed class ScriptPubKeyColumnFamily extends CassandraTable[ScriptPubKeyColumnFamily, ScriptPubKey] {
 

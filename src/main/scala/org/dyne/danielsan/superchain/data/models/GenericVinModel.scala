@@ -2,6 +2,7 @@ package org.dyne.danielsan.superchain.data.models
 
 import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._
+import org.dyne.danielsan.superchain.data.entity.Vin
 import org.json4s._
 
 import scala.concurrent.Future
@@ -11,9 +12,6 @@ import scala.concurrent.Future
 /**
   * Created by dan_mi_sun on 30/03/2016.
   */
-
-case class Vin(coinbase: String,
-               sequence: Int)
 
 sealed class VinColumnFamily extends CassandraTable[VinColumnFamily, Vin] {
 

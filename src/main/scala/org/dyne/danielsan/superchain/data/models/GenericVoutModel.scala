@@ -2,6 +2,7 @@ package org.dyne.danielsan.superchain.data.models
 
 import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._
+import org.dyne.danielsan.superchain.data.entity.ScriptPubKey
 import org.json4s._
 import org.json4s.jackson.Serialization
 import org.json4s.jackson.JsonMethods._
@@ -13,10 +14,7 @@ import org.json4s.jackson.Serialization.write
   * Created by dan_mi_sun on 30/03/2016.
   */
 
-case class Vout(value: Float,
-                n: Int,
-                scriptPubKey: ScriptPubKey
-               )
+
 
 sealed class VoutColumnFamily extends CassandraTable[VoutColumnFamily, Vout] {
 

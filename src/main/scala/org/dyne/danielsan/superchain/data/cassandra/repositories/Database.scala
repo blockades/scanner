@@ -4,6 +4,9 @@ import com.websudos.phantom.db.DatabaseImpl
 import com.websudos.phantom.dsl._
 import org.dyne.danielsan.superchain.data.cassandra.init.Config
 import org.dyne.danielsan.superchain.data.models._
+import org.dyne.danielsan.superchain.data.entity._
+
+
 
 /**
   * Created by dan_mi_sun on 05/02/2016.
@@ -23,6 +26,10 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
     Batch.logged
       .add(ChainDatabase.tx.insertNewTransaction(tx))
       .future()
+  }
+
+  def listAllBlocks(block: Block) = {
+    Batch.logged
   }
 
   object block extends BlockTable with keyspace.Connector
