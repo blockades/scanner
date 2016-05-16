@@ -6,6 +6,7 @@ import org.dyne.danielsan.superchain.data.connector.Config
 import org.dyne.danielsan.superchain.data.entity._
 import org.dyne.danielsan.superchain.data.model._
 
+import scala.concurrent.Future
 
 
 /**
@@ -34,6 +35,10 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
   def listAllTransactions = {
     Batch.logged
     ChainDatabase.tx.listAll
+  }
+
+  def getBlockByHash(id: String): Future[Option[Block]] = {
+    ChainDatabase.block.getByHash(id)
   }
 
   object block extends ConcreteBlocksModel with keyspace.Connector

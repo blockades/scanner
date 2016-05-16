@@ -44,13 +44,18 @@ object Driver {
 //
 //    }
 
-    val cblist = ChainDatabase.listAllBlocks
-    Await.result(cblist, 10.seconds)
-    println("List of Blocks" + cblist)
+//    val cblist = ChainDatabase.listAllBlocks
+//    Await.result(cblist, 10.seconds)
+//    println("List of Blocks" + cblist)
+//
+//    val txList = ChainDatabase.listAllTransactions
+//    Await.result(txList, 10.seconds)
+//    println("List of Transactions" + txList)
+    val hash = "000000004da68466ee873c7095c766baf62df93a16df579350e01e7f78911616"
+    val blockHash = ChainDatabase.getBlockByHash(hash)
+    Await.result(blockHash, 10.seconds)
+    println("Block by Hash" + blockHash)
 
-    val txList = ChainDatabase.listAllTransactions
-    Await.result(txList, 10.seconds)
-    println("List of Transactions" + txList)
 
 
     println("Sample ended")
