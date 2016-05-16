@@ -31,6 +31,11 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
       ChainDatabase.block.listAll
   }
 
+  def listAllTransactions = {
+    Batch.logged
+    ChainDatabase.tx.listAll
+  }
+
   object block extends ConcreteBlocksModel with keyspace.Connector
 
   object tx extends ConcreteTransactionsModel with keyspace.Connector

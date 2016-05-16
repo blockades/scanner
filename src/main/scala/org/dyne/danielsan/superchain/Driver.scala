@@ -44,9 +44,13 @@ object Driver {
 //
 //    }
 
-    val cblist = ChainDatabase.listAllBlocks
-    Await.result(cblist, 10.seconds)
-    println("List of Blocks" + cblist)
+//    val cblist = ChainDatabase.listAllBlocks
+//    Await.result(cblist, 10.seconds)
+//    println("List of Blocks" + cblist)
+
+    val txList = ChainDatabase.listAllTransactions
+    Await.result(txList, 10.seconds)
+    println("List of Transactions" + txList)
 
 
     println("Sample ended")
