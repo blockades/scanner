@@ -26,6 +26,12 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
       .future()
   }
 
+  def insertBlockTransactionCounts(btc: BlockTransactionCounts) = {
+    Batch.logged
+      .add(ChainDatabase.btc.increment(btc))
+      .future()
+  }
+
   def listAllBlocks(block: Block) = {
     Batch.logged
   }
@@ -33,6 +39,8 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
   object block extends ConcreteBlocksModel with keyspace.Connector
 
   object tx extends ConcreteTransactionsModel with keyspace.Connector
+
+  object btc extends ConcreteBlockTransactionCountsModel with keyspace.Connector
 
 }
 

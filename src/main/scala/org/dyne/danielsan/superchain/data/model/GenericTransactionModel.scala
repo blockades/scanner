@@ -73,4 +73,3 @@ abstract class ConcreteTransactionsModel extends TransactionsModel with RootConn
   }
 
 }
-

@@ -59,14 +59,19 @@ class BitcoinClient {
     block.tx
   }
 
+  def getTransactionCountFromWithinBlock(id: Int) : Int = {
+    val block = getBlockForId(id)
+    block.tx.length
+  }
+
   def getBlockForId(id: Int): Block = {
-    val hash: String = getHashForId(id)
+    val hash: String = getBlockHashForId(id)
     val blockString = getBlockForHash(hash)
     val json = parse(blockString) \ "result"
     json.extract[Block]
   }
 
-  def getHashForId(id: Int): String = {
+  def getBlockHashForId(id: Int): String = {
     val request = BtcRequest("getblockhash", List(id))
     val json = write(request)
     val resp = Http(baseUrl).postData(json)
