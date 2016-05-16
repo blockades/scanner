@@ -28,21 +28,25 @@ object Driver {
     //It is also not fault tolerant with regards to getting to the end of blocks
     //echo `bitcoin-cli getblockcount 2>&1`/`wget -O - http://blockchain.info/q/getblockcount 2>/dev/null`
 
-    val client = new BitcoinClient
-    
-    for (a <- 1 to 1000) {
+//    val client = new BitcoinClient
+//
+//    for (a <- 1 to 1000) {
+//
+//      val t = client.decodeRawTransaction(a)
+//      println("Transaction: " + t)
+//      val operationT = ChainDatabase.insertTransaction(t)
+//      Await.result(operationT, 10.seconds)
+//
+//      val b = client.getBlockForId(a)
+//      println("Block: " + b)
+//      val operationB = ChainDatabase.insertBlock(b)
+//      Await.result(operationB, 10.seconds)
+//
+//    }
 
-      val t = client.decodeRawTransaction(a)
-      println("Transaction: " + t)
-      val operationT = ChainDatabase.insertTransaction(t)
-      Await.result(operationT, 10.seconds)
-
-      val b = client.getBlockForId(a)
-      println("Block: " + b)
-      val operationB = ChainDatabase.insertBlock(b)
-      Await.result(operationB, 10.seconds)
-
-    }
+    val cblist = ChainDatabase.listAllBlocks
+    Await.result(cblist, 10.seconds)
+    println("List of Blocks" + cblist)
 
 
     println("Sample ended")

@@ -26,8 +26,9 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
       .future()
   }
 
-  def listAllBlocks(block: Block) = {
+  def listAllBlocks = {
     Batch.logged
+      ChainDatabase.block.listAll
   }
 
   object block extends ConcreteBlocksModel with keyspace.Connector
