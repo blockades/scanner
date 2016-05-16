@@ -1,12 +1,15 @@
 package org.dyne.danielsan.superchain
 
+import com.twitter.util.Future
 import org.dyne.danielsan.superchain.client.BitcoinClient
 import org.dyne.danielsan.superchain.data.database.ChainDatabase
 import org.json4s.DefaultFormats
 
+
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.util.{Success, Failure}
 
 
 /**
@@ -52,11 +55,13 @@ object Driver {
 //    Await.result(txList, 10.seconds)
 //    println("List of Transactions" + txList)
     val hash = "000000004da68466ee873c7095c766baf62df93a16df579350e01e7f78911616"
-    val blockHash = ChainDatabase.getBlockByHash(hash)
-    Await.result(blockHash, 10.seconds)
-    println("Block by Hash" + blockHash)
-
-
+    val block = ChainDatabase.getBlockByHash(hash)
+    Await.result(block, 10.seconds)
+    println("Block by Hash " + block)
+    block onComplete  {
+      case Success(s) => println("This is s: " + s.get)
+      case Failure(f) => println("An error has occured: " + f.getMessage)
+    }
 
     println("Sample ended")
     System.exit(0)
