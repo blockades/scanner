@@ -26,12 +26,19 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
       .add(ChainDatabase.tx.insertNewTransaction(tx))
       .future()
   }
-
+//  //this needs some work - just want to make sure that the table is updated
 //  def insertBlockTransactionCounts(btc: BlockTransactionCounts) = {
 //    Batch.logged
 //      .add(ChainDatabase.btc.increment(btc))
 //      .future()
 //  }
+  //this needs some work
+  def saveOrUpdate(counts: BlockTransactionCounts): Future[ResultSet] = {
+    for {
+      total <- ChainDatabase.btc.increment(counts)
+//      byArtist <- ChainDatabase.songsByArtistsModel.store(counts)
+    } yield total
+  }
 
   def listAllBlocks = {
     Batch.logged
@@ -56,7 +63,7 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
 
   object tx extends ConcreteTransactionsModel with keyspace.Connector
 
-//  object btc extends ConcreteBlockTransactionCountsModel with keyspace.Connector
+  object btc extends ConcreteBlockTransactionCountsModel with keyspace.Connector
 
 }
 
