@@ -6,6 +6,7 @@ import org.dyne.danielsan.superchain.data.connector.Config
 import org.dyne.danielsan.superchain.data.entity._
 import org.dyne.danielsan.superchain.data.model._
 
+import scala.concurrent.Future
 
 
 /**
@@ -26,21 +27,36 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
       .future()
   }
 
-  def insertBlockTransactionCounts(btc: BlockTransactionCounts) = {
+//  def insertBlockTransactionCounts(btc: BlockTransactionCounts) = {
+//    Batch.logged
+//      .add(ChainDatabase.btc.increment(btc))
+//      .future()
+//  }
+
+  def listAllBlocks = {
     Batch.logged
-      .add(ChainDatabase.btc.increment(btc))
-      .future()
+      ChainDatabase.block.listAll
   }
 
-  def listAllBlocks(block: Block) = {
+  def listAllTransactions = {
     Batch.logged
+    ChainDatabase.tx.listAll
   }
+
+  def getBlockByHash(id: String): Future[Option[Block]] = {
+    ChainDatabase.block.getByHash(id)
+  }
+
+  def getTransactionByTxid(id: String): Future[Option[Transaction]] = {
+    ChainDatabase.tx.getByTxid(id)
+  }
+
 
   object block extends ConcreteBlocksModel with keyspace.Connector
 
   object tx extends ConcreteTransactionsModel with keyspace.Connector
 
-  object btc extends ConcreteBlockTransactionCountsModel with keyspace.Connector
+//  object btc extends ConcreteBlockTransactionCountsModel with keyspace.Connector
 
 }
 
