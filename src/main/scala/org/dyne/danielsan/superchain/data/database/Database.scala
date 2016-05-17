@@ -41,6 +41,11 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
     ChainDatabase.block.getByHash(id)
   }
 
+  def getTransactionByTxid(id: String): Future[Option[Transaction]] = {
+    ChainDatabase.tx.getByTxid(id)
+  }
+
+
   object block extends ConcreteBlocksModel with keyspace.Connector
 
   object tx extends ConcreteTransactionsModel with keyspace.Connector

@@ -54,11 +54,20 @@ object Driver {
 //    val txList = ChainDatabase.listAllTransactions
 //    Await.result(txList, 10.seconds)
 //    println("List of Transactions" + txList)
-    val hash = "000000004da68466ee873c7095c766baf62df93a16df579350e01e7f78911616"
-    val block = ChainDatabase.getBlockByHash(hash)
-    Await.result(block, 10.seconds)
-    println("Block by Hash " + block)
-    block onComplete  {
+//    val hash = "000000004da68466ee873c7095c766baf62df93a16df579350e01e7f78911616"
+//    val block = ChainDatabase.getBlockByHash(hash)
+//    Await.result(block, 10.seconds)
+//    println("Block by Hash " + block)
+//    block onComplete  {
+//      case Success(s) => println("This is s: " + s.get)
+//      case Failure(f) => println("An error has occured: " + f.getMessage)
+//    }
+
+    val txid = "a84c57b17fb767870a708f336e1cbf95582ad0fde26ec10195f82189295d073f"
+    val tx = ChainDatabase.getTransactionByTxid(txid)
+    Await.result(tx, 10.seconds)
+    println("Transaction by txid " + tx)
+    tx onComplete  {
       case Success(s) => println("This is s: " + s.get)
       case Failure(f) => println("An error has occured: " + f.getMessage)
     }

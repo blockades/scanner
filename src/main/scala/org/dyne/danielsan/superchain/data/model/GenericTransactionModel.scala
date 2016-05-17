@@ -1,5 +1,6 @@
 package org.dyne.danielsan.superchain.data.model
 
+import com.datastax.driver.core.{ResultSet, Row}
 import com.websudos.phantom.CassandraTable
 import com.websudos.phantom.dsl._
 import com.websudos.phantom.iteratee.Iteratee
@@ -75,6 +76,10 @@ abstract class ConcreteTransactionsModel extends TransactionsModel with RootConn
 
   def listAll = {
     select.fetchEnumerator() run Iteratee.collect()
+  }
+
+  def getByTxid(txid: String): Future[Option[Transaction]] = {
+    select.where(_.txid eqs txid).one()
   }
 
 }
