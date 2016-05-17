@@ -6,6 +6,7 @@ import org.json4s.DefaultFormats
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
 
 /**
@@ -71,14 +72,14 @@ object Driver {
 //    }
 //
 //    //Get Transaction by it 's txid
-//    val txid = "a84c57b17fb767870a708f336e1cbf95582ad0fde26ec10195f82189295d073f"
-//    val tx = ChainDatabase.getTransactionByTxid(txid)
-//    Await.result(tx, 10.seconds)
-//    println("Transaction by txid " + tx)
-//    tx onComplete {
-//      case Success(s) => println("This is s: " + s.get)
-//      case Failure(f) => println("An error has occured: " + f.getMessage)
-//    }
+    val txid = "a84c57b17fb767870a708f336e1cbf95582ad0fde26ec10195f82189295d073f"
+    val tx = ChainDatabase.getTransactionByTxid(txid)
+    Await.result(tx, 10.seconds)
+    println("Transaction by txid " + tx)
+    tx onComplete {
+      case Success(s) => println("This is s: " + s.get)
+      case Failure(f) => println("An error has occured: " + f.getMessage)
+    }
 
         }
 
