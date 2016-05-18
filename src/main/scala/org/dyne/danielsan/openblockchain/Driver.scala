@@ -40,19 +40,22 @@ object Driver {
 //    val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(BTC)
 //    Await.result(operationBTC, 10.seconds)
 
-            for (a <- 1 to 1000) {
+    val count = client.getTransactionCountFromWithinBlock(1)
+    println("this is the count: " + count)
 
-          val t = client.decodeRawTransaction(a)
-          println("Transaction: " + t)
-          val operationT = ChainDatabase.insertTransaction(t)
-          Await.result(operationT, 10.seconds)
-
-          val b = client.getBlockForId(a)
-          println("Block: " + b)
-          val operationB = ChainDatabase.insertBlock(b)
-          Await.result(operationB, 10.seconds)
-
-        }
+//            for (a <- 1 to 1000) {
+//
+//          val t = client.decodeRawTransaction(a)
+//          println("Transaction: " + t)
+//          val operationT = ChainDatabase.insertTransaction(t)
+//          Await.result(operationT, 10.seconds)
+//
+//          val b = client.getBlockForId(a)
+//          println("Block: " + b)
+//          val operationB = ChainDatabase.insertBlock(b)
+//          Await.result(operationB, 10.seconds)
+//
+//        }
 
         //List all Blocks
 //        val cblist = ChainDatabase.listAllBlocks

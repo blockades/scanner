@@ -101,7 +101,7 @@ abstract class ConcreteBlocksModel extends BlocksModel with RootConnector {
 
 }
 
-case class BlockTransactionCounts(hash: String, time: Long, num_transactions: Long)
+case class BlockTransactionCounts(hash: String, height: Int, time: Long, num_transactions: Long)
 
 sealed class BlockTransactionCountsModel extends CassandraTable[BlockTransactionCountsModel, BlockTransactionCounts] {
 
@@ -110,12 +110,15 @@ sealed class BlockTransactionCountsModel extends CassandraTable[BlockTransaction
   override def fromRow(r: Row): BlockTransactionCounts = {
     BlockTransactionCounts(
       hash(r),
+      height(r),
       time(r),
       num_transactions(r)
     )
   }
 
   object hash extends StringColumn(this) with PartitionKey[String]
+
+  object height extends IntColumn(this) with ClusteringOrder[Int] with Descending
 
   object time extends LongColumn(this) with ClusteringOrder[Long]
 
