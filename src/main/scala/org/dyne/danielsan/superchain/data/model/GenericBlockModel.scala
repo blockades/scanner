@@ -35,11 +35,11 @@ sealed class BlocksModel extends CassandraTable[BlocksModel, Block] {
 
   object hash extends StringColumn(this) with PartitionKey[String]
 
+  object height extends IntColumn(this) with ClusteringOrder[Int] with Descending
+
   object confirmations extends IntColumn(this)
 
   object size extends IntColumn(this)
-
-  object height extends IntColumn(this)
 
   object version extends IntColumn(this)
 
@@ -120,6 +120,7 @@ sealed class BlockTransactionCountsModel extends CassandraTable[BlockTransaction
   object time extends LongColumn(this) with ClusteringOrder[Long]
 
   object num_transactions extends CounterColumn(this)
+
 }
 
 abstract class ConcreteBlockTransactionCountsModel extends BlockTransactionCountsModel with RootConnector {
@@ -127,6 +128,7 @@ abstract class ConcreteBlockTransactionCountsModel extends BlockTransactionCount
   def createTable(): Future[ResultSet] = {
     create.ifNotExists().future()
   }
+
   //this needs some work
   def increment(count: BlockTransactionCounts): Future[ResultSet] = {
     update
@@ -135,10 +137,11 @@ abstract class ConcreteBlockTransactionCountsModel extends BlockTransactionCount
       .modify(_.num_transactions += count.num_transactions)
       .future()
   }
-    //this needs some work
-    def getCount(hash: String): Future[Option[Long]] = {
-      select(_.num_transactions).where(_.hash eqs hash).one()
-    }
+
+  //this needs some work
+  def getCount(hash: String): Future[Option[Long]] = {
+    select(_.num_transactions).where(_.hash eqs hash).one()
+  }
 
   //  def getByArtist(artist: String): Future[List[Song]] = {
   //    select.where(_.artist eqs artist).fetch()
