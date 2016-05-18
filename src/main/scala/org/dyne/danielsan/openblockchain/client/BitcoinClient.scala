@@ -1,11 +1,10 @@
 package org.dyne.danielsan.openblockchain.client
 
 import org.dyne.danielsan.openblockchain.data.entity.{Block, Transaction}
-import org.json4s.jackson.Serialization.write
-import org.json4s.{DefaultFormats, _}
-import org.json4s._
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
+import org.json4s.jackson.Serialization.write
+import org.json4s.{DefaultFormats, _}
 
 import scala.language.postfixOps
 import scalaj.http.{Base64, Http}
@@ -61,16 +60,22 @@ class BitcoinClient {
     block.tx
   }
 
+  def getTransactionCountFromWithinBlock(id: Int) = {
+    val block = getBlockForId(id)
+    val json = ("blockTransactionCount" ->
+                  ("hash" -> block.hash) ~
+                  ("height" -> block.height) ~
+                  ("time" -> block.time) ~
+                  ("count" -> block.tx.length))
+    println(compact(render(json)))
+  }
+
   def getBlockForId(id: Int): Block = {
     val hash: String = getBlockHashForId(id)
     val blockString = getBlockForHash(hash)
     val json = parse(blockString) \ "result"
     json.extract[Block]
   }
-
-  //  def incrementBlockTransactionCount(id: Int) = {
-  //    ???
-  //  }
 
   def getBlockHashForId(id: Int): String = {
     val request = BtcRequest("getblockhash", List(id))
@@ -97,16 +102,6 @@ class BitcoinClient {
 
   def auth = {
     "Basic " + Base64.encodeString("test:test1")
-  }
-
-  def getTransactionCountFromWithinBlock(id: Int) = {
-    val block = getBlockForId(id)
-    val json = ("blockTransactionCount" ->
-      ("hash" -> block.hash) ~
-        ("height" -> block.height) ~
-        ("time" -> block.time) ~
-        ("count" -> block.tx.length))
-    println(compact(render(json)))
   }
 }
 
