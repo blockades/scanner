@@ -1,12 +1,12 @@
 package org.dyne.danielsan.superchain
 
+import org.dyne.danielsan.superchain.client.BitcoinClient
 import org.dyne.danielsan.superchain.data.database.ChainDatabase
 import org.json4s.DefaultFormats
 
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
-import scala.util.{Failure, Success}
 
 
 /**
@@ -24,32 +24,38 @@ object Driver {
 
     Await.result(ChainDatabase.autocreate().future, 10 seconds)
 
+    //The following is like the API for the application. Need to find a sane way of organising
+    //everything so that the layout makes sense. Will likely need to do this at some point during
+    //the Scalatra integration.
+
     //Known limitation here is that the scanner is not dynamic or automatic
     //It is also not fault tolerant with regards to getting to the end of blocks
     //echo `bitcoin-cli getblockcount 2>&1`/`wget -O - http://blockchain.info/q/getblockcount 2>/dev/null`
 
-    //          val BTC = client.getTransactionCountFromWithinBlock(a)
-    //          println("BlockTransactionCounts" + BTC)
+    val client = new BitcoinClient
+
+    val BTC = client.getTransactionCountFromWithinBlock(728)
+    println("BlockTransactionCounts " + BTC)
+
     //          //need to look at adding info from decodeRawTransaction
     //          //might be done through the service
     //          //this is the same as updating to two tables at the same time
     //          val operationBTC = ChainDatabase.insertBlockTransactionCounts(BTC)
     //          Await.result(operationBTC, 10.seconds)
-    //    val client = new BitcoinClient
     //
-    //    for (a <- 1 to 1000) {
-    //
-    //      val t = client.decodeRawTransaction(a)
-    //      println("Transaction: " + t)
-    //      val operationT = ChainDatabase.insertTransaction(t)
-    //      Await.result(operationT, 10.seconds)
-    //
-    //      val b = client.getBlockForId(a)
-    //      println("Block: " + b)
-    //      val operationB = ChainDatabase.insertBlock(b)
-    //      Await.result(operationB, 10.seconds)
-    //
-    //    }
+//        for (a <- 1 to 1000) {
+//
+//          val t = client.decodeRawTransaction(a)
+//          println("Transaction: " + t)
+//          val operationT = ChainDatabase.insertTransaction(t)
+//          Await.result(operationT, 10.seconds)
+//
+//          val b = client.getBlockForId(a)
+//          println("Block: " + b)
+//          val operationB = ChainDatabase.insertBlock(b)
+//          Await.result(operationB, 10.seconds)
+//
+//        }
 
     //    //List all Blocks
     //    val cblist = ChainDatabase.listAllBlocks
@@ -73,16 +79,16 @@ object Driver {
     //
     //    //Get Transaction by it 's txid
 
-    println("this is the beginning of the block")
-
-    val txid = "a84c57b17fb767870a708f336e1cbf95582ad0fde26ec10195f82189295d073f"
-    val tx = ChainDatabase.getTransactionByTxid(txid)
-    Await.result(tx, 10.seconds)
-    println("Transaction by txid " + tx)
-    tx onComplete {
-      case Success(s) => println("This is s: " + s.get)
-      case Failure(f) => println("An error has occured: " + f.getMessage)
-    }
+    //    println("this is the beginning of the block")
+    //
+    //    val txid = "a84c57b17fb767870a708f336e1cbf95582ad0fde26ec10195f82189295d073f"
+    //    val tx = ChainDatabase.getTransactionByTxid(txid)
+    //    Await.result(tx, 10.seconds)
+    //    println("Transaction by txid " + tx)
+    //    tx onComplete {
+    //      case Success(s) => println("This is s: " + s.get)
+    //      case Failure(f) => println("An error has occured: " + f.getMessage)
+    //    }
 
 
     println("Sample ended")
