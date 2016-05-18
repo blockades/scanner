@@ -8,7 +8,7 @@ import ScalateKeys._
 
 object SuperchainBuild extends Build {
   val Organization = "org.dyne.danielsan"
-  val Name = "superchain"
+  val Name = "openblockchain"
   val Version = "0.1.0-SNAPSHOT"
   val ScalaVersion = "2.11.8"
   val ScalatraVersion = "2.4.0"
@@ -17,7 +17,7 @@ object SuperchainBuild extends Build {
   lazy val driverCore = "3.0.0-rc1"
 
   lazy val project = Project (
-    "superchain",
+    "openblockchain",
     file("."),
     settings = ScalatraPlugin.scalatraSettings ++ scalateSettings ++ Seq(
       organization := Organization,
@@ -30,9 +30,9 @@ object SuperchainBuild extends Build {
         "Typesafe repository snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
         "Typesafe repository releases" at "http://repo.typesafe.com/typesafe/releases/",
         "Sonatype repo" at "https://oss.sonatype.org/content/groups/scala-tools/",
-        "Sonatype releases" at "https://oss.sonatype.org/content/org.dyne.danielsan.superchain.data.cassandra.init.repositories/releases",
-        "Sonatype snapshots" at "https://oss.sonatype.org/content/org.dyne.danielsan.superchain.data.cassandra.init.repositories/snapshots",
-        "Sonatype staging" at "http://oss.sonatype.org/content/org.dyne.danielsan.superchain.data.cassandra.init.repositories/staging",
+        "Sonatype releases" at "https://oss.sonatype.org/content/org.dyne.danielsan.openblockchain.data.cassandra.init.repositories/releases",
+        "Sonatype snapshots" at "https://oss.sonatype.org/content/org.dyne.danielsan.openblockchain.data.cassandra.init.repositories/snapshots",
+        "Sonatype staging" at "http://oss.sonatype.org/content/org.dyne.danielsan.openblockchain.data.cassandra.init.repositories/staging",
         "Java.net Maven2 Repository" at "http://download.java.net/maven/2/",
         "Twitter Repository" at "http://maven.twttr.com",
         "Wedsudos Bintray Repo" at "https://dl.bintray.com/websudos/oss-releases/"

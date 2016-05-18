@@ -1,6 +1,6 @@
 import javax.servlet.ServletContext
-import org.dyne.danielsan.superchain.data.database.ChainDatabase
-import org.dyne.danielsan.superchain.http.controllers.api.ChartsController
+import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
+import org.dyne.danielsan.openblockchain.http.controllers.api.ChartsController
 import org.scalatra._
 
 import scala.concurrent.Await

@@ -1,4 +1,4 @@
-package org.dyne.danielsan.superchain
+package org.dyne.danielsan.openblockchain
 
 import org.scalatest.{Matchers, PropSpec}
 import org.scalatest.prop._
