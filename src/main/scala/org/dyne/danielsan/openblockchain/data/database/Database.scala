@@ -26,34 +26,15 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
       .add(ChainDatabase.tx.insertNewTransaction(tx))
       .future()
   }
-//  //this needs some work - just want to make sure that the table is updated
-//  def insertBlockTransactionCounts(btc: BlockTransactionCounts) = {
-//    Batch.logged
-//      .add(ChainDatabase.btc.increment(btc))
-//      .future()
-//  }
-  //this needs some work
-  // how to get the hash
-  // how to get the time
-//  def saveOrUpdateBlockTransactionCount(counts: BlockTransactionCounts): Future[ResultSet] = {
-//    for {
-//      //What are we trying to do here?
-//      //Each time a Block is saved we also want it to check how many transactions it contained
-//      ???
-//    } yield ???
-//  }
-// http://stackoverflow.com/questions/37245031/how-to-implement-cassandra-counter-columns-with-phantom-dsl/37256783#37256783
-//  def saveOrUpdate(song: Song): Future[ResultSet] = {
-//    for {
-//      byId <- database.songsModel.store(songs)
-//      byArtist <- database.songsByArtistsModel.store(songs)
-//      counter <- database.artistSongsCounter.increment(song.artist)
-//    } yield byArtist
-//  }
+
+  def saveOrUpdateBlockTransactionCount(counts: BlockTransactionCounts): Future[ResultSet] = {
+    Batch.logged
+    ChainDatabase.btc.increment(counts)
+  }
 
   def listAllBlocks = {
     Batch.logged
-      ChainDatabase.block.listAll
+    ChainDatabase.block.listAll
   }
 
   def listAllTransactions = {

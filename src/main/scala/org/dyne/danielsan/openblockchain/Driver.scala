@@ -47,25 +47,30 @@ NEXT STEP IS TO HAVE THIS HAPPEN IN SYNC WITH THE REST OF THE SCANNER
     //    Await.result(operationBTC, 10.seconds)
 
 
-//    val count = client.getTransactionCountFromWithinBlock(1)
-//    println("this is the count: " + count)
+    //    val count = client.getTransactionCountFromWithinBlock(1)
+    //    println("this is the count: " + count)
 
-    val btc = client.updateBlockTransactionCount(1)
-    println(s"this is the btc: $btc")
+//        val btc = client.updateBlockTransactionCount(2)
+//        println(s"this is the btc: $btc")
 
-    //            for (a <- 1 to 1000) {
-    //
-    //          val t = client.decodeRawTransaction(a)
-    //          println("Transaction: " + t)
-    //          val operationT = ChainDatabase.insertTransaction(t)
-    //          Await.result(operationT, 10.seconds)
-    //
-    //          val b = client.getBlockForId(a)
-    //          println("Block: " + b)
-    //          val operationB = ChainDatabase.insertBlock(b)
-    //          Await.result(operationB, 10.seconds)
-    //
-    //        }
+    for (a <- 1001 to 10000) {
+
+      val t = client.decodeRawTransaction(a)
+      println("Transaction: " + t)
+      val operationT = ChainDatabase.insertTransaction(t)
+      Await.result(operationT, 10.seconds)
+
+      val b = client.getBlockForId(a)
+      println("Block: " + b)
+      val operationB = ChainDatabase.insertBlock(b)
+      Await.result(operationB, 10.seconds)
+
+      val btc = client.updateBlockTransactionCount(a)
+      println(s"BlockTansactionCount: $btc")
+      val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
+      Await.result(operationBTC, 10.seconds)
+
+    }
 
     //List all Blocks
     //        val cblist = ChainDatabase.listAllBlocks

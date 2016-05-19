@@ -66,7 +66,6 @@ class BitcoinClient {
     val json = ("blockTransactionCount" ->
                   ("hash" -> block.hash) ~
                   ("height" -> block.height) ~
-                  ("time" -> block.time) ~
                   ("num_transactions" -> block.tx.length))
     compact(render(json))
   }

@@ -101,7 +101,7 @@ abstract class ConcreteBlocksModel extends BlocksModel with RootConnector {
 
 }
 
-case class BlockTransactionCounts(hash: String, height: Int, time: Long, num_transactions: Long)
+case class BlockTransactionCounts(hash: String, height: Int, num_transactions: Long)
 
 sealed class BlockTransactionCountsModel extends CassandraTable[BlockTransactionCountsModel, BlockTransactionCounts] {
 
@@ -111,7 +111,6 @@ sealed class BlockTransactionCountsModel extends CassandraTable[BlockTransaction
     BlockTransactionCounts(
       hash(r),
       height(r),
-      time(r),
       num_transactions(r)
     )
   }
@@ -119,8 +118,6 @@ sealed class BlockTransactionCountsModel extends CassandraTable[BlockTransaction
   object hash extends StringColumn(this) with PartitionKey[String]
 
   object height extends IntColumn(this) with ClusteringOrder[Int] with Descending
-
-  object time extends LongColumn(this) with ClusteringOrder[Long]
 
   object num_transactions extends CounterColumn(this)
 
@@ -136,7 +133,7 @@ abstract class ConcreteBlockTransactionCountsModel extends BlockTransactionCount
   def increment(count: BlockTransactionCounts): Future[ResultSet] = {
     update
       .where(_.hash eqs count.hash)
-//      .and(_.time eqs count.time)
+      .and(_.height eqs count.height)
       .modify(_.num_transactions += count.num_transactions)
       .future()
   }
@@ -145,15 +142,6 @@ abstract class ConcreteBlockTransactionCountsModel extends BlockTransactionCount
   def getCount(hash: String): Future[Option[Long]] = {
     select(_.num_transactions).where(_.hash eqs hash).one()
   }
-
-  //  def getByArtist(artist: String): Future[List[Song]] = {
-  //    select.where(_.artist eqs artist).fetch()
-  //  }
-  //
-  //  def deleteByArtistAndId(artist: String, id: UUID): Future[ResultSet] = {
-  //    delete.where(_.artist eqs artist).and(_.id eqs id).future()
-  //  }
-
 }
 
 
