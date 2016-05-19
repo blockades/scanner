@@ -32,6 +32,10 @@ class Database(val keyspace: KeySpaceDef) extends DatabaseImpl(keyspace) {
     ChainDatabase.btc.increment(counts)
   }
 
+  def getBlockTransactionCountByHash(hash: String): Future[Option[Long]] = {
+    ChainDatabase.btc.getCount(hash)
+  }
+
   def listAllBlocks = {
     Batch.logged
     ChainDatabase.block.listAll

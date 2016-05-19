@@ -7,6 +7,7 @@ import org.json4s.DefaultFormats
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
 
 /**
@@ -53,24 +54,24 @@ NEXT STEP IS TO HAVE THIS HAPPEN IN SYNC WITH THE REST OF THE SCANNER
 //        val btc = client.updateBlockTransactionCount(2)
 //        println(s"this is the btc: $btc")
 
-    for (a <- 1001 to 10000) {
-
-      val t = client.decodeRawTransaction(a)
-      println("Transaction: " + t)
-      val operationT = ChainDatabase.insertTransaction(t)
-      Await.result(operationT, 10.seconds)
-
-      val b = client.getBlockForId(a)
-      println("Block: " + b)
-      val operationB = ChainDatabase.insertBlock(b)
-      Await.result(operationB, 10.seconds)
-
-      val btc = client.updateBlockTransactionCount(a)
-      println(s"BlockTansactionCount: $btc")
-      val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
-      Await.result(operationBTC, 10.seconds)
-
-    }
+//    for (a <- 1001 to 10000) {
+//
+//      val t = client.decodeRawTransaction(a)
+//      println("Transaction: " + t)
+//      val operationT = ChainDatabase.insertTransaction(t)
+//      Await.result(operationT, 10.seconds)
+//
+//      val b = client.getBlockForId(a)
+//      println("Block: " + b)
+//      val operationB = ChainDatabase.insertBlock(b)
+//      Await.result(operationB, 10.seconds)
+//
+//      val btc = client.updateBlockTransactionCount(a)
+//      println(s"BlockTansactionCount: $btc")
+//      val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
+//      Await.result(operationBTC, 10.seconds)
+//
+//    }
 
     //List all Blocks
     //        val cblist = ChainDatabase.listAllBlocks
@@ -104,6 +105,15 @@ NEXT STEP IS TO HAVE THIS HAPPEN IN SYNC WITH THE REST OF THE SCANNER
     //      case Success(s) => println("This is s: " + s.get)
     //      case Failure(f) => println("An error has occured: " + f.getMessage)
     //    }
+
+//    val hash =  "000000004da68466ee873c7095c766baf62df93a16df579350e01e7f78911616"
+//    val btc = ChainDatabase.getBlockTransactionCountByHash(hash)
+//    Await.result(btc, 10.seconds)
+//    println(s"BlockTransactionCountByHash: $btc")
+//    btc onComplete {
+//      case Success(s) => println("This is s: " + s.get)
+//      case Failure(f) => println("An error has occured: " + f.getMessage)
+//    }
 
 
     println("Sample ended")
