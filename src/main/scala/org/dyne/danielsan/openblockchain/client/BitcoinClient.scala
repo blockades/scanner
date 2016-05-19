@@ -1,6 +1,7 @@
 package org.dyne.danielsan.openblockchain.client
 
 import org.dyne.danielsan.openblockchain.data.entity.{Block, Transaction}
+import org.dyne.danielsan.openblockchain.data.model.BlockTransactionCounts
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
@@ -60,14 +61,20 @@ class BitcoinClient {
     block.tx
   }
 
-  def getTransactionCountFromWithinBlock(id: Int) = {
+  def getTransactionCountFromWithinBlock(id: Int): String = {
     val block = getBlockForId(id)
     val json = ("blockTransactionCount" ->
                   ("hash" -> block.hash) ~
                   ("height" -> block.height) ~
                   ("time" -> block.time) ~
-                  ("count" -> block.tx.length))
-    println(compact(render(json)))
+                  ("num_transactions" -> block.tx.length))
+    compact(render(json))
+  }
+
+  def updateBlockTransactionCount(id: Int): BlockTransactionCounts = {
+    val counts = getTransactionCountFromWithinBlock(id)
+    val btc = parse(counts) \ "blockTransactionCount"
+    btc.extract[BlockTransactionCounts]
   }
 
   def getBlockForId(id: Int): Block = {

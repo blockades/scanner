@@ -33,34 +33,44 @@ object Driver {
     //echo `bitcoin-cli getblockcount 2>&1`/`wget -O - http://blockchain.info/q/getblockcount 2>/dev/null`
 
     val client = new BitcoinClient
-//    //This gives us the num_transactions wiithin a Block
+
+    /*
+NEXT STEP IS TO TAKE THE JSON OBJECT PARSE IT AND THEN INSERT INTO THE DB
+NEXT STEP IS TO HAVE THIS HAPPEN IN SYNC WITH THE REST OF THE SCANNER
+ */
+
+    //    //This gives us the num_transactions wiithin a Block
     //(hash: String, time: Long, num_transactions: Long) <- this should be in the Bitcoin client
-//    val BTC = client.getTransactionCountFromWithinBlock(728)
-//    println("BlockTransactionCounts " + BTC)
-//    val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(BTC)
-//    Await.result(operationBTC, 10.seconds)
+    //    val BTC = client.getTransactionCountFromWithinBlock(728)
+    //    println("BlockTransactionCounts " + BTC)
+    //    val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(BTC)
+    //    Await.result(operationBTC, 10.seconds)
 
-    val count = client.getTransactionCountFromWithinBlock(1)
-    println("this is the count: " + count)
 
-//            for (a <- 1 to 1000) {
-//
-//          val t = client.decodeRawTransaction(a)
-//          println("Transaction: " + t)
-//          val operationT = ChainDatabase.insertTransaction(t)
-//          Await.result(operationT, 10.seconds)
-//
-//          val b = client.getBlockForId(a)
-//          println("Block: " + b)
-//          val operationB = ChainDatabase.insertBlock(b)
-//          Await.result(operationB, 10.seconds)
-//
-//        }
+//    val count = client.getTransactionCountFromWithinBlock(1)
+//    println("this is the count: " + count)
 
-        //List all Blocks
-//        val cblist = ChainDatabase.listAllBlocks
-//        Await.result(cblist, 10.seconds)
-//        println("List of Blocks" + cblist)
+    val btc = client.updateBlockTransactionCount(1)
+    println(s"this is the btc: $btc")
+
+    //            for (a <- 1 to 1000) {
+    //
+    //          val t = client.decodeRawTransaction(a)
+    //          println("Transaction: " + t)
+    //          val operationT = ChainDatabase.insertTransaction(t)
+    //          Await.result(operationT, 10.seconds)
+    //
+    //          val b = client.getBlockForId(a)
+    //          println("Block: " + b)
+    //          val operationB = ChainDatabase.insertBlock(b)
+    //          Await.result(operationB, 10.seconds)
+    //
+    //        }
+
+    //List all Blocks
+    //        val cblist = ChainDatabase.listAllBlocks
+    //        Await.result(cblist, 10.seconds)
+    //        println("List of Blocks" + cblist)
     //
     //    //List all Transactions
     //    val txList = ChainDatabase.listAllTransactions
