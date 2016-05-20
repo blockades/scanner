@@ -6,12 +6,13 @@ import com.earldouglas.xwp.JettyPlugin
 import com.mojolly.scalate.ScalatePlugin._
 import ScalateKeys._
 
-object SuperchainBuild extends Build {
+object OpenBlockchainBuild extends Build {
   val Organization = "org.dyne.danielsan"
   val Name = "openblockchain"
   val Version = "0.1.0-SNAPSHOT"
   val ScalaVersion = "2.11.8"
-  val ScalatraVersion = "2.4.0"
+  val ScalatraVersion = "2.4.0-RC2-2"
+  val ScalatraJacksonVersion = "3.3.0.RC2"
   lazy val phantomVersion = "1.22.0"
   lazy val cassandraVersion = "2.1.4"
   lazy val driverCore = "3.0.0-rc1"
@@ -45,7 +46,8 @@ object SuperchainBuild extends Build {
         "org.eclipse.jetty" % "jetty-webapp" % "9.2.15.v20160210" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided",
         "org.mockito" % "mockito-core" % "1.10.19",
-        "org.json4s" %% "json4s-jackson" % "3.3.0",
+        "org.scalatra" %% "scalatra-json" % ScalatraVersion,
+        "org.json4s" %% "json4s-jackson" % ScalatraJacksonVersion,
         "org.scalaj" %% "scalaj-http" % "2.2.1",
         "org.scalatest" %% "scalatest" % "2.2.1" % "test",
         "org.scalacheck" %% "scalacheck" % "1.11.5" % "test",
