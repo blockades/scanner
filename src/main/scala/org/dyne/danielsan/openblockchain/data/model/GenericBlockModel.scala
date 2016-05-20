@@ -124,7 +124,7 @@ sealed class BlockTransactionCountsModel extends CassandraTable[BlockTransaction
 }
 
 abstract class ConcreteBlockTransactionCountsModel extends BlockTransactionCountsModel with RootConnector {
-  
+
   def increment(count: BlockTransactionCounts): Future[ResultSet] = {
     update
       .where(_.hash eqs count.hash)
