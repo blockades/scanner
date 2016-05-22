@@ -21,7 +21,7 @@ class ScalatraBootstrap extends LifeCycle {
 
     Await.ready(ChainDatabase.autocreate().future(), 3 seconds)
 
-    context.mount(new ApiDocsController, "/api-docs")
+    context.mount(new ApiDocsController, "/api-docs/*")
     context.mount(new ChartsController, "/api/charts")
     context.mount(new BlocksController, "/api/blocks")
     context.mount(new TransactionsController, "/api/transactions")
