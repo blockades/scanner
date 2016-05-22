@@ -210,6 +210,8 @@ this once I get my head around one CORE route to make sure there are no super ba
 
  - Must set up server and run blockchain so there is a full transaction history available on the server
  
+ - MUST go through code and find out where these recommendations have been implemented: https://groups.google.com/forum/#!topic/scalatra-user/rr1ciqI8BqE
+ 
  ---
  
  Cassandra Modelling
