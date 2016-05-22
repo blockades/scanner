@@ -34,6 +34,14 @@ class BlocksController extends ScalatraServlet with FutureSupport with JacksonJs
 
   }
 
+  get("/transaction-count/:id") {
+    val id = params("id")
+    Await.result(ChainDatabase.getBlockTransactionCountByHash(id), 3.seconds) match {
+      case Some(btc) => btc
+      case None => halt(404, "")
+    }
+  }
+
 }
 
 
