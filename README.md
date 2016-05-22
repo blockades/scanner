@@ -190,6 +190,15 @@ The route of commands that we go through is:
 
 ---
 
+### Swagger API Documentation
+
+Providing you have built and run the Scalatra Application you should be able to run the Swagger API documentation:
+
+http://localhost:8080/api/blocks/swagger-ui/index.html
+
+
+---
+
 ### TODO
 
 - none of this has been TDD, so a big area I need to work on is how to write tests and move forward that way... will do
