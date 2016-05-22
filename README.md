@@ -192,9 +192,7 @@ The route of commands that we go through is:
 
 ### Swagger API Documentation
 
-Providing you have built and run the Scalatra Application you should be able to run the Swagger API documentation:
-
-http://localhost:8080/api/blocks/swagger-ui/index.html
+Providing you have built and run the Scalatra Application you should be able to run the [Swagger API documentation](http://localhost:8080/api/blocks/swagger-ui/index.html).
 
 
 ---
