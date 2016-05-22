@@ -24,7 +24,7 @@ class BlocksController extends ScalatraServlet  with FutureSupport with JacksonJ
     contentType = formats("json")
   }
 
-  get("/", operation(getBlocks)) {
+  get("/") {
     ChainDatabase.block.listAll
   }
 

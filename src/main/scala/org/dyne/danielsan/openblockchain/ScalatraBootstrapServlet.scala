@@ -13,5 +13,9 @@ class ScalatraBootstrapServlet extends SuperchainStack {
     </html>
   }
 
+  get("/hello") {
+    "Hello world!"
+  }
+
 }
 
