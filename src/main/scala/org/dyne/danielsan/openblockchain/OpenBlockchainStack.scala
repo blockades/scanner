@@ -18,19 +18,21 @@ package org.dyne.danielsan.openblockchain
 //}
 
 
-import org.scalatra._
-import scalate.ScalateSupport
-import org.fusesource.scalate.{ TemplateEngine, Binding }
-import org.fusesource.scalate.layout.DefaultLayoutStrategy
 import javax.servlet.http.HttpServletRequest
-import collection.mutable
 
+import org.fusesource.scalate.TemplateEngine
+import org.fusesource.scalate.layout.DefaultLayoutStrategy
 import org.fusesource.scalate.util.IOUtil
+import org.scalatra._
+import org.scalatra.scalate.ScalateSupport
+
+import scala.collection.mutable
 
 trait OpenBlockchainStack extends ScalatraServlet with ScalateSupport {
 
   /* wire up the precompiled templates */
   override protected def defaultTemplatePath: List[String] = List("/WEB-INF/templates/views")
+
   override protected def createTemplateEngine(config: ConfigT) = {
     val engine = super.createTemplateEngine(config)
     engine.layoutStrategy = new DefaultLayoutStrategy(engine,
@@ -38,6 +40,7 @@ trait OpenBlockchainStack extends ScalatraServlet with ScalateSupport {
     engine.packagePrefix = "templates"
     engine
   }
+
   /* end wiring up the precompiled templates */
 
   override protected def templateAttributes(implicit request: HttpServletRequest): mutable.Map[String, Any] = {
@@ -55,7 +58,7 @@ trait OpenBlockchainStack extends ScalatraServlet with ScalateSupport {
     } orElse serveStaticResource() getOrElse resourceNotFound()
   }
 
-    get("/swagger-ui/*") {
+  get("/swagger-ui/*") {
     val resourcePath = "/META-INF/resources/webjars/swagger-ui/2.0.21/" + params("splat")
     Option(getClass.getResourceAsStream(resourcePath)) match {
       case Some(inputStream) => {
