@@ -25,7 +25,16 @@ class BlocksController extends ScalatraServlet  with FutureSupport with JacksonJ
   }
 
   get("/") {
-    ChainDatabase.block.listAll
+    ChainDatabase.listAllBlocks
+  }
+
+  get("/:id") {
+    val id = params("id")
+    Await.result(ChainDatabase.getBlockByHash(id), 3.seconds) match {
+      case Some(block) => block
+      case None => halt(404, "")
+    }
+
   }
 
 }
