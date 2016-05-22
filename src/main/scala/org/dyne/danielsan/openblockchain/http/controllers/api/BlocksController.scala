@@ -38,7 +38,7 @@ class BlocksController(implicit val swagger: Swagger) extends OpenBlockchainStac
 
   }
 
-  get("/transaction-count/:id") {
+  get("/transaction-count/:id", operation(getBlockTransactionCount)) {
     val id = params("id")
     Await.result(ChainDatabase.getBlockTransactionCountByHash(id), 3.seconds) match {
       case Some(btc) => btc
