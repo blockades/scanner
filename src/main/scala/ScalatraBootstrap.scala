@@ -1,6 +1,6 @@
 import javax.servlet.ServletContext
 import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
-import org.dyne.danielsan.openblockchain.http.controllers.api.{BlocksController, ChartsController}
+import org.dyne.danielsan.openblockchain.http.controllers.api.{BlocksController, ChartsController, TransactionsController}
 import org.scalatra._
 
 import scala.concurrent.Await
@@ -22,6 +22,8 @@ class ScalatraBootstrap extends LifeCycle {
 
     context.mount(new ChartsController, "/api/charts")
     context.mount(new BlocksController, "/api/blocks")
+    context.mount(new TransactionsController, "/api/transactions")
+
 
   }
 }
