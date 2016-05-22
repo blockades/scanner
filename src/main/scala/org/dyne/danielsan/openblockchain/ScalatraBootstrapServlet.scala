@@ -1,6 +1,6 @@
 package org.dyne.danielsan.openblockchain
 
-class ScalatraBootstrapServlet extends SuperchainStack {
+class ScalatraBootstrapServlet extends OpenBlockchainStack {
 
   get("/") {
     <html>
