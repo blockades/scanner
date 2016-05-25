@@ -83,7 +83,7 @@ If everything is setup correctly, then you should be able to issue the commands 
 
 #### Cassandra
 
-Follow the official documentation to download and install [cassandra](http://www.planetcassandra.org/cassandra/?dlink=http://downloads.datastax.com/community/dsc-cassandra-2.1.9-bin.tar.gz)
+Follow the official documentation to download and install [cassandra](http://downloads.datastax.com/community/dsc-cassandra-2.1.9-bin.tar.gz)
 
 
 #### Build & Run Scalatra App (at the moment this is optional, as the Bitcoin and Cassandra sections are testable without needing to run the Webapp)
