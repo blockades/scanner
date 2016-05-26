@@ -19,7 +19,7 @@ class ScalatraBootstrap extends LifeCycle {
 
   override def init(context: ServletContext) {
 
-    Await.ready(ChainDatabase.autocreate().future(), 3 seconds)
+    Await.ready(ChainDatabase.autocreate().future(), 1 seconds)
 
     context.mount(new ApiDocsController, "/api-docs/")
     context.mount(new ChartsController, "/api/charts")
