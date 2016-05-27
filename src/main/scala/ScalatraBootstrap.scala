@@ -14,12 +14,12 @@ class ScalatraBootstrap extends LifeCycle {
   implicit val swagger = new OpenBlockchainSwagger
 
   //Cassandra's initialisation code
-//  implicit val keySpace = ChainDatabase.space
-//  implicit val session = ChainDatabase.session
+  implicit val keySpace = ChainDatabase.space
+  implicit val session = ChainDatabase.session
 
   override def init(context: ServletContext) {
 
-//    Await.result(ChainDatabase.autocreate().future(), 10 seconds)
+    Await.result(ChainDatabase.autocreate().future(), 10 seconds)
 
     context.mount(new ApiDocsController, "/api-docs/")
     context.mount(new ChartsController, "/api/charts")
