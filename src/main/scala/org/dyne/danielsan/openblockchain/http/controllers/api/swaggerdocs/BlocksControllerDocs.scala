@@ -12,12 +12,12 @@ trait BlocksControllerDocs extends SwaggerSupport {
   val getBlocks =
     (apiOperation[List[Block]]("getBlocks")
       summary "Shows all Blocks"
-      notes "Currently shows all blocks, with no possibility of filtering them. TODO: add filtering functionality. Mock data can be found here: https://github.com/dan-mi-sun/openblockchain/blob/feature/webapp/src/main/resources/mocks/blocks.csv")
+      notes "Currently shows all blocks, with no possibility of filtering them. TODO: add filtering functionality. Mock data can be found here: https://github.com/dan-mi-sun/openblockchain/blob/feature/webapp/src/main/resources/mocks/blocks.json")
 
   val getBlock =
     (apiOperation[Block]("getBlock")
       summary "Shows a block"
-      notes "Retrieves a block by its hash. Mock data can be found here: https://github.com/dan-mi-sun/openblockchain/blob/feature/webapp/src/main/resources/mocks/blocks.csv"
+      notes "Retrieves a block by its hash. Mock data can be found here: https://github.com/dan-mi-sun/openblockchain/blob/feature/webapp/src/main/resources/mocks/blocks.json"
       parameters
       pathParam[String]("id").description("ID of the block that needs to be fetched").required
       responseMessage StringResponseMessage(200, "Block retrieved"))
@@ -25,7 +25,7 @@ trait BlocksControllerDocs extends SwaggerSupport {
   val getBlockTransactionCount =
     (apiOperation[Int]("getBlockTransactionCount")
       summary "Shows the number of transactions within a block"
-      notes "Retrieves transaction count from block by its hash. Mock data can be found here: https://github.com/dan-mi-sun/openblockchain/blob/feature/webapp/src/main/resources/mocks/block_transaction_counts.csv"
+      notes "Retrieves transaction count from block by its hash. Mock data can be found here: https://github.com/dan-mi-sun/openblockchain/blob/feature/webapp/src/main/resources/mocks/block_transaction_counts.json"
       parameters
       pathParam[String]("id").description("ID of the block that needs to be fetched").required
       responseMessage StringResponseMessage(200, "Block Transaction-count retrieved"))
