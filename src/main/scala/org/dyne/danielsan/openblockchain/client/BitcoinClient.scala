@@ -18,7 +18,24 @@ it up
 
 /**
   * Created by dan_mi_sun on 10/03/2016.
+  *
+  *  docker exec -it bitcoind bitcoin-cli -conf=/etc/bitcoin.conf getblockhash 1
+  *  docker exec -it bitcoind bitcoin-cli -conf=/etc/bitcoin.conf getblock 00000000839a8e6886ab5951d76f411475428afc90947
+  *                                                                        ee320161bbf18eb6048
+  *  docker exec -it bitcoind bitcoin-cli -conf=/etc/bitcoin.conf getrawtransaction 0e3e2357e806b6cdb1f70b54c3a3a17b6714
+  *                                                                                 ee1f0e68bebb44a74b1efd512098
+  *  docker exec -it bitcoind bitcoin-cli -conf=/etc/bitcoin.conf decoderawtransaction 010000000100000000000000000000000
+  *                                                                                    000000000000000000000000000000000
+  *                                                                                    00000000ffffffff0704ffff001d0104f
+  *                                                                                    fffffff0100f2052a0100000043410496
+  *                                                                                    b538e853519c726a2c91e61ec11600ae1
+  *                                                                                    390813a627c66fb8be7947be63c52da75
+  *                                                                                    89379515d4e0a604f8141781e62294721
+  *                                                                                    166bf621e73a82cbf2342c858eeac0000
+  *                                                                                    0000
+  *
   */
+
 class BitcoinClient {
 
   implicit val formats = DefaultFormats
