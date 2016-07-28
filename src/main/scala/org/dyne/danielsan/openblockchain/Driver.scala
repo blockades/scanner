@@ -1,29 +1,29 @@
-//package org.dyne.danielsan.openblockchain
-//
-//import org.dyne.danielsan.openblockchain.client.BitcoinClient
-//import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
-//import org.json4s.DefaultFormats
-//
-//import scala.concurrent.Await
-//import scala.concurrent.ExecutionContext.Implicits.global
-//import scala.concurrent.duration._
-//import scala.util.{Failure, Success}
+package org.dyne.danielsan.openblockchain
+
+import org.dyne.danielsan.openblockchain.client.BitcoinClient
+import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
+import org.json4s.DefaultFormats
+
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 //
 //
 ///**
 //  * Created by dan_mi_sun on 13/03/2016.
 //  *
 //  */
-//object Driver {
-//
-//  def main(args: Array[String]) {
-//
-//    implicit val formats = DefaultFormats
-//
-//    implicit val space = ChainDatabase.space
-//    implicit val session = ChainDatabase.session
-//
-//    Await.result(ChainDatabase.autocreate().future, 10 seconds)
+object Driver {
+
+  def main(args: Array[String]) {
+
+    implicit val formats = DefaultFormats
+
+    implicit val space = ChainDatabase.space
+    implicit val session = ChainDatabase.session
+
+    Await.result(ChainDatabase.autocreate().future, 10 seconds)
 //
 //    //The following is like the API for the application. Need to find a sane way of organising
 //    //everything so that the layout makes sense. Will likely need to do this at some point during
@@ -33,7 +33,7 @@
 //    //It is also not fault tolerant with regards to getting to the end of blocks
 //    //echo `bitcoin-cli getblockcount 2>&1`/`wget -O - http://blockchain.info/q/getblockcount 2>/dev/null`
 //
-//    val client = new BitcoinClient
+    val client = new BitcoinClient
 //
 //    /*
 //NEXT STEP IS TO TAKE THE JSON OBJECT PARSE IT AND THEN INSERT INTO THE DB
@@ -54,24 +54,24 @@
 ////        val btc = client.updateBlockTransactionCount(2)
 ////        println(s"this is the btc: $btc")
 //
-//    for (a <- 1 to 100) {
-//
-//      val t = client.decodeRawTransaction(a)
-//      println("Transaction: " + t)
+    for (a <- 1 to 100) {
+
+      val t = client.decodeRawTransaction(a)
+      println("Transaction: " + t)
 //      val operationT = ChainDatabase.insertTransaction(t)
 //      Await.result(operationT, 10.seconds)
-//
-//      val b = client.getBlockForId(a)
-//      println("Block: " + b)
+
+      val b = client.getBlockForId(a)
+      println("Block: " + b)
 //      val operationB = ChainDatabase.insertBlock(b)
 //      Await.result(operationB, 10.seconds)
-//
-//      val btc = client.updateBlockTransactionCount(a)
-//      println(s"BlockTansactionCount: $btc")
+
+      val btc = client.updateBlockTransactionCount(a)
+      println(s"BlockTansactionCount: $btc")
 //      val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
 //      Await.result(operationBTC, 10.seconds)
-//
-//    }
+
+    }
 //
 //    //List all Blocks
 //    //        val cblist = ChainDatabase.listAllBlocks
@@ -116,7 +116,7 @@
 ////    }
 //
 //
-//    println("Sample ended")
-//    System.exit(0)
-//  }
-//}
+    println("Sample ended")
+    System.exit(0)
+  }
+}
