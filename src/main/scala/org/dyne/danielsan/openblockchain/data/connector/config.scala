@@ -9,7 +9,7 @@ import com.websudos.phantom.connectors.{ContactPoint, KeySpace, KeySpaceBuilder,
 object Config {
 
   val keySpace = KeySpace("openblockchain")
-  val contactPoint: KeySpaceBuilder = ContactPoint(host = "188.166.168.250", port = ContactPoint.DefaultPorts.live)
+  val contactPoint: KeySpaceBuilder = ContactPoint(host = "localhost", port = ContactPoint.DefaultPorts.live)
   val keySpaceDefinition: KeySpaceDef = contactPoint.keySpace(keySpace.name)
 
 }
