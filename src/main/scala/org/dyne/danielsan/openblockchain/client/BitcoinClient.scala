@@ -36,22 +36,27 @@ class BitcoinClient {
 
   val baseUrl = "http://127.0.0.1:8332"
 
+  def getRequestBody(method: String, params: List[Any]): String = {
+    val request = BtcRequest(method, params)
+    val json = write(request)
+    Http(baseUrl).postData(json)
+      .header("content-type", "application/json")
+      .header("Authorization", auth)
+      .asString
+      .body
+  }
+  
+  def getRequestResultAs[T](method: String, params: List[Any]): T = {
+    val resp = getRequestBody(method, params)
+    (parse(resp) \ "result").extract[T]
+  }
+
   def decodeRawTransaction(id: Int): List[Transaction] = {
-      val rawTxs = getRawTransaction(id)
-      rawTxs.map( rawTx => (parse(Http(baseUrl).postData(write(BtcRequest("decoderawtransaction", List(rawTx))))
-                            .header("content-type", "application/json")
-                            .header("Authorization", auth)
-                            .asString
-                            .body) \ "result").extract[Transaction])
+    getRawTransaction(id).map(rawTx => getRequestResultAs[Transaction]("decoderawtransaction", List(rawTx)))
   }
 
   def getRawTransaction(id: Int): List[String] = {
-    val txIds = extractTransactionIds(id)
-    txIds.map( txId => (parse(Http(baseUrl).postData(write(BtcRequest("getrawtransaction", List(txId))))
-                        .header("content-type", "application/json")
-                        .header("Authorization", auth)
-                        .asString
-                        .body) \ "result").extract[String])
+    extractTransactionIds(id).map(txId => getRequestResultAs[String]("getrawtransaction", List(txId)))
   }
 
   def extractTransactionIds(id: Int): List[String] = {
@@ -66,9 +71,9 @@ class BitcoinClient {
   def getTransactionCountFromWithinBlock(id: Int): String = {
     val block = getBlockForId(id)
     val json = "blockTransactionCount" ->
-                  ("hash" -> block.hash) ~
-                  ("height" -> block.height) ~
-                  ("num_transactions" -> block.tx.length)
+        ("hash" -> block.hash) ~
+        ("height" -> block.height) ~
+        ("num_transactions" -> block.tx.length)
     compact(render(json))
   }
 
@@ -86,32 +91,16 @@ class BitcoinClient {
   }
 
   def getBlockHashForId(id: Int): String = {
-    val request = BtcRequest("getblockhash", List(id))
-    val json = write(request)
-    val resp = Http(baseUrl).postData(json)
-      .header("content-type", "application/json")
-      .header("Authorization", auth)
-      .asString
-      .body
-    (parse(resp) \ "result").extract[String]
+    getRequestResultAs[String]("getblockhash", List(id))
   }
 
   def getBlockForHash(hash: String): String = {
-    val request = BtcRequest("getblock", List(hash))
-    val json = write(request)
-    Http(baseUrl).postData(json)
-      .header("content-type", "application/json")
-      .header("Authorization", auth)
-      .asString
-      .body
+    getRequestBody("getblock", List(hash))
   }
 
-  private
-
-  def auth = {
+  private def auth = {
     "Basic " + Base64.encodeString("test:test1")
   }
 }
 
 case class BtcRequest(method: String, params: List[Any])
-
