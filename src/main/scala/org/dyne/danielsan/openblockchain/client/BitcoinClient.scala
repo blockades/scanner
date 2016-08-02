@@ -10,12 +10,6 @@ import org.json4s.{DefaultFormats, _}
 import scala.language.postfixOps
 import scalaj.http.{Base64, Http}
 
-/*
-Known limitation is that there is alot of repition (i.e. not DRY) - within the methods
-themselves - is it possibleto abstract these out into another method so that we can DRY
-it up
- */
-
 /**
   * Created by dan_mi_sun on 10/03/2016.
   *
@@ -42,35 +36,27 @@ class BitcoinClient {
 
   val baseUrl = "http://127.0.0.1:8332"
 
-  def decodeRawTransaction(id: Int): Transaction = {
-    val rawTx = getRawTransaction(id)
-    val request = BtcRequest("decoderawtransaction", List(rawTx))
-    val json = write(request)
-    val resp = Http(baseUrl).postData(json)
-      .header("content-type", "application/json")
-      .header("Authorization", auth)
-      .asString
-      .body
-    (parse(resp) \ "result").extract[Transaction]
+  def decodeRawTransaction(id: Int): List[Transaction] = {
+      val rawTxs = getRawTransaction(id)
+      rawTxs.map( t => (parse(Http(baseUrl).postData(write(BtcRequest("decoderawtransaction", List(t))))
+        .header("content-type", "application/json")
+        .header("Authorization", auth)
+        .asString
+        .body) \ "result").extract[Transaction])
   }
 
-  def getRawTransaction(id: Int): String = {
-    val txId = extractTransactionIds(id)
-    val request = BtcRequest("getrawtransaction", List(txId))
-    val json = write(request)
-    val resp = Http(baseUrl).postData(json)
+  def getRawTransaction(id: Int): List[String] = {
+    val txIds = extractTransactionIds(id)
+    //here we have the list of txIds. We want to iterate through the entire list and do the rest of the commands
+    txIds.map( t => (parse(Http(baseUrl).postData(write(BtcRequest("getrawtransaction", List(t))))
       .header("content-type", "application/json")
-      .header("Authorization", auth)
-      .asString
-      .body
-    (parse(resp) \ "result").extract[String]
+          .header("Authorization", auth)
+          .asString
+          .body) \ "result").extract[String])
   }
 
-  // Known limitation is that this is only going to take the head of the list
-  // Many blocks have many TransactionsIds within a block
-  def extractTransactionIds(id: Int): String = {
-    val transactionList = getTransactionIdsFromWithinBlock(id)
-    transactionList.head
+  def extractTransactionIds(id: Int): List[String] = {
+    getTransactionIdsFromWithinBlock(id)
   }
 
   def getTransactionIdsFromWithinBlock(id: Int): List[String] = {
@@ -80,10 +66,10 @@ class BitcoinClient {
 
   def getTransactionCountFromWithinBlock(id: Int): String = {
     val block = getBlockForId(id)
-    val json = ("blockTransactionCount" ->
+    val json = "blockTransactionCount" ->
                   ("hash" -> block.hash) ~
                   ("height" -> block.height) ~
-                  ("num_transactions" -> block.tx.length))
+                  ("num_transactions" -> block.tx.length)
     compact(render(json))
   }
 

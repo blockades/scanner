@@ -40,8 +40,6 @@ object OpenBlockchainBuild extends Build {
         "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided",
         "org.mockito" % "mockito-core" % "1.10.19",
         "org.scalatra" %% "scalatra-json" % ScalatraVersion,
-        "org.scalatra" %% "scalatra-swagger" % ScalatraVersion,
-        "org.webjars" % "swagger-ui" % "2.0.21",
         "org.json4s" %% "json4s-jackson" % ScalatraJacksonVersion,
         "org.scalaj" %% "scalaj-http" % "2.2.1",
         "org.scalatest" %% "scalatest" % "2.2.1" % "test",
