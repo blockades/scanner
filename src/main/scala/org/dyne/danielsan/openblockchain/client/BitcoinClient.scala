@@ -38,7 +38,7 @@ class BitcoinClient {
 
   def decodeRawTransaction(id: Int): List[Transaction] = {
       val rawTxs = getRawTransaction(id)
-      rawTxs.map( t => (parse(Http(baseUrl).postData(write(BtcRequest("decoderawtransaction", List(t))))
+      rawTxs.map( rawTx => (parse(Http(baseUrl).postData(write(BtcRequest("decoderawtransaction", List(rawTx))))
         .header("content-type", "application/json")
         .header("Authorization", auth)
         .asString
@@ -48,7 +48,7 @@ class BitcoinClient {
   def getRawTransaction(id: Int): List[String] = {
     val txIds = extractTransactionIds(id)
     //here we have the list of txIds. We want to iterate through the entire list and do the rest of the commands
-    txIds.map( t => (parse(Http(baseUrl).postData(write(BtcRequest("getrawtransaction", List(t))))
+    txIds.map( txId => (parse(Http(baseUrl).postData(write(BtcRequest("getrawtransaction", List(txId))))
       .header("content-type", "application/json")
           .header("Authorization", auth)
           .asString

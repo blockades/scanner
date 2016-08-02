@@ -24,7 +24,7 @@ object Driver {
 
     val client = new BitcoinClient
 
-    for (a <- 1 to 100) {
+    for (a <- 1 to 231730) {
 
       val t = client.decodeRawTransaction(a)
       println("Transaction: " + t)
