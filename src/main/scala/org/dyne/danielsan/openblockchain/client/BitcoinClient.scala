@@ -39,12 +39,14 @@ class BitcoinClient {
   def getRequestBody(method: String, params: List[Any]): String = {
     val request = BtcRequest(method, params)
     val json = write(request)
-    println("Raw JSON: " + json)
-    Http(baseUrl).postData(json)
+    println("Raw req JSON: " + json)
+    val resp = Http(baseUrl).postData(json)
       .header("content-type", "application/json")
       .header("Authorization", auth)
       .asString
       .body
+    println("Raw resp JSON: " + resp)
+    resp
   }
   
   def getRequestResultAs[T](method: String, params: List[Any])(implicit mf: Manifest[T]): T = {

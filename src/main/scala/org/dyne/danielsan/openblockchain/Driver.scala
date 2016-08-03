@@ -27,16 +27,16 @@ object Driver {
     for (a <- 168 to 231730) {
 
       val t = client.decodeRawTransaction(a)
-      println("Transaction: " + t)
+//      println("Transaction: " + t)
       t.map( transaction => Await.result((ChainDatabase.insertTransaction(transaction)), 10.seconds))
 
       val b = client.getBlockForId(a)
-       println("Block: " + b)
+//       println("Block: " + b)
       val operationB = ChainDatabase.insertBlock(b)
       Await.result(operationB, 10.seconds)
 
       val btc = client.updateBlockTransactionCount(a)
-      println(s"BlockTansactionCount: $btc")
+//      println(s"BlockTansactionCount: $btc")
       val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
       Await.result(operationBTC, 10.seconds)
 
