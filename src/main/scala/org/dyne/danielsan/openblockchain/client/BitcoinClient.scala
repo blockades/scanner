@@ -39,6 +39,7 @@ class BitcoinClient {
   def getRequestBody(method: String, params: List[Any]): String = {
     val request = BtcRequest(method, params)
     val json = write(request)
+    println("Raw JSON: " + json)
     Http(baseUrl).postData(json)
       .header("content-type", "application/json")
       .header("Authorization", auth)
