@@ -46,7 +46,7 @@ class BitcoinClient {
       .body
   }
   
-  def getRequestResultAs[T](method: String, params: List[Any]): T = {
+  def getRequestResultAs[T](method: String, params: List[Any])(implicit mf: Manifest[T]): T = {
     val resp = getRequestBody(method, params)
     (parse(resp) \ "result").extract[T]
   }
