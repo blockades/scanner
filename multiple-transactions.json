@@ -1,0 +1,104 @@
+Raw req JSON: {
+  "method":"getblockhash",
+  "params":[168]}
+Raw resp JSON: {
+  "result":"00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69",
+  "error":null,
+  "id":null}
+
+Raw req JSON: {
+  "method":"getblock",
+  "params":["00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69"]}
+Raw resp JSON: {
+  "result": {
+    "hash":"00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69",
+    "confirmations":89221,
+    "size":215,
+    "height":168,
+    "version":1,
+    "merkleroot":"6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8",
+    "tx":["6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8"],
+    "time":1231717181,
+    "mediantime":1231714917,
+    "nonce":1647037482,
+    "bits":"1d00ffff",
+    "difficulty":1,
+    "chainwork":"000000000000000000000000000000000000000000000000000000a900a900a9",
+    "previousblockhash":"0000000019735037752be2927084cf026224254e01e4b1223a37c18bd92561de",
+    "nextblockhash":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55"},
+    "error":null,
+    "id":null}
+
+Raw req JSON: {
+  "method":"getrawtransaction",
+  "params":["6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8"]}
+Raw resp JSON: {
+  "result":"01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d0103ffffffff0100f2052a010000004341040c5e37183d6161304c00a1bdf933822f8f0e7a219e70b931fc28cf3bc41e24c86133041f29f1d90dcdfceeaaacb7a203f5fc2bda7149e58c88de66adbe87c69fac00000000",
+  "error":null,
+  "id":null}
+
+Raw req JSON: {
+  "method":"decoderawtransaction",
+  "params":["01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d0103ffffffff0100f2052a010000004341040c5e37183d6161304c00a1bdf933822f8f0e7a219e70b931fc28cf3bc41e24c86133041f29f1d90dcdfceeaaacb7a203f5fc2bda7149e58c88de66adbe87c69fac00000000"]}
+Raw resp JSON: {
+  "result":{
+    "txid":"6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8",
+    "size":134,
+    "version":1,
+    "locktime":0,
+    "vin":[{
+      "coinbase":"04ffff001d0103",
+      "sequence":4294967295}],
+    "vout":[{
+      "value":50.00000000,
+      "n":0,
+      "scriptPubKey":{
+        "asm":"040c5e37183d6161304c00a1bdf933822f8f0e7a219e70b931fc28cf3bc41e24c86133041f29f1d90dcdfceeaaacb7a203f5fc2bda7149e58c88de66adbe87c69f OP_CHECKSIG",
+        "hex":"41040c5e37183d6161304c00a1bdf933822f8f0e7a219e70b931fc28cf3bc41e24c86133041f29f1d90dcdfceeaaacb7a203f5fc2bda7149e58c88de66adbe87c69fac",
+        "reqSigs":1,
+        "type":"pubkey",
+        "addresses":["1NZz1UN616LfyX87zGRnVifiWRSN5xm9ht"]}}]},
+        "error":null,
+        "id":null}
+
+Transaction: List(Transaction(6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8,1,0,List(Vin(04ffff001d0103,-1)),List(Vout(50.0,0,ScriptPubKey(41040c5e37183d6161304c00a1bdf933822f8f0e7a219e70b931fc28cf3bc41e24c86133041f29f1d90dcdfceeaaacb7a203f5fc2bda7149e58c88de66adbe87c69fac,040c5e37183d6161304c00a1bdf933822f8f0e7a219e70b931fc28cf3bc41e24c86133041f29f1d90dcdfceeaaacb7a203f5fc2bda7149e58c88de66adbe87c69f OP_CHECKSIG,pubkey,1,List(1NZz1UN616LfyX87zGRnVifiWRSN5xm9ht))))))
+Raw req JSON: {"method":"getblockhash","params":[168]}
+Raw resp JSON: {"result":"00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69","error":null,"id":null}
+
+Raw req JSON: {"method":"getblock","params":["00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69"]}
+Raw resp JSON: {"result":{"hash":"00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69","confirmations":89360,"size":215,"height":168,"version":1,"merkleroot":"6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8","tx":["6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8"],"time":1231717181,"mediantime":1231714917,"nonce":1647037482,"bits":"1d00ffff","difficulty":1,"chainwork":"000000000000000000000000000000000000000000000000000000a900a900a9","previousblockhash":"0000000019735037752be2927084cf026224254e01e4b1223a37c18bd92561de","nextblockhash":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55"},"error":null,"id":null}
+
+Block: Block(00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69,89360,215,168,1,6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8,List(6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8),1231717181,1647037482,1d00ffff,1.0,000000000000000000000000000000000000000000000000000000a900a900a9,0000000019735037752be2927084cf026224254e01e4b1223a37c18bd92561de,000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55)
+Raw req JSON: {"method":"getblockhash","params":[168]}
+Raw resp JSON: {"result":"00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69","error":null,"id":null}
+
+Raw req JSON: {"method":"getblock","params":["00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69"]}
+Raw resp JSON: {"result":{"hash":"00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69","confirmations":89384,"size":215,"height":168,"version":1,"merkleroot":"6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8","tx":["6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8"],"time":1231717181,"mediantime":1231714917,"nonce":1647037482,"bits":"1d00ffff","difficulty":1,"chainwork":"000000000000000000000000000000000000000000000000000000a900a900a9","previousblockhash":"0000000019735037752be2927084cf026224254e01e4b1223a37c18bd92561de","nextblockhash":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55"},"error":null,"id":null}
+
+BlockTansactionCount: BlockTransactionCounts(00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69,168,1)
+Raw req JSON: {"method":"getblockhash","params":[169]}
+Raw resp JSON: {"result":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55","error":null,"id":null}
+
+Raw req JSON: {"method":"getblock","params":["000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55"]}
+Raw resp JSON: {"result":{"hash":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55","confirmations":89427,"size":215,"height":169,"version":1,"merkleroot":"d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98","tx":["d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98"],"time":1231730523,"mediantime":1231715347,"nonce":3718213931,"bits":"1d00ffff","difficulty":1,"chainwork":"000000000000000000000000000000000000000000000000000000aa00aa00aa","previousblockhash":"00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69","nextblockhash":"00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee"},"error":null,"id":null}
+
+Raw req JSON: {"method":"getrawtransaction","params":["d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98"]}
+Raw resp JSON: {"result":"01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d0101ffffffff0100f2052a010000004341045da87c7b825c75ca17ade8bb5cdbcd27af4ce97373aa9848c0c84693ca857cf379e14c2ce61ea2aaee9450d0939e21bd26894aa6dcc808656fa9974dc296589eac00000000","error":null,"id":null}
+
+Raw req JSON: {"method":"decoderawtransaction","params":["01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d0101ffffffff0100f2052a010000004341045da87c7b825c75ca17ade8bb5cdbcd27af4ce97373aa9848c0c84693ca857cf379e14c2ce61ea2aaee9450d0939e21bd26894aa6dcc808656fa9974dc296589eac00000000"]}
+Raw resp JSON: {"result":{"txid":"d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98","size":134,"version":1,"locktime":0,"vin":[{"coinbase":"04ffff001d0101","sequence":4294967295}],"vout":[{"value":50.00000000,"n":0,"scriptPubKey":{"asm":"045da87c7b825c75ca17ade8bb5cdbcd27af4ce97373aa9848c0c84693ca857cf379e14c2ce61ea2aaee9450d0939e21bd26894aa6dcc808656fa9974dc296589e OP_CHECKSIG","hex":"41045da87c7b825c75ca17ade8bb5cdbcd27af4ce97373aa9848c0c84693ca857cf379e14c2ce61ea2aaee9450d0939e21bd26894aa6dcc808656fa9974dc296589eac","reqSigs":1,"type":"pubkey","addresses":["13ph5zPCBLeZcPph9FBZKeeyDjvU2tvcMY"]}}]},"error":null,"id":null}
+
+Transaction: List(Transaction(d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98,1,0,List(Vin(04ffff001d0101,-1)),List(Vout(50.0,0,ScriptPubKey(41045da87c7b825c75ca17ade8bb5cdbcd27af4ce97373aa9848c0c84693ca857cf379e14c2ce61ea2aaee9450d0939e21bd26894aa6dcc808656fa9974dc296589eac,045da87c7b825c75ca17ade8bb5cdbcd27af4ce97373aa9848c0c84693ca857cf379e14c2ce61ea2aaee9450d0939e21bd26894aa6dcc808656fa9974dc296589e OP_CHECKSIG,pubkey,1,List(13ph5zPCBLeZcPph9FBZKeeyDjvU2tvcMY))))))
+Raw req JSON: {"method":"getblockhash","params":[169]}
+Raw resp JSON: {"result":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55","error":null,"id":null}
+
+Raw req JSON: {"method":"getblock","params":["000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55"]}
+Raw resp JSON: {"result":{"hash":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55","confirmations":89440,"size":215,"height":169,"version":1,"merkleroot":"d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98","tx":["d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98"],"time":1231730523,"mediantime":1231715347,"nonce":3718213931,"bits":"1d00ffff","difficulty":1,"chainwork":"000000000000000000000000000000000000000000000000000000aa00aa00aa","previousblockhash":"00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69","nextblockhash":"00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee"},"error":null,"id":null}
+
+Block: Block(000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55,89440,215,169,1,d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98,List(d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98),1231730523,3718213931,1d00ffff,1.0,000000000000000000000000000000000000000000000000000000aa00aa00aa,00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69,00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee)
+Raw req JSON: {"method":"getblockhash","params":[169]}
+Raw resp JSON: {"result":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55","error":null,"id":null}
+
+Raw req JSON: {"method":"getblock","params":["000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55"]}
+Raw resp JSON: {"result":{"hash":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55","confirmations":89447,"size":215,"height":169,"version":1,"merkleroot":"d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98","tx":["d7b9a9da6becbf47494c27e913241e5a2b85c5cceba4b2f0d8305e0a87b92d98"],"time":1231730523,"mediantime":1231715347,"nonce":3718213931,"bits":"1d00ffff","difficulty":1,"chainwork":"000000000000000000000000000000000000000000000000000000aa00aa00aa","previousblockhash":"00000000567e95797f93675ac23683ae3787b183bb36859c18d9220f3fa66a69","nextblockhash":"00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee"},"error":null,"id":null}
+

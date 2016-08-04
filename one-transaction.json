@@ -1,0 +1,256 @@
+Raw req JSON: {
+    "method":"getblockhash",
+    "params":[170]}
+Raw resp JSON: {
+    "result":"00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee",
+    "error":null,
+    "id":null}
+
+Raw req JSON: {
+    "method":"getblock",
+    "params":["00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee"]}
+Raw resp JSON: {
+    "result": {
+        "hash":"00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee",
+        "confirmations":89467,
+        "size":490,
+        "height":170,
+        "version":1,
+        "merkleroot":"7dac2c5666815c17a3b36427de37bb9d2e2c5ccec3f8633eb91a4205cb4c10ff",
+        "tx":["b1fea52486ce0c62bb442b530a3f0132b826c74e473d1f2c220bfa78111c5082",
+          "f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16"],
+    "time":1231731025,
+    "mediantime":1231716245,
+    "nonce":1889418792,
+    "bits":"1d00ffff",
+    "difficulty":1,
+    "chainwork":"000000000000000000000000000000000000000000000000000000ab00ab00ab",
+    "previousblockhash":"000000002a22cfee1f2c846adbd12b3e183d4f97683f85dad08a79780a84bd55",
+    "nextblockhash":"00000000c9ec538cab7f38ef9c67a95742f56ab07b0a37c5be6b02808dbfb4e0"},
+    "error":null,
+    "id":null}
+
+Raw req JSON:
+  {"method":"getrawtransaction",
+    "params":["b1fea52486ce0c62bb442b530a3f0132b826c74e473d1f2c220bfa78111c5082"]}
+Raw resp JSON:
+  {"result":"01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d0102ffffffff0100f2052a01000000434104d46c4968bde02899d2aa0963367c7a6ce34eec332b32e42e5f3407e052d64ac625da6f0718e7b302140434bd725706957c092db53805b821a85b23a7ac61725bac00000000",
+    "error":null,
+    "id":null}
+
+Raw req JSON:
+  {"method":"getrawtransaction",
+    "params":["f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16"]}
+Raw resp JSON:
+  {"result":"0100000001c997a5e56e104102fa209c6a852dd90660a20b2d9c352423edce25857fcd3704000000004847304402204e45e16932b8af514961a1d3a1a25fdf3f4f7732e9d624c6c61548ab5fb8cd410220181522ec8eca07de4860a4acdd12909d831cc56cbbac4622082221a8768d1d0901ffffffff0200ca9a3b00000000434104ae1a62fe09c5f51b13905f07f06b99a2f7159b2225f374cd378d71302fa28414e7aab37397f554a7df5f142c21c1b7303b8a0626f1baded5c72a704f7e6cd84cac00286bee0000000043410411db93e1dcdb8a016b49840f8c53bc1eb68a382e97b1482ecad7b148a6909a5cb2e0eaddfb84ccf9744464f82e160bfa9b8b64f9d4c03f999b8643f656b412a3ac00000000",
+    "error":null,
+    "id":null}
+
+Raw req JSON:
+  {"method":"decoderawtransaction",
+    "params":["01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff0704ffff001d0102ffffffff0100f2052a01000000434104d46c4968bde02899d2aa0963367c7a6ce34eec332b32e42e5f3407e052d64ac625da6f0718e7b302140434bd725706957c092db53805b821a85b23a7ac61725bac00000000"]}
+Raw resp JSON: {
+    "result": {
+    "txid":"b1fea52486ce0c62bb442b530a3f0132b826c74e473d1f2c220bfa78111c5082",
+    "size":134,
+    "version":1,
+    "locktime":0,
+    "vin":[{
+        "coinbase":"04ffff001d0102",
+        "sequence":4294967295}],
+    "vout":[{
+      "value":50.00000000,
+      "n":0,
+      "scriptPubKey":{
+        "asm":"04d46c4968bde02899d2aa0963367c7a6ce34eec332b32e42e5f3407e052d64ac625da6f0718e7b302140434bd725706957c092db53805b821a85b23a7ac61725b OP_CHECKSIG",
+        "hex":"4104d46c4968bde02899d2aa0963367c7a6ce34eec332b32e42e5f3407e052d64ac625da6f07h18e7b302140434bd725706957c092db53805b821a85b23a7ac61725bac",
+        "reqSigs":1,
+        "type":"pubkey",
+        "addresses":["1PSSGeFHDnKNxiEyFrD1wcEaHr9hrQDDWc"]}}]},
+        "error":null,
+        "id":null}
+
+Raw req JSON: {
+    "method":"decoderawtransaction",
+    "params":["0100000001c997a5e56e104102fa209c6a852dd90660a20b2d9c352423edce25857fcd3704000000004847304402204e45e16932b8af514961a1d3a1a25fdf3f4f7732e9d624c6c61548ab5fb8cd410220181522ec8eca07de4860a4acdd12909d831cc56cbbac4622082221a8768d1d0901ffffffff0200ca9a3b00000000434104ae1a62fe09c5f51b13905f07f06b99a2f7159b2225f374cd378d71302fa28414e7aab37397f554a7df5f142c21c1b7303b8a0626f1baded5c72a704f7e6cd84cac00286bee0000000043410411db93e1dcdb8a016b49840f8c53bc1eb68a382e97b1482ecad7b148a6909a5cb2e0eaddfb84ccf9744464f82e160bfa9b8b64f9d4c03f999b8643f656b412a3ac00000000"]}
+Raw resp JSON: {
+    "result":{
+        "txid":"f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16",
+        "size":275,
+        "version":1,
+        "locktime":0,
+        "vin":[{
+            "txid":"0437cd7f8525ceed2324359c2d0ba26006d92d856a9c20fa0241106ee5a597c9",
+            "vout":0,
+            "scriptSig":{
+                "asm":"304402204e45e16932b8af514961a1d3a1a25fdf3f4f7732e9d624c6c61548ab5fb8cd410220181522ec8eca07de4860a4acdd12909d831cc56cbbac4622082221a8768d1d09[ALL]",
+                "hex":"47304402204e45e16932b8af514961a1d3a1a25fdf3f4f7732e9d624c6c61548ab5fb8cd410220181522ec8eca07de4860a4acdd12909d831cc56cbbac4622082221a8768d1d0901"},
+                "sequence":4294967295}],
+                "vout":[{
+                    "value":10.00000000,
+                    "n":0,
+                    "scriptPubKey":{
+                        "asm":"04ae1a62fe09c5f51b13905f07f06b99a2f7159b2225f374cd378d71302fa28414e7aab37397f554a7df5f142c21c1b7303b8a0626f1baded5c72a704f7e6cd84c OP_CHECKSIG",
+                        "hex":"4104ae1a62fe09c5f51b13905f07f06b99a2f7159b2225f374cd378d71302fa28414e7aab37397f554a7df5f142c21c1b7303b8a0626f1baded5c72a704f7e6cd84cac",
+                        "reqSigs":1,
+                        "type":"pubkey",
+                        "addresses":["1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3"]}},
+                            {"value":40.00000000,
+                            "n":1,"scriptPubKey":{
+                                "asm":"0411db93e1dcdb8a016b49840f8c53bc1eb68a382e97b1482ecad7b148a6909a5cb2e0eaddfb84ccf9744464f82e160bfa9b8b64f9d4c03f999b8643f656b412a3 OP_CHECKSIG",
+                "hex":"410411db93e1dcdb8a016b49840f8c53bc1eb68a382e97b1482ecad7b148a6909a5cb2e0eaddfb84ccf9744464f82e160bfa9b8b64f9d4c03f999b8643f656b412a3ac",
+                "reqSigs":1,
+                "type":"pubkey",
+                "addresses":["12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S"]}}]},
+                "error":null,
+                "id":null}
+
+[error] (run-main-0) org.json4s.package$MappingException: No usable value for vin
+  [error] No usable value for coinbase
+  [error] Did not find value which can be converted into java.lang.String
+org.json4s.package$MappingException: No usable value for vin
+No usable value for coinbase
+Did not find value which can be converted into java.lang.String
+at org.json4s.reflect.package$.fail(package.scala:95)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$buildCtorArg(Extraction.scala:491)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)
+at scala.collection.TraversableLike$class.map(TraversableLike.scala:234)
+at scala.collection.AbstractTraversable.map(Traversable.scala:104)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$instantiate(Extraction.scala:499)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:546)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:541)
+at org.json4s.Extraction$.org$json4s$Extraction$$customOrElse(Extraction.scala:555)
+at org.json4s.Extraction$ClassInstanceBuilder.result(Extraction.scala:541)
+at org.json4s.Extraction$.extract(Extraction.scala:376)
+at org.json4s.Extraction$.extract(Extraction.scala:42)
+at org.json4s.ExtractableJsonAstNode.extract(ExtractableJsonAstNode.scala:21)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient.getRequestResultAs(BitcoinClient.scala:54)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient$$anonfun$decodeRawTransaction$1.apply(BitcoinClient.scala:58)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient$$anonfun$decodeRawTransaction$1.apply(BitcoinClient.scala:58)
+at scala.collection.immutable.List.map(List.scala:277)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient.decodeRawTransaction(BitcoinClient.scala:58)
+at org.dyne.danielsan.openblockchain.Driver$$anonfun$main$1.apply(Driver.scala:29)
+at org.dyne.danielsan.openblockchain.Driver$$anonfun$main$1.apply(Driver.scala:27)
+at scala.collection.immutable.Range.foreach(Range.scala:160)
+at org.dyne.danielsan.openblockchain.Driver$.main(Driver.scala:27)
+at org.dyne.danielsan.openblockchain.Driver.main(Driver.scala)
+at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.lang.reflect.Method.invoke(Method.java:606)
+Caused by: org.json4s.package$MappingException: No usable value for coinbase
+Did not find value which can be converted into java.lang.String
+at org.json4s.reflect.package$.fail(package.scala:95)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$buildCtorArg(Extraction.scala:491)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)
+at scala.collection.TraversableLike$class.map(TraversableLike.scala:234)
+at scala.collection.AbstractTraversable.map(Traversable.scala:104)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$instantiate(Extraction.scala:499)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:546)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:541)
+at org.json4s.Extraction$.org$json4s$Extraction$$customOrElse(Extraction.scala:555)
+at org.json4s.Extraction$ClassInstanceBuilder.result(Extraction.scala:541)
+at org.json4s.Extraction$.extract(Extraction.scala:376)
+at org.json4s.Extraction$CollectionBuilder$$anonfun$6.apply(Extraction.scala:385)
+at org.json4s.Extraction$CollectionBuilder$$anonfun$6.apply(Extraction.scala:385)
+at scala.collection.immutable.List.map(List.scala:273)
+at org.json4s.Extraction$CollectionBuilder.mkCollection(Extraction.scala:385)
+at org.json4s.Extraction$CollectionBuilder.result(Extraction.scala:405)
+at org.json4s.Extraction$.extract(Extraction.scala:364)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$buildCtorArg(Extraction.scala:479)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)
+at scala.collection.TraversableLike$class.map(TraversableLike.scala:234)
+at scala.collection.AbstractTraversable.map(Traversable.scala:104)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$instantiate(Extraction.scala:499)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:546)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:541)
+at org.json4s.Extraction$.org$json4s$Extraction$$customOrElse(Extraction.scala:555)
+at org.json4s.Extraction$ClassInstanceBuilder.result(Extraction.scala:541)
+at org.json4s.Extraction$.extract(Extraction.scala:376)
+at org.json4s.Extraction$.extract(Extraction.scala:42)
+at org.json4s.ExtractableJsonAstNode.extract(ExtractableJsonAstNode.scala:21)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient.getRequestResultAs(BitcoinClient.scala:54)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient$$anonfun$decodeRawTransaction$1.apply(BitcoinClient.scala:58)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient$$anonfun$decodeRawTransaction$1.apply(BitcoinClient.scala:58)
+at scala.collection.immutable.List.map(List.scala:277)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient.decodeRawTransaction(BitcoinClient.scala:58)
+at org.dyne.danielsan.openblockchain.Driver$$anonfun$main$1.apply(Driver.scala:29)
+at org.dyne.danielsan.openblockchain.Driver$$anonfun$main$1.apply(Driver.scala:27)
+at scala.collection.immutable.Range.foreach(Range.scala:160)
+at org.dyne.danielsan.openblockchain.Driver$.main(Driver.scala:27)
+at org.dyne.danielsan.openblockchain.Driver.main(Driver.scala)
+at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.lang.reflect.Method.invoke(Method.java:606)
+Caused by: org.json4s.package$MappingException: Did not find value which can be converted into java.lang.String
+at org.json4s.Extraction$.convert(Extraction.scala:636)
+at org.json4s.Extraction$.extract(Extraction.scala:375)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$buildCtorArg(Extraction.scala:479)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)
+at scala.collection.TraversableLike$class.map(TraversableLike.scala:234)
+at scala.collection.AbstractTraversable.map(Traversable.scala:104)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$instantiate(Extraction.scala:499)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:546)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:541)
+at org.json4s.Extraction$.org$json4s$Extraction$$customOrElse(Extraction.scala:555)
+at org.json4s.Extraction$ClassInstanceBuilder.result(Extraction.scala:541)
+at org.json4s.Extraction$.extract(Extraction.scala:376)
+at org.json4s.Extraction$CollectionBuilder$$anonfun$6.apply(Extraction.scala:385)
+at org.json4s.Extraction$CollectionBuilder$$anonfun$6.apply(Extraction.scala:385)
+at scala.collection.immutable.List.map(List.scala:273)
+at org.json4s.Extraction$CollectionBuilder.mkCollection(Extraction.scala:385)
+at org.json4s.Extraction$CollectionBuilder.result(Extraction.scala:405)
+at org.json4s.Extraction$.extract(Extraction.scala:364)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$buildCtorArg(Extraction.scala:479)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$14.apply(Extraction.scala:511)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)
+at scala.collection.TraversableLike$class.map(TraversableLike.scala:234)
+at scala.collection.AbstractTraversable.map(Traversable.scala:104)
+at org.json4s.Extraction$ClassInstanceBuilder.org$json4s$Extraction$ClassInstanceBuilder$$instantiate(Extraction.scala:499)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:546)
+at org.json4s.Extraction$ClassInstanceBuilder$$anonfun$result$6.apply(Extraction.scala:541)
+at org.json4s.Extraction$.org$json4s$Extraction$$customOrElse(Extraction.scala:555)
+at org.json4s.Extraction$ClassInstanceBuilder.result(Extraction.scala:541)
+at org.json4s.Extraction$.extract(Extraction.scala:376)
+at org.json4s.Extraction$.extract(Extraction.scala:42)
+at org.json4s.ExtractableJsonAstNode.extract(ExtractableJsonAstNode.scala:21)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient.getRequestResultAs(BitcoinClient.scala:54)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient$$anonfun$decodeRawTransaction$1.apply(BitcoinClient.scala:58)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient$$anonfun$decodeRawTransaction$1.apply(BitcoinClient.scala:58)
+at scala.collection.immutable.List.map(List.scala:277)
+at org.dyne.danielsan.openblockchain.client.BitcoinClient.decodeRawTransaction(BitcoinClient.scala:58)
+at org.dyne.danielsan.openblockchain.Driver$$anonfun$main$1.apply(Driver.scala:29)
+at org.dyne.danielsan.openblockchain.Driver$$anonfun$main$1.apply(Driver.scala:27)
+at scala.collection.immutable.Range.foreach(Range.scala:160)
+at org.dyne.danielsan.openblockchain.Driver$.main(Driver.scala:27)
+at org.dyne.danielsan.openblockchain.Driver.main(Driver.scala)
+at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.lang.reflect.Method.invoke(Method.java:606)
+[trace] Stack trace suppressed: run last compile:run for the full output.
