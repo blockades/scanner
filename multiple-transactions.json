@@ -17,7 +17,8 @@ Raw resp JSON: {
     "height":168,
     "version":1,
     "merkleroot":"6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8",
-    "tx":["6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8"],
+    "tx":[
+      "6a8226ad9980693ffbf41a15a1118fb73a9f68cda9c0b9951490bd03cb70d1d8"],
     "time":1231717181,
     "mediantime":1231714917,
     "nonce":1647037482,
