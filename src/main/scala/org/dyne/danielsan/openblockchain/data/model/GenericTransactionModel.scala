@@ -24,14 +24,24 @@ sealed class TransactionsModel extends CassandraTable[TransactionsModel, Transac
   override def fromRow(row: Row): Transaction = {
     Transaction(
       txid(row),
+      hex(row),
+      size(row),
       version(row),
       locktime(row),
       vin(row),
-      vout(row)
+      vout(row),
+      blockhash(row),
+      confirmations(row),
+      time(row),
+      blocktime(row)
     )
   }
 
   object txid extends StringColumn(this) with PartitionKey[String]
+
+  object hex extends OptionalStringColumn(this)
+
+  object size extends IntColumn(this)
 
   object version extends IntColumn(this)
 
@@ -57,6 +67,14 @@ sealed class TransactionsModel extends CassandraTable[TransactionsModel, Transac
     }
   }
 
+  object blockhash extends StringColumn(this)
+
+  object confirmations extends IntColumn(this)
+
+  object time extends IntColumn(this)
+
+  object blocktime extends IntColumn(this)
+
 }
 
 abstract class ConcreteTransactionsModel extends TransactionsModel with RootConnector {
@@ -67,11 +85,17 @@ abstract class ConcreteTransactionsModel extends TransactionsModel with RootConn
 
   def insertNewTransaction(tx: Transaction) = {
     insert
+      .value(_.hex, tx.hex)
       .value(_.txid, tx.txid)
+      .value(_.size, tx.size)
       .value(_.version, tx.version)
       .value(_.locktime, tx.locktime)
       .value(_.vout, tx.vout)
       .value(_.vin, tx.vin)
+      .value(_.blockhash, tx.blockhash)
+      .value(_.confirmations, tx.confirmations)
+      .value(_.time, tx.time)
+      .value(_.blocktime, tx.blocktime)
   }
 
   def listAll = {

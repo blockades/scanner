@@ -54,12 +54,8 @@ class BitcoinClient {
     (parse(resp) \ "result").extract[T]
   }
 
-  def decodeRawTransaction(id: Int): List[Transaction] = {
-    getRawTransaction(id).map(rawTx => getRequestResultAs[Transaction]("decoderawtransaction", List(rawTx)))
-  }
-
-  def getRawTransaction(id: Int): List[String] = {
-    extractTransactionIds(id).map(txId => getRequestResultAs[String]("getrawtransaction", List(txId)))
+  def getRawTransaction(id: Int): List[Transaction] = {
+    extractTransactionIds(id).map(tx => getRequestResultAs[Transaction]("getrawtransaction", List(tx, 1)))
   }
 
   def extractTransactionIds(id: Int): List[String] = {
