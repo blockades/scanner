@@ -41,10 +41,9 @@ object Driver {
       Await.result(operationBTC, 10.seconds)
 
       val op_return_count = client.updateBlockOpReturnTransactionCount(a)
-      println(s"BlockOpReturnTansactionCount: $btc")
+      println(s"BlockOpReturnTansactionCount: $op_return_count")
       val operationOpReturn = ChainDatabase.saveOrUpdateBlockOpReturnTransactionCount(op_return_count)
       Await.result(operationOpReturn, 10.seconds)
-
 
     }
 
