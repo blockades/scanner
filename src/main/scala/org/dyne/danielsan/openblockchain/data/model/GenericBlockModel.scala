@@ -138,4 +138,39 @@ abstract class ConcreteBlockTransactionCountsModel extends BlockTransactionCount
   }
 }
 
+case class BlockOpReturnTransactionCounts(hash: String, height: Int, num_transactions: Long)
 
+sealed class BlockOpReturnTransactionCountsModel extends CassandraTable[BlockOpReturnTransactionCountsModel, BlockOpReturnTransactionCounts] {
+
+  override def tableName: String = "block_op_return_transaction_counts"
+
+  override def fromRow(r: Row): BlockOpReturnTransactionCounts = {
+    BlockOpReturnTransactionCounts(
+      hash(r),
+      height(r),
+      num_transactions(r)
+    )
+  }
+
+  object hash extends StringColumn(this) with PartitionKey[String]
+
+  object height extends IntColumn(this) with ClusteringOrder[Int] with Descending
+
+  object num_transactions extends CounterColumn(this)
+
+}
+
+abstract class ConcreteBlockOpReturnTransactionCountsModel extends BlockOpReturnTransactionCountsModel with RootConnector {
+
+  def increment(count: BlockOpReturnTransactionCounts): Future[ResultSet] = {
+    update
+      .where(_.hash eqs count.hash)
+      .and(_.height eqs count.height)
+      .modify(_.num_transactions += count.num_transactions)
+      .future()
+  }
+
+  def getCount(hash: String): Future[Option[Long]] = {
+    select(_.num_transactions).where(_.hash eqs hash).one()
+  }
+}

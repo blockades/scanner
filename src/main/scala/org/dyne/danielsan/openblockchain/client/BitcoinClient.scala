@@ -1,7 +1,7 @@
 package org.dyne.danielsan.openblockchain.client
 
 import org.dyne.danielsan.openblockchain.data.entity.{Block, Transaction}
-import org.dyne.danielsan.openblockchain.data.model.BlockTransactionCounts
+import org.dyne.danielsan.openblockchain.data.model.{BlockOpReturnTransactionCounts, BlockTransactionCounts}
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
@@ -80,6 +80,19 @@ class BitcoinClient {
     val counts = getTransactionCountFromWithinBlock(id)
     val btc = parse(counts) \ "blockTransactionCount"
     btc.extract[BlockTransactionCounts]
+  }
+
+  def isOpReturnTransaction(id: Int): Boolean = {
+    ???
+    //Need to find out if a transaction is OP_RETURN or not
+    //If true, need to find out which block transaction belongs to (different method?)
+    //Once found which block the OP_RETURN belongs to, increment count
+  }
+
+  def updateBlockOpReturnTransactionCount(id: Int): BlockOpReturnTransactionCounts = {
+    ???
+    //This is not going to be as simple as the tx count within block
+    //Need to update this from within each transaction
   }
 
   def getBlockForId(id: Int): Block = {
