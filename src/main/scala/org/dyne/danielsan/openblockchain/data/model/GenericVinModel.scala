@@ -24,9 +24,9 @@ sealed class VinsModel extends CassandraTable[ConcreteVinsModel, Vin] {
     )
   }
 
-  object coinbase extends StringColumn(this)
+  object coinbase extends OptionalStringColumn(this)
 
-  object sequence extends IntColumn(this)
+  object sequence extends OptionalIntColumn(this)
 }
 
 abstract class ConcreteVinsModel  extends VinsModel  with RootConnector {
