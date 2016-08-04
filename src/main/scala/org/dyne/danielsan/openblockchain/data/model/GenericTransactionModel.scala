@@ -39,7 +39,7 @@ sealed class TransactionsModel extends CassandraTable[TransactionsModel, Transac
 
   object txid extends StringColumn(this) with PartitionKey[String]
 
-  object hex extends OptionalStringColumn(this)
+  object hex extends StringColumn(this)
 
   object size extends IntColumn(this)
 
@@ -85,8 +85,8 @@ abstract class ConcreteTransactionsModel extends TransactionsModel with RootConn
 
   def insertNewTransaction(tx: Transaction) = {
     insert
-      .value(_.hex, tx.hex)
       .value(_.txid, tx.txid)
+      .value(_.hex, tx.hex)
       .value(_.size, tx.size)
       .value(_.version, tx.version)
       .value(_.locktime, tx.locktime)
