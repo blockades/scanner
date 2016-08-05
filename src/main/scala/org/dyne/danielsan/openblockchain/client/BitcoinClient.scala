@@ -82,7 +82,7 @@ class BitcoinClient {
     btc.extract[BlockTransactionCounts]
   }
 
-  def isOpReturnTransaction(id: Int): Unit = {
+  def isOpReturnTransaction(id: Int): String = {
     //Need to find out if a transaction is OP_RETURN or not
     //If true, need to find out which block transaction belongs to (different method?)
     //Once found which block the OP_RETURN belongs to, increment count
@@ -90,6 +90,11 @@ class BitcoinClient {
     //In this method I need to loop through the list of transactions and find out if OP_RETURN
     txs.map(tx => tx.vout.map(v => if (v.scriptPubKey.asm.contains("OP_CHECKSIG")) {
       println(s"$tx does contain OP_CHECK")
+      //Need to update OP_RETURN counter for block
+      val json = "blockOpReturnTransactionCount" ->
+          ("hash" -> tx.blockhash) ~
+          ("num_op_return_transactions" -> 1 )
+      compact(render(json))
     } else {
       println(s"NOT ");
     }))

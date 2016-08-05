@@ -138,7 +138,7 @@ abstract class ConcreteBlockTransactionCountsModel extends BlockTransactionCount
   }
 }
 
-case class BlockOpReturnTransactionCounts(hash: String, height: Int, num_transactions: Long)
+case class BlockOpReturnTransactionCounts(hash: String, num_op_return_transactions: Long)
 
 sealed class BlockOpReturnTransactionCountsModel extends CassandraTable[BlockOpReturnTransactionCountsModel, BlockOpReturnTransactionCounts] {
 
@@ -147,16 +147,13 @@ sealed class BlockOpReturnTransactionCountsModel extends CassandraTable[BlockOpR
   override def fromRow(r: Row): BlockOpReturnTransactionCounts = {
     BlockOpReturnTransactionCounts(
       hash(r),
-      height(r),
-      num_transactions(r)
+      num_op_return_transactions(r)
     )
   }
 
   object hash extends StringColumn(this) with PartitionKey[String]
 
-  object height extends IntColumn(this) with ClusteringOrder[Int] with Descending
-
-  object num_transactions extends CounterColumn(this)
+  object num_op_return_transactions extends CounterColumn(this)
 
 }
 
@@ -165,12 +162,11 @@ abstract class ConcreteBlockOpReturnTransactionCountsModel extends BlockOpReturn
   def increment(count: BlockOpReturnTransactionCounts): Future[ResultSet] = {
     update
       .where(_.hash eqs count.hash)
-      .and(_.height eqs count.height)
-      .modify(_.num_transactions += count.num_transactions)
+      .modify(_.num_op_return_transactions += count.num_op_return_transactions)
       .future()
   }
 
   def getCount(hash: String): Future[Option[Long]] = {
-    select(_.num_transactions).where(_.hash eqs hash).one()
+    select(_.num_op_return_transactions).where(_.hash eqs hash).one()
   }
 }
