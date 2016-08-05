@@ -24,26 +24,29 @@ object Driver {
 
     val client = new BitcoinClient
 
-    for (a <- 1 to 200) {
+    for (a <- 1 to 10) {
 
-      val t = client.getRawTransaction(a)
-      println("Transaction: " + t)
-      t.map( transaction => Await.result((ChainDatabase.insertTransaction(transaction)), 10.seconds))
+//      val t = client.getRawTransaction(a)
+//      println("Transaction: " + t)
+//      t.map( transaction => Await.result((ChainDatabase.insertTransaction(transaction)), 10.seconds))
+//
+//      val b = client.getBlockForId(a)
+//       println("Block: " + b)
+//      val operationB = ChainDatabase.insertBlock(b)
+//      Await.result(operationB, 10.seconds)
+//
+//      val btc = client.updateBlockTransactionCount(a)
+//      println(s"BlockTansactionCount: $btc")
+//      val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
+//      Await.result(operationBTC, 10.seconds)
 
-      val b = client.getBlockForId(a)
-       println("Block: " + b)
-      val operationB = ChainDatabase.insertBlock(b)
-      Await.result(operationB, 10.seconds)
+//      val op_return_count = client.updateBlockOpReturnTransactionCount(a)
+//      println(s"BlockOpReturnTansactionCount: $op_return_count")
+//      val operationOpReturn = ChainDatabase.saveOrUpdateBlockOpReturnTransactionCount(op_return_count)
+//      Await.result(operationOpReturn, 10.seconds)
 
-      val btc = client.updateBlockTransactionCount(a)
-      println(s"BlockTansactionCount: $btc")
-      val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
-      Await.result(operationBTC, 10.seconds)
-
-      val op_return_count = client.updateBlockOpReturnTransactionCount(a)
-      println(s"BlockOpReturnTansactionCount: $op_return_count")
-      val operationOpReturn = ChainDatabase.saveOrUpdateBlockOpReturnTransactionCount(op_return_count)
-      Await.result(operationOpReturn, 10.seconds)
+      val orc = client.isOpReturnTransaction(a)
+      println(s"ORC: $orc")
 
     }
 
