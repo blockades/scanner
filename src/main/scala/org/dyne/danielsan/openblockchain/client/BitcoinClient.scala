@@ -87,13 +87,16 @@ class BitcoinClient {
     var count = 0
     val hash = txs.map(tx => tx.blockhash)
     val blockhash = hash.head
-    txs.map(tx => tx.vout.map(v => if (v.scriptPubKey.asm.contains("OP_CHECKSIG")) {
+    val transId = txs.map(tx => tx.txid)
+    val txid = transId.head
+    txs.map(tx => tx.vout.map(v => if (v.scriptPubKey.asm.contains("OP_RETURN")) {
       count += 1
     } else {
     }))
     val json = "blockOpReturnTransactionCount" ->
-        ("hash" -> blockhash) ~
-        ("num_op_return_transactions" -> count)
+          ("hash" -> blockhash) ~
+          ("txid" -> txid) ~
+          ("num_op_return_transactions" -> count)
     compact(render(json))
     }
 
