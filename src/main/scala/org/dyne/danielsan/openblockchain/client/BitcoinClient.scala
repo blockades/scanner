@@ -82,26 +82,26 @@ class BitcoinClient {
     btc.extract[BlockTransactionCounts]
   }
 
-  def isOpReturnTransaction(id: Int): String = {
+  def getOpReturnTransaction(id: Int): String = {
     val txs = getRawTransaction(id)
-    var count = 0
-    val hash = txs.map(tx => tx.blockhash)
-    val blockhash = hash.head
-    val transId = txs.map(tx => tx.txid)
-    val txid = transId.head
-    txs.map(tx => tx.vout.map(v => if (v.scriptPubKey.asm.contains("OP_RETURN")) {
-      count += 1
-    } else {
-    }))
+
+    val blockhashes = txs.map(tx => tx.blockhash)
+    val txIds = txs.map(tx => tx.txid)
+
+    val count = txs
+      .map(tx => tx.vout.count(_.scriptPubKey.asm.contains("OP_RETURN")))
+      .sum
+
     val json = "blockOpReturnTransactionCount" ->
-          ("hash" -> blockhash) ~
-          ("txid" -> txid) ~
-          ("num_op_return_transactions" -> count)
+      ("hash" -> blockhashes.head) ~
+        ("txid" -> txIds.head) ~
+        ("num_op_return_transactions" -> count)
+
     compact(render(json))
-    }
+  }
 
   def updateBlockOpReturnTransactionCount(id: Int): BlockOpReturnTransactionCounts = {
-    val counts = isOpReturnTransaction(id)
+    val counts = getOpReturnTransaction(id)
     val bortc = parse(counts) \ "blockOpReturnTransactionCount"
     bortc.extract[BlockOpReturnTransactionCounts]
   }
