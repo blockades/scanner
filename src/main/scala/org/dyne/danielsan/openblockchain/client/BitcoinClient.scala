@@ -83,28 +83,24 @@ class BitcoinClient {
   }
 
   def isOpReturnTransaction(id: Int): String = {
-    //Need to find out if a transaction is OP_RETURN or not
-    //If true, need to find out which block transaction belongs to (different method?)
-    //Once found which block the OP_RETURN belongs to, increment count
     val txs = getRawTransaction(id)
-    //In this method I need to loop through the list of transactions and find out if OP_RETURN
+    var count = 0
+    val hash = txs.map(tx => tx.blockhash)
+    val blockhash = hash.head
     txs.map(tx => tx.vout.map(v => if (v.scriptPubKey.asm.contains("OP_CHECKSIG")) {
-      println(s"$tx does contain OP_CHECK")
-      //Need to update OP_RETURN counter for block
-      val json = "blockOpReturnTransactionCount" ->
-          ("hash" -> tx.blockhash) ~
-          ("num_op_return_transactions" -> 1 )
-      compact(render(json))
+      count += 1
     } else {
-      println(s"NOT ");
     }))
+    val json = "blockOpReturnTransactionCount" ->
+        ("hash" -> blockhash) ~
+        ("num_op_return_transactions" -> count)
+    compact(render(json))
     }
 
-
   def updateBlockOpReturnTransactionCount(id: Int): BlockOpReturnTransactionCounts = {
-    ???
-    //This is not going to be as simple as the tx count within block
-    //Need to update this from within each transaction
+    val counts = isOpReturnTransaction(id)
+    val bortc = parse(counts) \ "blockOpReturnTransactionCount"
+    bortc.extract[BlockOpReturnTransactionCounts]
   }
 
   def getBlockForId(id: Int): Block = {
