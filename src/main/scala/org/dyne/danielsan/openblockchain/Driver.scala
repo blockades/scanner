@@ -24,7 +24,7 @@ object Driver {
 
     val client = new BitcoinClient
 
-    for (a <- 1 to 300000) {
+    for (a <- 1 to 5) {
 
       val t = client.getRawTransaction(a)
       t.map( transaction => Await.result((ChainDatabase.insertTransaction(transaction)), 10.seconds))
