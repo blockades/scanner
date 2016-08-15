@@ -1,5 +1,7 @@
 package org.dyne.danielsan.openblockchain
 
+import org.scalatra.test.specs2.ScalatraSpec
+
 // For more on Specs2, see http://etorreborre.github.com/specs2/guide/org.specs2.guide.QuickStart.html
 class ScalatraBootstrapServletSpec extends ScalatraSpec { def is =
   "GET / on ScalatraBootstrapServlet"                     ^

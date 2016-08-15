@@ -3,7 +3,7 @@ package org.dyne.danielsan.openblockchain
 import org.scalatest.{Matchers, PropSpec}
 import org.scalatest.prop._
 
-class CheckSpec
+class AppSpec
   extends PropSpec
   with GeneratorDrivenPropertyChecks
   with Matchers {
