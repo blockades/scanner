@@ -2,7 +2,7 @@ package org.dyne.danielsan.openblockchain
 
 import org.dyne.danielsan.openblockchain.client.BitcoinClient
 import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
-import org.dyne.danielsan.openblockchain.data.model.BlockTransaction
+import org.dyne.danielsan.openblockchain.data.model.BlockTransactions
 
 import org.json4s.DefaultFormats
 
