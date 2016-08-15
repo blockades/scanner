@@ -27,10 +27,10 @@ object Driver {
     for (a <- 1 to 5) {
 
       val t = client.getRawTransaction(a)
-      t.map( transaction => Await.result((ChainDatabase.insertTransaction(transaction)), 10.seconds))
+      t.map(transaction => Await.result(ChainDatabase.insertTransaction(transaction), 10.seconds))
 
       val b = client.getBlockForId(a)
-       println("Block: " + b)
+      println("Block: " + b)
       val operationB = ChainDatabase.insertBlock(b)
       Await.result(operationB, 10.seconds)
 
@@ -49,4 +49,5 @@ object Driver {
     println("Sample ended")
     System.exit(0)
   }
+  
 }
