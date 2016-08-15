@@ -35,6 +35,7 @@ class BitcoinClient {
   implicit val formats = DefaultFormats
 
   val baseUrl = "http://127.0.0.1:8332"
+  val auth = "Basic " + Base64.encodeString("test:test1")
 
   def getRequestBody(method: String, params: List[Any]): String = {
     val request = BtcRequest(method, params)
@@ -48,7 +49,7 @@ class BitcoinClient {
     println("Raw resp JSON: " + resp)
     resp
   }
-  
+
   def getRequestResultAs[T](method: String, params: List[Any])(implicit mf: Manifest[T]): T = {
     val resp = getRequestBody(method, params)
     (parse(resp) \ "result").extract[T]
@@ -121,9 +122,6 @@ class BitcoinClient {
     getRequestBody("getblock", List(hash))
   }
 
-  private def auth = {
-    "Basic " + Base64.encodeString("test:test1")
-  }
 }
 
 case class BtcRequest(method: String, params: List[Any])
