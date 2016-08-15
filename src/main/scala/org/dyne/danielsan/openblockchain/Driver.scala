@@ -2,6 +2,8 @@ package org.dyne.danielsan.openblockchain
 
 import org.dyne.danielsan.openblockchain.client.BitcoinClient
 import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
+import org.dyne.danielsan.openblockchain.data.model.BlockTransaction
+
 import org.json4s.DefaultFormats
 
 import scala.concurrent.Await
@@ -26,28 +28,32 @@ object Driver {
 
     for (id <- 1 to 5) {
 
-      val txs = client.getRawTransaction(id)
-      println("Transaction: " + txs)
-      txs
-        .map(ChainDatabase.insertTransaction)
-        .map(Await.result(_, 10.seconds))
-
       val block = client.getBlockForId(id)
       println("Block: " + block)
       val blockInsertOp = ChainDatabase.insertBlock(block)
       Await.result(blockInsertOp, 10.seconds)
+
+      val txs = client.getRawTransaction(id)
+      println("Transaction: " + txs)
+      txs.foreach { tx =>
+        val btx = BlockTransaction(block.hash, tx.txid)
+        println("BlockTransaction:" + btx)
+        val btInsertOp = ChainDatabase.insertBlockTransaction(btx)
+        Await.result(btInsertOp , 10.seconds)
+      }
 
       val btc = client.updateBlockTransactionCount(id)
       println("BlockTansactionCount: " + btc)
       val updateBtcOp = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
       Await.result(updateBtcOp, 10.seconds)
 
-      println()
-
       val op_return_count = client.updateBlockOpReturnTransactionCount(id)
       println("BlockOpReturnTansactionCount: " + op_return_count)
       val operationOpReturn = ChainDatabase.saveOrUpdateBlockOpReturnTransactionCount(op_return_count)
       Await.result(operationOpReturn, 10.seconds)
+
+      // new line between results
+      println()
 
     }
 
