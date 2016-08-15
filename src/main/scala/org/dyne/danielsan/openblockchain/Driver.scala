@@ -20,27 +20,32 @@ object Driver {
     implicit val space = ChainDatabase.space
     implicit val session = ChainDatabase.session
 
-    Await.result(ChainDatabase.autocreate().future, 10 seconds)
+    Await.result(ChainDatabase.autocreate().future, 10.seconds)
 
     val client = new BitcoinClient
 
-    for (a <- 1 to 5) {
+    for (id <- 1 to 5) {
 
-      val t = client.getRawTransaction(a)
-      t.map(transaction => Await.result(ChainDatabase.insertTransaction(transaction), 10.seconds))
+      val txs = client.getRawTransaction(id)
+      println("Transaction: " + txs)
+      txs
+        .map(ChainDatabase.insertTransaction)
+        .map(Await.result(_, 10.seconds))
 
-      val b = client.getBlockForId(a)
-      println("Block: " + b)
-      val operationB = ChainDatabase.insertBlock(b)
-      Await.result(operationB, 10.seconds)
+      val block = client.getBlockForId(id)
+      println("Block: " + block)
+      val blockInsertOp = ChainDatabase.insertBlock(block)
+      Await.result(blockInsertOp, 10.seconds)
 
-      val btc = client.updateBlockTransactionCount(a)
-      println(s"BlockTansactionCount: $btc")
-      val operationBTC = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
-      Await.result(operationBTC, 10.seconds)
+      val btc = client.updateBlockTransactionCount(id)
+      println("BlockTansactionCount: " + btc)
+      val updateBtcOp = ChainDatabase.saveOrUpdateBlockTransactionCount(btc)
+      Await.result(updateBtcOp, 10.seconds)
 
-      val op_return_count = client.updateBlockOpReturnTransactionCount(a)
-      println(s"BlockOpReturnTansactionCount: $op_return_count")
+      println()
+
+      val op_return_count = client.updateBlockOpReturnTransactionCount(id)
+      println("BlockOpReturnTansactionCount: " + op_return_count)
       val operationOpReturn = ChainDatabase.saveOrUpdateBlockOpReturnTransactionCount(op_return_count)
       Await.result(operationOpReturn, 10.seconds)
 
@@ -49,5 +54,5 @@ object Driver {
     println("Sample ended")
     System.exit(0)
   }
-  
+
 }
