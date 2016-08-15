@@ -34,16 +34,16 @@ class BitcoinClient {
 
   implicit val formats = DefaultFormats
 
-  val baseUrl = "http://127.0.0.1:8332"
-  val auth = "Basic " + Base64.encodeString("test:test1")
+  val bitcoinServerUrl = sys.env.getOrElse("BITCOIN_SERVER_URL", "http://127.0.0.1:8332")
+  val bitcoinAuth = "Basic " + Base64.encodeString(sys.env.getOrElse("BITCOIN_AUTH", "test:test1"))
 
   def getRequestBody(method: String, params: List[Any]): String = {
     val request = BtcRequest(method, params)
     val json = write(request)
     println("Raw req JSON: " + json)
-    val resp = Http(baseUrl).postData(json)
+    val resp = Http(baseServerUrl).postData(json)
       .header("content-type", "application/json")
-      .header("Authorization", auth)
+      .header("Authorization", bitcoinAuth)
       .asString
       .body
     println("Raw resp JSON: " + resp)
