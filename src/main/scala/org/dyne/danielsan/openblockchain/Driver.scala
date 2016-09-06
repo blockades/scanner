@@ -6,6 +6,7 @@ import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.util.Try
 
 /**
   * Created by dan_mi_sun on 13/03/2016.
@@ -22,8 +23,10 @@ object Driver {
     Await.result(ChainDatabase.autocreate().future, 10.seconds)
 
     while (true) {
-      println("scanning from block 0...")
-      scanBlock(0)
+      val startHeight = Try(args(0).toInt).getOrElse(0)
+
+      println(s"scanning from block $startHeight...")
+      scanBlock(startHeight)
 
       println("pausing 1 hour...")
       wait(1.hour.length)

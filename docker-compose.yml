@@ -37,9 +37,9 @@ services:
     volumes:
       - '/mnt/volume-sfo2-03/.bitcoin:/bitcoin/data'
   scanner:
-    image: 'danmisun/scanner:latest'
-#    build: .
-    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver"'
+#    image: 'danmisun/scanner:latest'
+    build: .
+    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 70000"'
     environment:
       - 'BITCOIN_AUTH=bitcoinrpc:pass123'
       - 'BITCOIN_SERVER_URL=http://bitcoin:8332'
