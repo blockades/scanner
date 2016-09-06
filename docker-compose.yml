@@ -1,0 +1,28 @@
+bitcoin:
+  image: 'aluxian/bitcoin:latest'
+  command: 'bitcoin /usr/bin/bitcoind -conf=/etc/bitcoin.conf -reindex -txindex'
+  environment:
+    - CONF_RPCBIND=0.0.0.0
+    - CONF_RPCPASSWORD=pass123
+    - CONF_RPCUSER=bitcoinrpc
+    - CONF_SERVER=1
+  expose:
+    - '8332'
+  volumes:
+    - '/mnt/volume-sfo2-03/.bitcoin:/bitcoin/data'
+cassandra:
+  image: 'aluxian/cassandra-svc:latest'
+  ports:
+    - '9042'
+scanner:
+  image: 'danmisun/scanner:latest'
+  command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver"'
+  environment:
+    - 'BITCOIN_AUTH=bitcoinrpc:pass123'
+    - 'BITCOIN_SERVER_URL=http://bitcoin:8332'
+    - CASSANDRA_HOST=cassandra
+  links:
+    - bitcoin
+    - cassandra
+  volumes:
+    - '/mnt/volume-sfo2-03/.ivy2:/root/.ivy2'
