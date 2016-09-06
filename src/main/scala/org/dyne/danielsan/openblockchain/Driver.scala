@@ -36,7 +36,7 @@ object Driver {
     println(block)
     Await.result(ChainDatabase.insertBlock(block), 10.seconds)
 
-    val transactions = client.getTransactions(block)
+    val transactions = client.getTransactions(block).filter(_ != null)
     transactions.foreach { tx =>
       println(tx)
       Await.result(ChainDatabase.insertTransaction(tx), 10.seconds)

@@ -1,28 +1,55 @@
-bitcoin:
-  image: 'aluxian/bitcoin:latest'
-  command: 'bitcoin /usr/bin/bitcoind -conf=/etc/bitcoin.conf -reindex -txindex'
-  environment:
-    - CONF_RPCBIND=0.0.0.0
-    - CONF_RPCPASSWORD=pass123
-    - CONF_RPCUSER=bitcoinrpc
-    - CONF_SERVER=1
-  expose:
-    - '8332'
-  volumes:
-    - '/mnt/volume-sfo2-03/.bitcoin:/bitcoin/data'
-cassandra:
-  image: 'aluxian/cassandra-svc:latest'
-  ports:
-    - '9042'
-scanner:
-  image: 'danmisun/scanner:latest'
-  command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver"'
-  environment:
-    - 'BITCOIN_AUTH=bitcoinrpc:pass123'
-    - 'BITCOIN_SERVER_URL=http://bitcoin:8332'
-    - CASSANDRA_HOST=cassandra
-  links:
-    - bitcoin
-    - cassandra
-  volumes:
-    - '/mnt/volume-sfo2-03/.ivy2:/root/.ivy2'
+version: '2'
+services:
+  cassandra-1:
+    image: cassandra
+    container_name: cassandra-1
+    environment:
+      CASSANDRA_BROADCAST_ADDRESS: "cassandra-1"
+    ports:
+      - '9042:9042'
+    volumes:
+      - "/openblockchain/cassandra/cassandra1:/var/lib/cassandra"
+    restart: always
+#  cassandra-2:
+#    image: cassandra
+#    container_name: cassandra-2
+#    environment:
+#      CASSANDRA_BROADCAST_ADDRESS: "cassandra-2"
+#      CASSANDRA_SEEDS: "cassandra-1"
+#    ports:
+#      - '9042:9042'
+#    depends_on:
+#      - cassandra-1
+#    volumes:
+#      - "/openblockchain/cassandra/cassandra2:/var/lib/cassandra"
+#    restart: always
+  bitcoin:
+    image: 'aluxian/bitcoin:latest'
+    command: 'bitcoin /usr/bin/bitcoind -conf=/etc/bitcoin.conf -reindex -txindex'
+    container_name: bitcoin
+    environment:
+      - CONF_RPCALLOWIP=0.0.0.0/0
+      - CONF_RPCPASSWORD=pass123
+      - CONF_RPCUSER=bitcoinrpc
+      - CONF_SERVER=1
+    expose:
+      - '8332'
+    volumes:
+      - '/mnt/volume-sfo2-03/.bitcoin:/bitcoin/data'
+  scanner:
+    image: 'danmisun/scanner:latest'
+#    build: .
+    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver"'
+    environment:
+      - 'BITCOIN_AUTH=bitcoinrpc:pass123'
+      - 'BITCOIN_SERVER_URL=http://bitcoin:8332'
+      - CASSANDRA_HOST=cassandra-1
+    depends_on:
+      - bitcoin
+      - cassandra-1
+    volumes:
+      - '/openblockchain/scanner/.ivy2:/root/.ivy2'
+networks:
+  default:
+    external:
+      name: openblockchain
