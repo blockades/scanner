@@ -35,14 +35,16 @@ services:
     expose:
       - '8332'
     volumes:
-      - '/mnt/volume-sfo2-03/.bitcoin:/bitcoin/data'
+      - '/openblockchain/bitcoin/data:/bitcoin/data'
   scanner:
 #    image: 'danmisun/scanner:latest'
     build: .
-    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 130000"'
+    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 30000"'
     environment:
       - 'BITCOIN_AUTH=bitcoinrpc:pass123'
       - 'BITCOIN_SERVER_URL=http://bitcoin:8332'
+      - 'BITCOIN_DBCACHE=512'
+      - 'BITCOIN_RPCTHREADS=12'
       - CASSANDRA_HOST=cassandra-1
     depends_on:
       - bitcoin

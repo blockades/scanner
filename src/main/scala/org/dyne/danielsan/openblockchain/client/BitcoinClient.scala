@@ -31,7 +31,7 @@ class BitcoinClient {
       block.tx.map(tx => getRequestResultAs[Transaction]("getrawtransaction", List(tx, 1)))
     } catch {
       case x: NullPointerException =>
-        println("NPE!!!", block)
+        println("getTransactions NPE!!!", block)
         List[Transaction]()
     }
   }
@@ -54,12 +54,21 @@ class BitcoinClient {
   private def getRequestBody(method: String, params: List[Any]): String = {
     val request = BtcRequest(method, params)
     val json = write(request)
-    Http(bitcoinServerUrl).postData(json)
-      .header("content-type", "application/json")
-      .header("Authorization", bitcoinAuth)
-      .timeout(connTimeoutMs = 5000, readTimeoutMs = 15000)
-      .asString
-      .body
+    try {
+      val resp = Http(bitcoinServerUrl).postData(json)
+        .header("content-type", "application/json")
+        .header("Authorization", bitcoinAuth)
+        .timeout(connTimeoutMs = 60 * 1000, readTimeoutMs = 120 * 1000)
+        .asString
+      if (resp.code != 200) {
+        throw new Exception(s"${resp.code} ${resp.body}")
+      }
+      resp.body
+    } catch {
+      case x: NullPointerException =>
+        println("getRequestBody NPE!!!", method, params)
+        throw x
+    }
   }
 
   private def getRequestResultAs[T](method: String, params: List[Any])(implicit mf: Manifest[T]): T = {
