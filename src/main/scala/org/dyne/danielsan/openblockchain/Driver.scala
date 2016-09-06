@@ -35,8 +35,11 @@ object Driver {
 
   def scanBlock(id: Int): Unit = {
     val rawBlock = client.getBlock(id)
-    val transactions = client.getTransactions(rawBlock).filter(_ != null)
-    val blockIsOpReturn = transactions.exists(_.vout.exists(_.scriptPubKey.asm.contains("OP_RETURN")))
+    val transactions = client.getTransactions(rawBlock)
+        .filter(_ != null)
+        .map(tx => tx.copy(is_op_return = Some(tx.hasOpReturnVout)))
+
+    val blockIsOpReturn = transactions.exists(_.is_op_return.get)
     val block = rawBlock.copy(is_op_return = Some(blockIsOpReturn))
 
     Await.result(ChainDatabase.insertBlock(block), 10.seconds)
