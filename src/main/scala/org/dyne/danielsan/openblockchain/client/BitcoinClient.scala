@@ -51,6 +51,7 @@ class BitcoinClient {
     Http(bitcoinServerUrl).postData(json)
       .header("content-type", "application/json")
       .header("Authorization", bitcoinAuth)
+      .timeout(connTimeoutMs = 5000, readTimeoutMs = 15000)
       .asString
       .body
   }
