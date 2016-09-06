@@ -31,21 +31,17 @@ object Driver {
   }
 
   def scanBlock(id: Int): Unit = {
-    val block = client.getBlock(id)
+    val rawBlock = client.getBlock(id)
+    val transactions = client.getTransactions(rawBlock).filter(_ != null)
+    val blockIsOpReturn = transactions.exists(_.vout.exists(_.scriptPubKey.asm.contains("OP_RETURN")))
+    val block = rawBlock.copy(is_op_return = Some(blockIsOpReturn))
 
-    println(block)
     Await.result(ChainDatabase.insertBlock(block), 10.seconds)
+    Await.result(ChainDatabase.insertTransactions(transactions), 10.seconds)
 
-    val transactions = client.getTransactions(block).filter(_ != null)
-    transactions.foreach { tx =>
-      println(tx)
-      Await.result(ChainDatabase.insertTransaction(tx), 10.seconds)
-    }
+    println(s"saved block ${block.height} with ${transactions.length} transactions")
 
-    // new line between blocks
-    println()
-
-    if (block.nextblockhash.isDefined) {
+    if (block.nextblockhash.isDefined && block.nextblockhash.get.nonEmpty) {
       scanBlock(block.height + 1)
     }
   }
