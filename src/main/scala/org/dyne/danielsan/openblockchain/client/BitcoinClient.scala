@@ -27,7 +27,13 @@ class BitcoinClient {
   val bitcoinAuth = "Basic " + Base64.encodeString(sys.env.getOrElse("BITCOIN_AUTH", "test:test1"))
 
   def getTransactions(block: Block): List[Transaction] = {
-    block.tx.map(tx => getRequestResultAs[Transaction]("getrawtransaction", List(tx, 1)))
+    try {
+      block.tx.map(tx => getRequestResultAs[Transaction]("getrawtransaction", List(tx, 1)))
+    } catch {
+      case x: NullPointerException =>
+        println("NPE!!!", block)
+        List[Transaction]()
+    }
   }
 
   def getBlock(id: Int): Block = {

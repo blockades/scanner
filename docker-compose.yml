@@ -39,7 +39,7 @@ services:
   scanner:
 #    image: 'danmisun/scanner:latest'
     build: .
-    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 135000"'
+    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 130000"'
     environment:
       - 'BITCOIN_AUTH=bitcoinrpc:pass123'
       - 'BITCOIN_SERVER_URL=http://bitcoin:8332'
