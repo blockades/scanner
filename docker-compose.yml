@@ -6,6 +6,7 @@ services:
       - CASSANDRA_BROADCAST_ADDRESS=cassandra
     volumes:
       - /openblockchain/cassandra/data:/var/lib/cassandra
+    restart: on-failure
   bitcoin:
     image: 'aluxian/bitcoin:latest'
     command: 'root /usr/bin/bitcoind -conf=/etc/bitcoin.conf -txindex'
@@ -16,9 +17,10 @@ services:
       - CONF_SERVER=1
     volumes:
       - /openblockchain/bitcoin/data:/bitcoin/data
+    restart: on-failure
   scanner:
     build: .
-    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 0"'
+    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver --scale=1"'
     environment:
       - BITCOIN_AUTH=bitcoinrpc:pass123
       - BITCOIN_SERVER_URL=http://bitcoin:8332
@@ -30,6 +32,7 @@ services:
       - cassandra
     volumes:
       - /openblockchain/scanner/.ivy2:/root/.ivy2
+    restart: on-failure
 networks:
   default:
     external:
