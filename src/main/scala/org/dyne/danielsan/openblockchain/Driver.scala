@@ -19,13 +19,14 @@ object Driver {
 
   def main(rawArgs: Array[String]) {
     val args = parseArgs(rawArgs)
+    println(args)
 
     implicit val space = ChainDatabase.space
     implicit val session = ChainDatabase.session
     Await.result(ChainDatabase.autocreate().future, 10.seconds)
 
     while (true) {
-      val blockCount = client.getBlockCount()
+      val blockCount = Try(client.getBlockCount()).getOrElse(0)
       var blocksPerScan = blockCount
       var starth = args.starth
 
@@ -38,8 +39,8 @@ object Driver {
         starth = 1
       }
 
-      println(s"$getTimeString scanning $blocksPerScan blocks from height ${args.starth}...")
-      scanBlock(args.starth, args.starth + blocksPerScan)
+      println(s"$getTimeString scanning $blocksPerScan blocks from height $starth...")
+      scanBlock(starth, args.starth + blocksPerScan)
 
       println(s"$getTimeString pausing 1 hour...")
       wait(1.hour.toMillis)
