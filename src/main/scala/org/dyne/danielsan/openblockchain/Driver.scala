@@ -68,7 +68,7 @@ object Driver {
     )
 
     Await.result(ChainDatabase.insertBlock(block), 10.seconds)
-    Await.result(ChainDatabase.insertTransactions(transactions), 10.seconds)
+    Await.result(ChainDatabase.insertTransactions(transactions), 60.seconds)
 
     println(s"$getTimeString saved block $height with ${transactions.length} transactions")
 
