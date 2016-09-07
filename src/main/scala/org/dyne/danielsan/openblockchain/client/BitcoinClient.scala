@@ -5,6 +5,7 @@ import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
 import org.json4s.{DefaultFormats, _}
 
+import scala.concurrent.duration._
 import scala.language.postfixOps
 import scalaj.http.{Base64, Http}
 
@@ -27,48 +28,47 @@ class BitcoinClient {
   val bitcoinAuth = "Basic " + Base64.encodeString(sys.env.getOrElse("BITCOIN_AUTH", "test:test1"))
 
   def getTransactions(block: Block): List[Transaction] = {
-    block.tx.map(tx => getRequestResultAs[Transaction]("getrawtransaction", List(tx, 1)))
+    val reqs = block.tx.map {
+      txId => BtcRequest(txId, "getrawtransaction", Seq(txId, 1))
+    }
+    requestsAs[Transaction](reqs: _*)
   }
 
   def getBlock(id: Int): Block = {
     val hash = getBlockHash(id)
-    val blockString = getBlockString(hash)
-    val json = parse(blockString) \ "result"
-    json.extract[Block]
+    requestAs[Block](BtcRequest(id.toString, "getblock", Seq(hash)))
   }
 
   //noinspection AccessorLikeMethodIsEmptyParen
   def getBlockCount(): Int = {
-    getRequestResultAs[Int]("getblockcount", List())
+    requestAs[Int](BtcRequest("0", "getblockcount"))
   }
 
-  private def getBlockHash(id: Int): String = {
-    getRequestResultAs[String]("getblockhash", List(id))
+  def getBlockHash(id: Int): String = {
+    requestAs[String](BtcRequest(id.toString, "getblockhash", Seq(id)))
   }
 
-  private def getBlockString(hash: String): String = {
-    getRequestBody("getblock", List(hash))
-  }
-
-  private def getRequestBody(method: String, params: List[Any]): String = {
-    val request = BtcRequest(method, params)
-    val json = write(request)
+  private def requestsAs[T](reqs: BtcRequest*)(implicit mf: Manifest[T]): List[T] = {
+    val json = write(reqs)
     val resp = Http(bitcoinServerUrl).postData(json)
       .header("content-type", "application/json")
       .header("Authorization", bitcoinAuth)
-      .timeout(connTimeoutMs = 60 * 1000, readTimeoutMs = 120 * 1000)
+      .timeout(connTimeoutMs = 5.minutes.toMillis.toInt, readTimeoutMs = 10.minutes.toMillis.toInt)
       .asString
     if (resp.code != 200) {
-      throw new Exception(s"${resp.code} ${resp.body}")
+      throw new Exception(s"Non-200 resp: ${resp.code} ${resp.body}")
     }
-    resp.body
+    parse(resp.body)
+      .extract[List[Result[T]]]
+      .map(_.result)
   }
 
-  private def getRequestResultAs[T](method: String, params: List[Any])(implicit mf: Manifest[T]): T = {
-    val resp = getRequestBody(method, params)
-    (parse(resp) \ "result").extract[T]
+  private def requestAs[T](req: BtcRequest)(implicit mf: Manifest[T]): T = {
+    requestsAs[T](req).head
   }
 
 }
 
-case class BtcRequest(method: String, params: List[Any])
+case class BtcRequest(id: String, method: String, params: Seq[Any] = Seq(), jsonrpc: String = "2.0")
+
+case class Result[T](result: T, error: Option[Any], id: Option[String])

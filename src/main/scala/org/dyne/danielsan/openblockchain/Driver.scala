@@ -8,7 +8,7 @@ import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
-import scala.util.{Random, Try}
+import scala.util.Try
 
 /**
   * Created by dan_mi_sun on 13/03/2016.
@@ -28,7 +28,9 @@ object Driver {
       val heightFrom = Try(rawArgs(0).toInt).getOrElse(1)
       val heightTo = Try(rawArgs(1).toInt).getOrElse(blockCount - 1)
 
+      println(s"$getTimeString blockCount=$blockCount")
       println(s"$getTimeString scanning from height $heightFrom to $heightTo...")
+
       if (heightFrom > blockCount) {
         println(s"$getTimeString skipping, heightFrom > blockCount")
       } else if (heightTo > blockCount) {
