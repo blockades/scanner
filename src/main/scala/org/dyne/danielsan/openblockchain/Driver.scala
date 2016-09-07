@@ -113,27 +113,4 @@ object Driver {
     s
   }
 
-  def parseArgs(args: Array[String]): Args = {
-    var starth = -1
-    var scale = -1
-
-    for (arg <- args) {
-      if (arg.startsWith("--scale=")) {
-        val scaleOpt = Try(arg.stripPrefix("--scale=").toInt)
-        if (scaleOpt.isSuccess) {
-          scale = scaleOpt.get
-        }
-      }
-
-      if (arg.startsWith("--starth=")) {
-        val starthOpt = Try(arg.stripPrefix("--starth=").toInt)
-        if (starthOpt.isSuccess) {
-          starth = starthOpt.get
-        }
-      }
-    }
-
-    Args(scale, starth)
-  }
-
 }
