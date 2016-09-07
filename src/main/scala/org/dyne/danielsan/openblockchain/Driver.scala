@@ -31,7 +31,7 @@ object Driver {
       scanBlock(startHeight)
 
       println(s"$getTimeString pausing 1 hour...")
-      wait(1.hour.length)
+      wait(1.hour.toMillis)
     }
   }
 
