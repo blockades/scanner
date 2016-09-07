@@ -40,7 +40,7 @@ object Driver {
       }
 
       println(s"$getTimeString scanning $blocksPerScan blocks from height $starth...")
-      scanBlock(starth, args.starth + blocksPerScan)
+      scanBlock(starth, starth + blocksPerScan)
 
       println(s"$getTimeString pausing 1 hour...")
       wait(1.hour.toMillis)
@@ -71,10 +71,12 @@ object Driver {
     Await.result(ChainDatabase.insertBlock(block), 10.seconds)
     Await.result(ChainDatabase.insertTransactions(transactions), 10.seconds)
 
-    println(s"$getTimeString saved block ${block.height} with ${transactions.length} transactions")
+    println(s"$getTimeString saved block $height with ${transactions.length} transactions")
 
     if (block.nextblockhash.isDefined && block.nextblockhash.get.nonEmpty) {
       scanBlock(block.height + 1, maxHeight)
+    } else {
+      println(s"$getTimeString h=$height block.nextblockhash=${block.nextblockhash}")
     }
   }
 
@@ -86,7 +88,7 @@ object Driver {
     val ms = cal.get(Calendar.MILLISECOND)
 
     var time = ""
-    time += hour
+    time += padLeft(hour)
     time += ":"
     time += padLeft(min)
     time += ":"
