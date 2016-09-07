@@ -1,28 +1,15 @@
 version: '2'
 services:
-  cassandra-1:
+  cassandra:
     image: cassandra:2.1
-    container_name: cassandra-1
+    container_name: cassandra
     environment:
-      CASSANDRA_BROADCAST_ADDRESS: "cassandra-1"
+      CASSANDRA_BROADCAST_ADDRESS: "cassandra"
     ports:
       - '9042:9042'
     volumes:
-      - "/openblockchain/cassandra/cassandra1:/var/lib/cassandra"
+      - "/openblockchain/cassandra/data:/var/lib/cassandra"
     restart: always
-#  cassandra-2:
-#    image: cassandra
-#    container_name: cassandra-2
-#    environment:
-#      CASSANDRA_BROADCAST_ADDRESS: "cassandra-2"
-#      CASSANDRA_SEEDS: "cassandra-1"
-#    ports:
-#      - '9042:9042'
-#    depends_on:
-#      - cassandra-1
-#    volumes:
-#      - "/openblockchain/cassandra/cassandra2:/var/lib/cassandra"
-#    restart: always
   bitcoin:
     image: 'aluxian/bitcoin:latest'
     command: 'bitcoin /usr/bin/bitcoind -conf=/etc/bitcoin.conf -txindex'
@@ -37,21 +24,20 @@ services:
     volumes:
       - '/openblockchain/bitcoin/data:/bitcoin/data'
   scanner:
-#    image: 'danmisun/scanner:latest'
     build: .
-    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 333000"'
+    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 0"'
     environment:
       - 'BITCOIN_AUTH=bitcoinrpc:pass123'
       - 'BITCOIN_SERVER_URL=http://bitcoin:8332'
       - 'BITCOIN_DBCACHE=512'
-      - 'BITCOIN_RPCTHREADS=12'
-      - CASSANDRA_HOST=cassandra-1
+      - 'BITCOIN_RPCTHREADS=8'
+      - 'CASSANDRA_HOST=cassandra'
     depends_on:
       - bitcoin
-      - cassandra-1
+      - cassandra
     volumes:
       - '/openblockchain/scanner/.ivy2:/root/.ivy2'
 networks:
   default:
     external:
-      name: openblockchain
+      name: opbnet
