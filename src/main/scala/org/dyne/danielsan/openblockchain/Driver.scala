@@ -18,32 +18,31 @@ object Driver {
   val client = new BitcoinClient
 
   def main(rawArgs: Array[String]) {
-    val args = parseArgs(rawArgs)
-    println(s"$getTimeString starting with scale=${args.scale} starth=${args.starth}")
-
     implicit val space = ChainDatabase.space
     implicit val session = ChainDatabase.session
+
     Await.result(ChainDatabase.autocreate().future, 10.seconds)
 
     while (true) {
       val blockCount = Try(client.getBlockCount()).getOrElse(0)
-      var blocksPerScan = blockCount
-      var starth = args.starth
+      val heightFrom = Try(rawArgs(0).toInt).getOrElse(1)
+      val heightTo = Try(rawArgs(1).toInt).getOrElse(blockCount - 1)
 
-      if (args.scale > 0) {
-        blocksPerScan = Math.floor(blockCount.toDouble / args.scale).toInt
-        starth = Random.nextInt(args.scale) * blocksPerScan + 1
+      println(s"$getTimeString scanning from height $heightFrom to $heightTo...")
+      if (heightFrom > blockCount) {
+        println(s"$getTimeString skipping, heightFrom > blockCount")
+      } else if (heightTo > blockCount) {
+        println(s"$getTimeString skipping, heightFrom > blockCount")
+      } else if (heightFrom > heightTo) {
+        println(s"$getTimeString skipping, heightFrom > heightTo")
+      } else {
+        scanBlock(heightFrom, heightTo)
       }
 
-      if (starth < 1) {
-        starth = 1
+      println(s"$getTimeString pausing 10 minutes...")
+      this.synchronized {
+        wait(10.minutes.toMillis)
       }
-
-      println(s"$getTimeString scanning $blocksPerScan blocks from height $starth...")
-      scanBlock(starth, starth + blocksPerScan)
-
-      println(s"$getTimeString pausing 1 hour...")
-      wait(1.hour.toMillis)
     }
   }
 
@@ -136,7 +135,5 @@ object Driver {
 
     Args(scale, starth)
   }
-
-  case class Args(scale: Int, starth: Int)
 
 }
