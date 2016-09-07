@@ -4,7 +4,9 @@ import java.util.Calendar
 
 import org.dyne.danielsan.openblockchain.client.BitcoinClient
 import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
+import org.dyne.danielsan.openblockchain.data.entity.{Block, Transaction}
 
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
@@ -16,6 +18,9 @@ import scala.util.Try
 object Driver {
 
   val client = new BitcoinClient
+
+  val cacheBlocks = ListBuffer[Block]()
+  val cacheTxs = ListBuffer[Transaction]()
 
   def main(rawArgs: Array[String]) {
     implicit val space = ChainDatabase.space
@@ -49,6 +54,16 @@ object Driver {
   }
 
   def scanBlock(height: Int, maxHeight: Int): Unit = {
+    if (cacheBlocks.length > 10000 || cacheTxs.length > 10000 || height >= maxHeight) {
+      Await.result(ChainDatabase.insertBlocks(cacheBlocks.toList), 10.minutes)
+      Await.result(ChainDatabase.insertTransactions(cacheTxs.toList), 10.minutes)
+
+      println(s"$getTimeString saved ${cacheBlocks.length} blocks and ${cacheTxs.length} transactions")
+
+      cacheBlocks.clear()
+      cacheTxs.clear()
+    }
+
     if (height >= maxHeight) {
       return
     }
@@ -69,15 +84,15 @@ object Driver {
       time = rawBlock.time * 1000 // s -> ms
     )
 
-    Await.result(ChainDatabase.insertBlock(block), 10.seconds)
-    Await.result(ChainDatabase.insertTransactions(transactions), 60.seconds)
+    cacheBlocks += block
+    cacheTxs ++= transactions
 
-    println(s"$getTimeString saved block $height with ${transactions.length} transactions")
+    println(s"$getTimeString cached block $height with ${transactions.length} transactions")
 
     if (block.nextblockhash.isDefined && block.nextblockhash.get.nonEmpty) {
       scanBlock(block.height + 1, maxHeight)
     } else {
-      println(s"$getTimeString h=$height block.nextblockhash=${block.nextblockhash}")
+      println(s"$getTimeString stop h=$height block.nextblockhash=${block.nextblockhash}")
     }
   }
 
