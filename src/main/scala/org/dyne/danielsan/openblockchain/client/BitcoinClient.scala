@@ -39,14 +39,7 @@ class BitcoinClient {
 
   //noinspection AccessorLikeMethodIsEmptyParen
   def getBlockCount(): Int = {
-    try {
-      println("getting blockCount")
-      getRequestResultAs[Int]("getblockcount", List())
-    } catch {
-      case x: Throwable =>
-        println("caught err at getblockcount")
-        throw x
-    }
+    getRequestResultAs[Int]("getblockcount", List())
   }
 
   private def getBlockHash(id: Int): String = {

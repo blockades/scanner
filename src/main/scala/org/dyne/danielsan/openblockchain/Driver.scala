@@ -19,7 +19,7 @@ object Driver {
 
   def main(rawArgs: Array[String]) {
     val args = parseArgs(rawArgs)
-    println(args)
+    println(s"$getTimeString starting with scale=${args.scale} starth=${args.starth}")
 
     implicit val space = ChainDatabase.space
     implicit val session = ChainDatabase.session
