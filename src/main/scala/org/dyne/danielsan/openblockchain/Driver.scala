@@ -8,7 +8,7 @@ import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
-import scala.util.Try
+import scala.util.{Random, Try}
 
 /**
   * Created by dan_mi_sun on 13/03/2016.
@@ -17,26 +17,41 @@ object Driver {
 
   val client = new BitcoinClient
 
-  def main(args: Array[String]) {
+  def main(rawArgs: Array[String]) {
+    val args = parseArgs(rawArgs)
 
     implicit val space = ChainDatabase.space
     implicit val session = ChainDatabase.session
-
     Await.result(ChainDatabase.autocreate().future, 10.seconds)
 
     while (true) {
-      val startHeight = Try(args(0).toInt).getOrElse(0)
+      val blockCount = client.getBlockCount()
+      var blocksPerScan = blockCount
+      var starth = args.starth
 
-      println(s"$getTimeString scanning from block $startHeight...")
-      scanBlock(startHeight)
+      if (args.scale > 0) {
+        blocksPerScan = Math.floor(blockCount.toDouble / args.scale).toInt
+        starth = Random.nextInt(args.scale) * blocksPerScan + 1
+      }
+
+      if (starth < 1) {
+        starth = 1
+      }
+
+      println(s"$getTimeString scanning $blocksPerScan blocks from height ${args.starth}...")
+      scanBlock(args.starth, args.starth + blocksPerScan)
 
       println(s"$getTimeString pausing 1 hour...")
       wait(1.hour.toMillis)
     }
   }
 
-  def scanBlock(id: Int): Unit = {
-    val rawBlock = client.getBlock(id)
+  def scanBlock(height: Int, maxHeight: Int): Unit = {
+    if (height >= maxHeight) {
+      return
+    }
+
+    val rawBlock = client.getBlock(height)
     val transactions = client.getTransactions(rawBlock)
       .filter(_ != null)
       .map(tx => tx.copy(
@@ -58,7 +73,7 @@ object Driver {
     println(s"$getTimeString saved block ${block.height} with ${transactions.length} transactions")
 
     if (block.nextblockhash.isDefined && block.nextblockhash.get.nonEmpty) {
-      scanBlock(block.height + 1)
+      scanBlock(block.height + 1, maxHeight)
     }
   }
 
@@ -95,5 +110,30 @@ object Driver {
     }
     s
   }
+
+  def parseArgs(args: Array[String]): Args = {
+    var starth = -1
+    var scale = -1
+
+    for (arg <- args) {
+      if (arg.startsWith("--scale=")) {
+        val scaleOpt = Try(arg.stripPrefix("--scale=").toInt)
+        if (scaleOpt.isSuccess) {
+          scale = scaleOpt.get
+        }
+      }
+
+      if (arg.startsWith("--starth=")) {
+        val starthOpt = Try(arg.stripPrefix("--starth=").toInt)
+        if (starthOpt.isSuccess) {
+          starth = starthOpt.get
+        }
+      }
+    }
+
+    Args(scale, starth)
+  }
+
+  case class Args(scale: Int, starth: Int)
 
 }

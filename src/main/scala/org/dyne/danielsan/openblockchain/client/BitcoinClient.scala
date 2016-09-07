@@ -37,6 +37,11 @@ class BitcoinClient {
     json.extract[Block]
   }
 
+  //noinspection AccessorLikeMethodIsEmptyParen
+  def getBlockCount(): Int = {
+    getRequestResultAs[Int]("getblockcount", List())
+  }
+
   private def getBlockHash(id: Int): String = {
     getRequestResultAs[String]("getblockhash", List(id))
   }
