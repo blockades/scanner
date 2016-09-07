@@ -26,7 +26,7 @@ object Driver {
     while (true) {
       val blockCount = Try(client.getBlockCount()).getOrElse(0)
       val heightFrom = Try(rawArgs(0).toInt).getOrElse(1)
-      val heightTo = Try(rawArgs(1).toInt).getOrElse(blockCount - 1)
+      val heightTo = Try(rawArgs(1).toInt).getOrElse(blockCount)
 
       println(s"$getTimeString blockCount=$blockCount")
       println(s"$getTimeString scanning from height $heightFrom to $heightTo...")
@@ -34,7 +34,7 @@ object Driver {
       if (heightFrom > blockCount) {
         println(s"$getTimeString skipping, heightFrom > blockCount")
       } else if (heightTo > blockCount) {
-        println(s"$getTimeString skipping, heightFrom > blockCount")
+        println(s"$getTimeString skipping, heightTo > blockCount")
       } else if (heightFrom > heightTo) {
         println(s"$getTimeString skipping, heightFrom > heightTo")
       } else {
