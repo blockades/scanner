@@ -27,13 +27,7 @@ class BitcoinClient {
   val bitcoinAuth = "Basic " + Base64.encodeString(sys.env.getOrElse("BITCOIN_AUTH", "test:test1"))
 
   def getTransactions(block: Block): List[Transaction] = {
-    try {
-      block.tx.map(tx => getRequestResultAs[Transaction]("getrawtransaction", List(tx, 1)))
-    } catch {
-      case x: NullPointerException =>
-        println("getTransactions NPE!!!", block)
-        List[Transaction]()
-    }
+    block.tx.map(tx => getRequestResultAs[Transaction]("getrawtransaction", List(tx, 1)))
   }
 
   def getBlock(id: Int): Block = {
@@ -54,21 +48,15 @@ class BitcoinClient {
   private def getRequestBody(method: String, params: List[Any]): String = {
     val request = BtcRequest(method, params)
     val json = write(request)
-    try {
-      val resp = Http(bitcoinServerUrl).postData(json)
-        .header("content-type", "application/json")
-        .header("Authorization", bitcoinAuth)
-        .timeout(connTimeoutMs = 60 * 1000, readTimeoutMs = 120 * 1000)
-        .asString
-      if (resp.code != 200) {
-        throw new Exception(s"${resp.code} ${resp.body}")
-      }
-      resp.body
-    } catch {
-      case x: NullPointerException =>
-        println("getRequestBody NPE!!!", method, params)
-        throw x
+    val resp = Http(bitcoinServerUrl).postData(json)
+      .header("content-type", "application/json")
+      .header("Authorization", bitcoinAuth)
+      .timeout(connTimeoutMs = 60 * 1000, readTimeoutMs = 120 * 1000)
+      .asString
+    if (resp.code != 200) {
+      throw new Exception(s"${resp.code} ${resp.body}")
     }
+    resp.body
   }
 
   private def getRequestResultAs[T](method: String, params: List[Any])(implicit mf: Manifest[T]): T = {

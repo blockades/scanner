@@ -25,7 +25,7 @@ services:
 #    restart: always
   bitcoin:
     image: 'aluxian/bitcoin:latest'
-    command: 'bitcoin /usr/bin/bitcoind -conf=/etc/bitcoin.conf -reindex -txindex'
+    command: 'bitcoin /usr/bin/bitcoind -conf=/etc/bitcoin.conf -txindex'
     container_name: bitcoin
     environment:
       - CONF_RPCALLOWIP=0.0.0.0/0
@@ -39,7 +39,7 @@ services:
   scanner:
 #    image: 'danmisun/scanner:latest'
     build: .
-    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 30000"'
+    command: 'sbt "run-main org.dyne.danielsan.openblockchain.Driver 200000"'
     environment:
       - 'BITCOIN_AUTH=bitcoinrpc:pass123'
       - 'BITCOIN_SERVER_URL=http://bitcoin:8332'

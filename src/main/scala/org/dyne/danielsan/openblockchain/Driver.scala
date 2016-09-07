@@ -1,5 +1,7 @@
 package org.dyne.danielsan.openblockchain
 
+import java.util.Calendar
+
 import org.dyne.danielsan.openblockchain.client.BitcoinClient
 import org.dyne.danielsan.openblockchain.data.database.ChainDatabase
 
@@ -25,27 +27,24 @@ object Driver {
     while (true) {
       val startHeight = Try(args(0).toInt).getOrElse(0)
 
-      println(s"scanning from block $startHeight...")
+      println(s"$getTimeString scanning from block $startHeight...")
       scanBlock(startHeight)
 
-      println("pausing 1 hour...")
+      println(s"$getTimeString pausing 1 hour...")
       wait(1.hour.length)
     }
   }
 
   def scanBlock(id: Int): Unit = {
-    val blockT0 = System.currentTimeMillis()
     val rawBlock = client.getBlock(id)
-    val blockT1 = System.currentTimeMillis()
-
-    val transactionsT0 = System.currentTimeMillis()
     val transactions = client.getTransactions(rawBlock)
-        .filter(_ != null)
-        .map(tx => tx.copy(
-          is_op_return = Some(tx.hasOpReturnVout),
-          time = tx.time * 1000 // s -> ms
-        ))
-    val transactionsT1 = System.currentTimeMillis()
+      .filter(_ != null)
+      .map(tx => tx.copy(
+        is_op_return = Some(tx.hasOpReturnVout),
+        time = tx.time * 1000, // s -> ms
+        locktime = tx.locktime * 1000, // s -> ms
+        blocktime = tx.blocktime * 1000 // s -> ms
+      ))
 
     val blockIsOpReturn = transactions.exists(_.is_op_return.get)
     val block = rawBlock.copy(
@@ -56,15 +55,45 @@ object Driver {
     Await.result(ChainDatabase.insertBlock(block), 10.seconds)
     Await.result(ChainDatabase.insertTransactions(transactions), 10.seconds)
 
-    val blockReqTime = blockT1 - blockT0
-    val txReqTime = (transactionsT1 - transactionsT0).toFloat / transactions.length
-
-    println(s"saved block ${block.height} (${blockReqTime}ms) " +
-      s"with ${transactions.length} transactions (avg ${txReqTime}ms)")
+    println(s"$getTimeString saved block ${block.height} with ${transactions.length} transactions")
 
     if (block.nextblockhash.isDefined && block.nextblockhash.get.nonEmpty) {
       scanBlock(block.height + 1)
     }
+  }
+
+  def getTimeString = {
+    val cal = Calendar.getInstance()
+    val hour = cal.get(Calendar.HOUR_OF_DAY)
+    val min = cal.get(Calendar.MINUTE)
+    val sec = cal.get(Calendar.SECOND)
+    val ms = cal.get(Calendar.MILLISECOND)
+
+    var time = ""
+    time += hour
+    time += ":"
+    time += padLeft(min)
+    time += ":"
+    time += padLeft(sec)
+    time += "."
+    time += padRight(ms)
+    time
+  }
+
+  def padLeft(num: Int): String = {
+    if (num < 10) {
+      "0" + num
+    } else {
+      num.toString
+    }
+  }
+
+  def padRight(num: Int): String = {
+    var s = num.toString
+    while (s.length < 3) {
+      s += "0"
+    }
+    s
   }
 
 }
