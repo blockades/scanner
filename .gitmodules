@@ -1,3 +1,0 @@
-[submodule "/home/dan/projects/open-blockchain/scanner/src/main/scala/org/dyne/danielsan/openblockchain/data"]
-	path = /home/dan/projects/open-blockchain/scanner/src/main/scala/org/dyne/danielsan/openblockchain/data
-	url = git@github.com:open-blockchain/data.git
