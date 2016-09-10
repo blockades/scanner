@@ -58,7 +58,7 @@ object Driver {
       }
     } catch {
       case x: Throwable =>
-        println("!!! CAUGHT EXCEPTION !!!")
+        println("!!! CAUGHT EXCEPTION !!! scanLoop 1")
         x.printStackTrace()
         scanLoop(args)
     }
@@ -66,11 +66,17 @@ object Driver {
 
   def scanBlock(height: Int, maxHeight: Int): Unit = {
     if (cacheBlocks.length > 10000 || cacheTxs.length > 10000 || height >= maxHeight) {
-      Await.result(ChainDatabase.insertBlocks(cacheBlocks.toList), 10.minutes)
-      Await.result(ChainDatabase.insertBlocksByHash(cacheBlocks.toList.map(_.toBlockByHash)), 10.minutes)
-      Await.result(ChainDatabase.insertTransactions(cacheTxs.toList), 10.minutes)
+      try {
+        Await.result(ChainDatabase.insertBlocks(cacheBlocks.toList), 10.minutes)
+        Await.result(ChainDatabase.insertBlocksByHash(cacheBlocks.toList.map(_.toBlockByHash)), 10.minutes)
+        Await.result(ChainDatabase.insertTransactions(cacheTxs.toList), 10.minutes)
 
-      println(s"$getTimeString saved ${cacheBlocks.length} blocks and ${cacheTxs.length} transactions")
+        println(s"$getTimeString saved ${cacheBlocks.length} blocks and ${cacheTxs.length} transactions")
+      } catch {
+        case x: Throwable =>
+          println("!!! CAUGHT EXCEPTION !!! scanBlock 1")
+          x.printStackTrace()
+      }
 
       cacheBlocks.clear()
       cacheTxs.clear()
@@ -80,31 +86,44 @@ object Driver {
       return
     }
 
-    val rawBlock = client.getBlock(height)
-    val transactions = client.getTransactions(rawBlock)
-      .filter(_ != null)
-      .map(tx => tx.copy(
-        is_op_return = Some(tx.hasOpReturnVout),
-        time = tx.time * 1000, // s -> ms
-        locktime = tx.locktime * 1000, // s -> ms
-        blocktime = tx.blocktime * 1000 // s -> ms
-      ))
+    try {
+      val rawBlock = client.getBlock(height)
+      val transactions = client.getTransactions(rawBlock)
+        .filter(_ != null)
+        .map(tx => tx.copy(
+          is_op_return = Some(tx.hasOpReturnVout),
+          time = tx.time * 1000, // s -> ms
+          locktime = tx.locktime * 1000, // s -> ms
+          blocktime = tx.blocktime * 1000 // s -> ms
+        ))
 
-    val blockIsOpReturn = transactions.exists(_.is_op_return.get)
-    val block = rawBlock.copy(
-      is_op_return = Some(blockIsOpReturn),
-      time = rawBlock.time * 1000 // s -> ms
-    )
+      val blockIsOpReturn = transactions.exists(_.is_op_return.get)
+      val block = rawBlock.copy(
+        is_op_return = Some(blockIsOpReturn),
+        time = rawBlock.time * 1000 // s -> ms
+      )
 
-    cacheBlocks += block
-    cacheTxs ++= transactions
+      cacheBlocks += block
+      cacheTxs ++= transactions
 
-    println(s"$getTimeString cached block $height with ${transactions.length} transactions")
+      println(s"$getTimeString cached block $height with ${transactions.length} transactions")
 
-    if (block.nextblockhash.isDefined && block.nextblockhash.get.nonEmpty) {
-      scanBlock(block.height + 1, maxHeight)
-    } else {
-      println(s"$getTimeString stop h=$height block.nextblockhash=${block.nextblockhash}")
+      if (block.nextblockhash.isDefined && block.nextblockhash.get.nonEmpty) {
+        scanBlock(block.height + 1, maxHeight)
+      } else {
+        println(s"$getTimeString stop h=$height block.nextblockhash=${block.nextblockhash}")
+      }
+    } catch {
+      case x: Throwable =>
+        println("!!! CAUGHT EXCEPTION !!! scanBlock 2")
+        x.printStackTrace()
+
+        println("will continue to the next block after 1 minute")
+        this.synchronized {
+          wait(1.minute.toMillis)
+        }
+
+        scanBlock(height + 1, maxHeight)
     }
   }
 
