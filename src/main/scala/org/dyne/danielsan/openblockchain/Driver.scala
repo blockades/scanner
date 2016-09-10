@@ -22,40 +22,52 @@ object Driver {
   val cacheBlocks = ListBuffer[Block]()
   val cacheTxs = ListBuffer[Transaction]()
 
-  def main(rawArgs: Array[String]) {
+  def main(args: Array[String]) {
     implicit val space = ChainDatabase.space
     implicit val session = ChainDatabase.session
 
-    Await.result(ChainDatabase.autocreate().future, 10.seconds)
+    Await.result(ChainDatabase.autocreate().future, 30.seconds)
 
-    while (true) {
-      val blockCount = Try(client.getBlockCount()).getOrElse(0)
-      val heightFrom = Try(rawArgs(0).toInt).getOrElse(1)
-      val heightTo = Try(rawArgs(1).toInt).getOrElse(blockCount)
+    scanLoop(args)
+  }
 
-      println(s"$getTimeString blockCount=$blockCount")
-      println(s"$getTimeString scanning from height $heightFrom to $heightTo...")
+  def scanLoop(args: Array[String]): Unit = {
+    try {
+      while (true) {
+        val blockCount = Try(client.getBlockCount()).getOrElse(0)
+        val heightFrom = Try(args(0).toInt).getOrElse(1)
+        val heightTo = Try(args(1).toInt).getOrElse(blockCount)
 
-      if (heightFrom > blockCount) {
-        println(s"$getTimeString skipping, heightFrom > blockCount")
-      } else if (heightTo > blockCount) {
-        println(s"$getTimeString skipping, heightTo > blockCount")
-      } else if (heightFrom > heightTo) {
-        println(s"$getTimeString skipping, heightFrom > heightTo")
-      } else {
-        scanBlock(heightFrom, heightTo)
+        println(s"$getTimeString blockCount=$blockCount")
+        println(s"$getTimeString scanning from height $heightFrom to $heightTo...")
+
+        if (heightFrom > blockCount) {
+          println(s"$getTimeString skipping, heightFrom > blockCount")
+        } else if (heightTo > blockCount) {
+          println(s"$getTimeString skipping, heightTo > blockCount")
+        } else if (heightFrom > heightTo) {
+          println(s"$getTimeString skipping, heightFrom > heightTo")
+        } else {
+          scanBlock(heightFrom, heightTo)
+        }
+
+        println(s"$getTimeString pausing 10 minutes...")
+        this.synchronized {
+          wait(10.minutes.toMillis)
+        }
       }
-
-      println(s"$getTimeString pausing 10 minutes...")
-      this.synchronized {
-        wait(10.minutes.toMillis)
-      }
+    } catch {
+      case x: Throwable =>
+        println("!!! CAUGHT EXCEPTION !!!")
+        x.printStackTrace()
+        scanLoop(args)
     }
   }
 
   def scanBlock(height: Int, maxHeight: Int): Unit = {
     if (cacheBlocks.length > 10000 || cacheTxs.length > 10000 || height >= maxHeight) {
       Await.result(ChainDatabase.insertBlocks(cacheBlocks.toList), 10.minutes)
+      Await.result(ChainDatabase.insertBlocksByHash(cacheBlocks.toList.map(_.toBlockByHash)), 10.minutes)
       Await.result(ChainDatabase.insertTransactions(cacheTxs.toList), 10.minutes)
 
       println(s"$getTimeString saved ${cacheBlocks.length} blocks and ${cacheTxs.length} transactions")
